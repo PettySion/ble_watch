@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="healthy_my_state">我的状态</string>
+    <string name="healthy_sport">运动</string>
+    <string name="healthy_all_sport">更多运动记录</string>
+    <string name="healthy_step">计步</string>
+    <string name="healthy_sleep">睡眠</string>
+    <string name="healthy_heart">心率</string>
+    <string name="healthy_blood_pressure">血压</string>
+    <string name="healthy_blood_oxygen">血氧</string>
+    <string name="healthy_temp">体温</string>
+    <string name="healthy_edit_card">编辑卡片</string>
+    <string name="healthy_last_sport">最近运动</string>
+</resources>

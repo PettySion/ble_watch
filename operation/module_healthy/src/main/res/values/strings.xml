@@ -1,0 +1,14 @@
+<resources>
+    <string name="healthy_name">healthy module</string>
+    <string name="healthy_my_state">State</string>
+    <string name="healthy_sport">sport</string>
+    <string name="healthy_all_sport">more sport</string>
+    <string name="healthy_step">step</string>
+    <string name="healthy_sleep">sleep</string>
+    <string name="healthy_heart">heart rate</string>
+    <string name="healthy_blood_pressure">blood pressure</string>
+    <string name="healthy_blood_oxygen">blood oxygen</string>
+    <string name="healthy_temp">body temperature</string>
+    <string name="healthy_edit_card">Edit card</string>
+    <string name="healthy_last_sport">Last Sport</string>
+</resources>

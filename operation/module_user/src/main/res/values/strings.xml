@@ -1,0 +1,44 @@
+<resources>
+    <string name="user_name">user module</string>
+    <string name="user_user_name">User Name</string>
+    <string name="user_plan">Target</string>
+    <string name="user_edit_plan">Edit Target</string>
+    <string name="user_step">Step</string>
+    <string name="user_sleep">Sleep</string>
+    <string name="user_calorie">calories</string>
+
+    <string name="user_connect">connected</string>
+    <string name="user_disconnect">disconnect</string>
+    <string name="user_connecting">connecting...</string>
+    <string name="user_dial">My Dial</string>
+    <string name="user_dial_tip">More dials, as you wish></string>
+    <string name="user_device_config">Device Management</string>
+    <string name="user_find_watch">Find Watch</string>
+    <string name="user_ble_call">Bluetooth Call</string>
+    <string name="user_ble_camera">Camera</string>
+    <string name="user_unit">Unit</string>
+    <string name="user_notification">Notification</string>
+    <string name="user_about">About Device</string>
+
+    <string name="user_measureUnit">Unit Of Measure</string>
+    <string name="user_tempUnit">Unit Of Temperature</string>
+    <string name="user_metric">Metric</string>
+    <string name="user_british">Imperial</string>
+    <string name="user_save">Save</string>
+    <string name="user_saved">Saved Successfully</string>
+
+    <string name="user_notify">Notification</string>
+    <string name="user_notify_tip">To receive application notification messages on the device, enable the message switch</string>
+    <string name="user_notify_title">Enable Notifications</string>
+    <string name="user_notify_msg">iSmarport Needs To Forward Application Notifications To Remote Smart Devices. Press\"Confirm\"Enter Notification Page To Activate.</string>
+    <string name="user_cancel">Cancel</string>
+    <string name="user_confirm">Confirm</string>
+v
+    <string name="user_account_safe">Accounts and Security</string>
+    <string name="user_version">App Version</string>
+    <string name="user_help">Help&amp;Feedback</string>
+    <string name="user_privacy">User Agreement And Privacy Policy</string>
+    <string name="user_logout">Logout</string>
+    <string name="user_unbind_tip">unbind</string>
+    <string name="user_unbind_message">Are you sure to unbind the current device？</string>
+</resources>

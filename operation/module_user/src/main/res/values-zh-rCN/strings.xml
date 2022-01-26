@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="user_user_name">用户名称</string>
+    <string name="user_plan">我的目标</string>
+    <string name="user_edit_plan">编辑目标</string>
+    <string name="user_step">步数</string>
+    <string name="user_sleep">睡眠</string>
+    <string name="user_calorie">消耗</string>
+
+    <string name="user_connect">已连接</string>
+    <string name="user_disconnect">未连接</string>
+    <string name="user_connecting">正在连接...</string>
+    <string name="user_dial">我的表盘</string>
+    <string name="user_dial_tip">更多表盘，随心换></string>
+    <string name="user_device_config">设备管理</string>
+    <string name="user_find_watch">寻找手表</string>
+    <string name="user_ble_call">蓝牙通话</string>
+    <string name="user_ble_camera">蓝牙拍照</string>
+    <string name="user_unit">单位制式</string>
+    <string name="user_notification">消息通知</string>
+    <string name="user_about">关于设备</string>
+
+    <string name="user_measureUnit">度量单位</string>
+    <string name="user_tempUnit">温度单位</string>
+    <string name="user_metric">公制</string>
+    <string name="user_british">英制</string>
+    <string name="user_save">保存</string>
+    <string name="user_saved">保存成功</string>
+
+    <string name="user_notify">消息通知</string>
+    <string name="user_notify_tip">如需在设备端接收应用的通知消息，需打开消息开关</string>
+    <string name="user_notify_title">启用通知</string>
+    <string name="user_notify_msg">本应用需要转发应用通知到远程智能设备。按\"确定\"键进入通知页面激活。</string>
+    <string name="user_cancel">取消</string>
+    <string name="user_confirm">确定</string>
+
+    <string name="user_account_safe">账号与安全</string>
+    <string name="user_version">当前APP版本</string>
+    <string name="user_help">帮助与反馈</string>
+    <string name="user_privacy">用户协议与隐私条款</string>
+    <string name="user_logout">退出登录</string>
+    <string name="user_unbind_tip">解除绑定</string>
+    <string name="user_unbind_message">确定接触当前设备的绑定吗？</string>
+</resources>
