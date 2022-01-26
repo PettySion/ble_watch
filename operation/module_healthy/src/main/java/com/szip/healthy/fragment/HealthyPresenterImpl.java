@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.szip.blewatch.base.Util.BroadcastConst;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LocationUtil;
 import com.szip.blewatch.base.Util.MathUtil;
@@ -24,7 +24,6 @@ import com.szip.blewatch.base.db.dbModel.HeartData;
 import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
-import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.db.dbModel.Weather;
 import com.szip.healthy.httpModel.WeatherBean;
 import com.szip.healthy.model.HealthyData;
@@ -32,18 +31,12 @@ import com.szip.healthy.utils.HttpMessageUtil;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.Call;
-
-import static android.content.Context.LOCATION_SERVICE;
 
 public class HealthyPresenterImpl implements IHealthyPresenter{
 

@@ -1,10 +1,6 @@
 package com.szip.user;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 
 import androidx.fragment.app.Fragment;
@@ -12,17 +8,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
-import com.szip.blewatch.base.db.LoadDataUtil;
-import com.szip.blewatch.base.db.dbModel.UserModel;
-import com.szip.blewatch.base.db.dbModel.UserModel_Table;
 import com.szip.user.fragment.MineFragment;
 
-import static com.szip.blewatch.base.Util.MathUtil.FILE;
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_USER;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_USER;
 
 
 /**

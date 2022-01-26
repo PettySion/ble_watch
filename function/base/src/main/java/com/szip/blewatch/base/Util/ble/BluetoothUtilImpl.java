@@ -21,7 +21,7 @@ import com.inuker.bluetooth.library.model.BleGattCharacter;
 import com.inuker.bluetooth.library.model.BleGattProfile;
 import com.inuker.bluetooth.library.model.BleGattService;
 import com.szip.blewatch.base.R;
-import com.szip.blewatch.base.Util.BroadcastConst;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
@@ -32,11 +32,7 @@ import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.model.BleStepModel;
-import com.zhy.http.okhttp.callback.GenericsCallback;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +40,6 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-
-import okhttp3.Call;
 
 import static android.media.AudioManager.FLAG_PLAY_SOUND;
 import static android.media.AudioManager.STREAM_MUSIC;

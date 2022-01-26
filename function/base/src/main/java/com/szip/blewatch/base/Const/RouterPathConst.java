@@ -1,4 +1,4 @@
-package com.szip.blewatch.base.Util;
+package com.szip.blewatch.base.Const;
 
 /**
  * 路由寻址的KEY

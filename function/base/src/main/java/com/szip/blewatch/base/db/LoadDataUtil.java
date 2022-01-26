@@ -170,6 +170,20 @@ public class LoadDataUtil {
     }
 
     /**
+     * 取最近六次运动数据
+     * */
+    public List<SportData> getLastSportDataList() {
+
+        List<SportData> sportData = SQLite.select()
+                .from(SportData.class)
+                .orderBy(OrderBy.fromString(SportData_Table.time+OrderBy.DESCENDING))
+                .limit(6)
+                .queryList();
+
+        return sportData;
+    }
+
+    /**
      * 取首页健康卡片的列表
      * */
     public List<HealthyCardData> getHealthyCard(boolean state) {

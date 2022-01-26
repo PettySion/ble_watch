@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.szip.blewatch.base.BaseApplication;
-import com.szip.blewatch.base.Util.BroadcastConst;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.http.TokenInterceptor;

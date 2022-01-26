@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.szip.blewatch.base.Util.BroadcastConst;
+import com.szip.blewatch.base.Const.BroadcastConst;
 
 public class ToServiceBroadcast extends BroadcastReceiver {
 

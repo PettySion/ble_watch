@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.szip.blewatch.base.Util.DateUtil;
-import com.szip.blewatch.base.Util.HealthyConst;
+import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.interfere.OnItemClickListener;
 import com.szip.healthy.R;
 import com.szip.healthy.model.HealthyData;

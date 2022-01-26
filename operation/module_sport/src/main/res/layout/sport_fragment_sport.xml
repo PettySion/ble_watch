@@ -1,31 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bgColor">
 
-    <RelativeLayout
-        android:id="@+id/backRl"
+    <include layout="@layout/title_main"/>
+
+    <TextView
+        android:id="@+id/titleBigTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"/>
+
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.8"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp">
+        android:layout_marginTop="18dp"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lastSportListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7.5dp"/>
 
 
+        </RelativeLayout>
 
+    </HorizontalScrollView>
 
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tipTv"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="@string/sport_no_sport"
+        android:gravity="center"
+        android:background="@drawable/bg_white_corner"
+        android:visibility="gone"/>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:layout_margin="15dp">
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_white_corner">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,91 +72,86 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="跑步"
+                android:text="@string/sport_outrun"
                 android:gravity="center"
                 android:textSize="18sp"
-                android:textColor="@android:color/holo_blue_dark"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/walkTv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="徒步"
+                android:text="@string/sport_walk"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/runIndoorTv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/sport_treadmill"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="@android:color/darker_gray"/>
 
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="60dp"
-            android:background="@android:color/darker_gray"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="61dp">
 
+            <com.szip.blewatch.base.View.CircularImageView
+                android:id="@+id/mapIv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:radius="15dp"
+                app:is_allRadius="true"/>
 
-
-
-            <RelativeLayout
-                android:id="@+id/startRl"
+            <ImageView
+                android:id="@+id/startIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true">
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/sport_start"/>
 
-
-                <View
-                    android:layout_width="120dp"
-                    android:layout_height="120dp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true">
-
-                    <ImageView
-                        android:id="@+id/sportIv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="开始运动"
-                        android:layout_marginTop="10dp"
-                        android:layout_gravity="center"
-                        android:textColor="@android:color/holo_blue_dark"/>
-                </LinearLayout>
-
-            </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@mipmap/sport_setting"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="38dp"
+                android:background="@drawable/sport_bg_corner_black"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp">
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"/>
+                    android:text="GPS"
+                    android:layout_marginStart="15dp"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"/>
 
                 <ImageView
                     android:id="@+id/gpsIv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"/>
+                    android:layout_marginEnd="15dp"
+                    android:src="@mipmap/sport_icon_gps_0"
+                    android:layout_marginStart="5dp"/>
             </LinearLayout>
 
         </RelativeLayout>

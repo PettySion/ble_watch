@@ -1,13 +1,12 @@
 package com.szip.blewatch.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.szip.blewatch.R;
 import com.szip.blewatch.base.View.BaseActivity;
 
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_PRIVACY;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_PRIVACY;
 
 @Route(path = PATH_ACTIVITY_PRIVACY)
 public class PrivacyActivity extends BaseActivity {

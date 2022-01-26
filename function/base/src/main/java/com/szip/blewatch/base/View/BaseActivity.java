@@ -53,13 +53,9 @@ public class BaseActivity extends AppCompatActivity {
         if (titleBigTv!=null)
             titleBigTv.setText(msg);
 
-        if (titleTv==null)
+        if (titleTv==null||myScrollView==null)
             return;
-        if (myScrollView==null){
-            titleTv.setText(msg);
-            titleTv.setVisibility(View.VISIBLE);
-            return;
-        }
+
         myScrollView.setOnScrollListener(listener);
         titleTv.setText(msg);
     }

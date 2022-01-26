@@ -1,15 +1,11 @@
 package com.szip.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 
-import com.szip.blewatch.base.Util.BroadcastConst;
-import com.szip.blewatch.base.Util.LogUtil;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.LoadDataUtil;
@@ -19,8 +15,6 @@ import com.szip.user.utils.HttpMessageUtil;
 import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
-
-import java.io.IOException;
 
 import okhttp3.Call;
 

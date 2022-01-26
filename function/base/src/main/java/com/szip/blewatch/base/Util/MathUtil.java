@@ -40,7 +40,7 @@ import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.text.TextUtils.isEmpty;
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_LOGIN;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_LOGIN;
 
 
 /**

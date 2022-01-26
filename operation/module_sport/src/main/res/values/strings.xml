@@ -1,3 +1,25 @@
 <resources>
     <string name="sport_name">sport module</string>
+    <string name="sport_sport_last">Recent Sport</string>
+    <string name="sport_sport_time">Time</string>
+    <string name="sport_sport_calorie">calories</string>
+    <string name="sport_outrun">Run</string>
+    <string name="sport_walk">Walk</string>
+    <string name="sport_treadmill">Run Indoor</string>
+    <string name="sport_mountain">Mountain</string>
+    <string name="sport_marathon">Marathon</string>
+    <string name="sport_badminton">Badminton</string>
+    <string name="sport_basketball">Basketball</string>
+    <string name="sport_bicycle">Cycling</string>
+    <string name="sport_skiing">Skiing</string>
+    <string name="sport_ping">Ping Pong</string>
+    <string name="sport_football">Football</string>
+    <string name="sport_climb">Climb</string>
+    <string name="sport_running">Running</string>
+    <string name="sport_run_pause">Running has been suspended</string>
+    <string name="sport_speed">Speed</string>
+    <string name="sport_gps_low">GPS signal is weak and data accuracy is low</string>
+    <string name="sport_gps_middle">GPS signal is strong and data accuracy is high</string>
+    <string name="sport_gps_high">Strong GPS signal and high data accuracy</string>
+    <string name="sport_no_sport">No sport records yet, so start sporting</string>
 </resources>

@@ -3,7 +3,6 @@ package com.szip.sport.gpsSport;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,7 +24,7 @@ import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.sport.R;
 
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
 
 
 public class GpsActivity extends BaseActivity implements IGpsView{

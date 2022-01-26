@@ -2,5 +2,8 @@
 <resources>
 
     <string name="loading">加载中...</string>
-
+    <string name="permission_tip">权限说明</string>
+    <string name="sport_permission">在使用过程中，本应用需要访问定位权限，用于记录和校准运动轨迹与距离\n\n如果您不同意调用以上权限，将导致该功能无法正常使用，担不影响您使用本应用的基本功能。您可随时前往“设置”>“权限管理”，选择关闭以上权限调用以撤回您的同意</string>
+    <string name="agree">同意</string>
+    <string name="disagree">拒绝</string>
 </resources>

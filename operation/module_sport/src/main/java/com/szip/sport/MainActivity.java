@@ -19,8 +19,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.sport_main);
-
         SportFragment sportFragment = new SportFragment();
         showFragment(sportFragment);
     }

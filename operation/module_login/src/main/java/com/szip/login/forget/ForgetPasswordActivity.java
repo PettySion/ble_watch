@@ -1,6 +1,5 @@
 package com.szip.login.forget;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,11 +9,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.login.R;
@@ -34,8 +31,6 @@ import java.util.TimerTask;
 import okhttp3.Call;
 
 import static com.szip.blewatch.base.Util.MathUtil.FILE;
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_LOGIN;
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_PRIVACY;
 
 public class ForgetPasswordActivity extends BaseActivity implements View.OnClickListener {
 

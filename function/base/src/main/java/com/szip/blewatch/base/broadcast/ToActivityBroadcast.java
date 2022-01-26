@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.szip.blewatch.base.Util.BroadcastConst;
-
 public class ToActivityBroadcast extends BroadcastReceiver {
     private MyHandle handle;
 

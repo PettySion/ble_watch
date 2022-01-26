@@ -1,16 +1,12 @@
 package com.szip.blewatch.Activity.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
 import androidx.fragment.app.FragmentTabHost;
 import com.szip.blewatch.R;
 import com.szip.blewatch.View.HostTabView;
-import com.szip.blewatch.base.Util.BroadcastConst;
-import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
-import com.szip.blewatch.base.db.LoadDataUtil;
 
 import java.util.ArrayList;
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#564f5e">
+    android:background="@android:color/black">
 
 
     <LinearLayout
@@ -299,7 +299,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_blue_light"
+        android:background="@color/sport_green"
         android:id="@+id/startTimeFl"
         android:visibility="gone">
 
@@ -310,7 +310,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="200sp"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textStyle="bold"
             android:text="3"/>
 

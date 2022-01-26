@@ -3,16 +3,14 @@ package com.szip.sport.gpsSport;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.Util.DateUtil;
-import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.sport.R;
 
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
 
 
 @Route(path = PATH_ACTIVITY_SPORT_RESULT)

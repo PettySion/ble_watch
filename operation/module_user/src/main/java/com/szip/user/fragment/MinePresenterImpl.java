@@ -2,16 +2,13 @@ package com.szip.user.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 
-import com.szip.blewatch.base.Util.BroadcastConst;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
-import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.blewatch.base.db.dbModel.UserModel;
-import com.szip.user.R;
 import com.szip.user.utils.HttpMessageUtil;
 import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.callback.GenericsCallback;

@@ -30,8 +30,8 @@ import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 import okhttp3.Call;
 
 import static com.szip.blewatch.base.Util.MathUtil.FILE;
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_LOGIN;
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_PRIVACY;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_LOGIN;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_PRIVACY;
 
 /**
  * @author ddnosh

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Componentization Base</string>
     <string name="loading">Loading...</string>
+    <string name="permission_tip">Permission Tip</string>
+    <string name="sport_permission">During use, the application requires access to location permissions to record and calibrate motion tracks and distances</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
 </resources>

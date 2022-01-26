@@ -1,4 +1,4 @@
-package com.szip.blewatch.base.Util;
+package com.szip.blewatch.base.Const;
 
 public class BroadcastConst {
     public final static String SEND_BLE_DATA = "send.ble.data";

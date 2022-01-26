@@ -1,4 +1,4 @@
-package com.szip.blewatch.base.Util;
+package com.szip.blewatch.base.Const;
 
 public class HealthyConst {
     public static int HEART = 1;

@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.szip.blewatch.base.Util.BroadcastConst;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.broadcast.MyHandle;
 import com.szip.blewatch.base.broadcast.ToActivityBroadcast;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.szip.blewatch.base.Util.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
 
 public class SportListActivity extends BaseActivity implements MyHandle {
 

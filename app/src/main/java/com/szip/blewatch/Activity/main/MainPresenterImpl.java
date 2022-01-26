@@ -18,12 +18,10 @@ import androidx.fragment.app.FragmentTabHost;
 import com.szip.blewatch.R;
 import com.szip.blewatch.View.HostTabView;
 
-import com.szip.blewatch.base.Util.BroadcastConst;
-import com.szip.blewatch.base.Util.LogUtil;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.db.LoadDataUtil;
-import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.consult.fragment.ConsultFragment;
 import com.szip.healthy.fragment.HealthyFragment;
 import com.szip.sport.fragment.SportFragment;
