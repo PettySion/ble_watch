@@ -63,45 +63,45 @@ public class LastSportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         int type = sportData.type;
         if (type == SportConst.WALK){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_walk);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_walk));
+            sportHolder.sportTv.setText(mContext.getString(R.string.walk));
         }else if (type == SportConst.RUN){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_outrun);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_outrun));
+            sportHolder.sportTv.setText(mContext.getString(R.string.outrun));
         }else if (type == SportConst.RUN_INDOOR){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_treadmill);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_treadmill));
+            sportHolder.sportTv.setText(mContext.getString(R.string.treadmill));
         }else if (type == SportConst.MOUNTAIN){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_mountaineering);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_mountain));
+            sportHolder.sportTv.setText(mContext.getString(R.string.mountain));
         }else if (type == SportConst.MARATHON){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_marathon);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_marathon));
+            sportHolder.sportTv.setText(mContext.getString(R.string.marathon));
         }else if (type == SportConst.RUN_PLAN){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_outrun);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_outrun));
+            sportHolder.sportTv.setText(mContext.getString(R.string.outrun));
         }else if (type == SportConst.BADMINTON){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_badminton);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_badminton));
+            sportHolder.sportTv.setText(mContext.getString(R.string.badminton));
         }else if (type == SportConst.BASKETBALL){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_basketball);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_basketball));
+            sportHolder.sportTv.setText(mContext.getString(R.string.basketball));
         }else if (type == SportConst.BICYCLE){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_cycle);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_bicycle));
+            sportHolder.sportTv.setText(mContext.getString(R.string.bicycle));
         }else if (type == SportConst.SKI){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_skiing);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_skiing));
+            sportHolder.sportTv.setText(mContext.getString(R.string.skiing));
         }else if (type == SportConst.PING_PONG_BALL){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_badminton);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_ping));
+            sportHolder.sportTv.setText(mContext.getString(R.string.ping));
         }else if (type == SportConst.FOOTBALL){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_football);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_football));
+            sportHolder.sportTv.setText(mContext.getString(R.string.football));
         }else if (type == SportConst.SWIMMING){
 //            sportHolder.sportIv.setImageResource(R.mipmap.sport_swi);
         }else if (type == SportConst.CLIMB){
             sportHolder.sportIv.setImageResource(R.mipmap.sport_rockclimbing);
-            sportHolder.sportTv.setText(mContext.getString(R.string.sport_climb));
+            sportHolder.sportTv.setText(mContext.getString(R.string.climb));
         }else if (type == SportConst.BOAT){
 //            sportHolder.sportIv.setImageResource(R.mipmap.sport_bo);
         }else if (type == SportConst.SURFING){

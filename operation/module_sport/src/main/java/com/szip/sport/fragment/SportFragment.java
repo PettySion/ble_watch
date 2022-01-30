@@ -48,7 +48,7 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
     private RecyclerView lastSportListView;
     private LastSportAdapter lastSportAdapter;
 
-    private int sportType = 2; //2:跑步运动 1:徒步运动
+    private int sportType = SportConst.RUN; //2:跑步运动 1:徒步运动
     private ToActivityBroadcast toActivityBroadcast;
     private ILastSportPresenter iLastSportPresenter;
     private List<SportData> sportDataList = new ArrayList<>();

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.Util.LogUtil;
+import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.View.PulldownUpdateView;
@@ -26,13 +27,14 @@ import com.szip.sport.R;
 
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
 
+import java.util.Map;
+
 
 public class GpsActivity extends BaseActivity implements IGpsView{
 
-    private TextView distanceTv,speedTv,timeTv,calorieTv,countDownTv;
-    private View switchView;
-    private ImageView lockIv,mapIv,switchIv,gpsIv;
-    private RelativeLayout switchRl,finishRl,updateRl;
+    private TextView distanceTv,speedTv,timeTv,calorieTv,countDownTv,sportTypeTv,sportStateTv,gpsTv;
+    private ImageView lockIv,mapIv,switchIv,gpsIv,finishIv;
+    private RelativeLayout updateRl;
     private FrameLayout lockFl,startTimeFl;
     private PulldownUpdateView updateView;
     private IGpsPresenter iSportPresenter;
@@ -56,9 +58,6 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         getSupportActionBar().hide();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.sport_activity_gps);
-        initView();
-        initEvent();
-        initAnimation();
         sportType = getIntent().getIntExtra("sportType",2);
         stepCounter = ((SensorManager)getSystemService(SENSOR_SERVICE)).getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if(sportType==-1){
@@ -69,6 +68,9 @@ public class GpsActivity extends BaseActivity implements IGpsView{
             else
                 iSportPresenter = new StepPresenterImpl(getApplicationContext(),stepCounter,this,sportType);
         }
+        initView();
+        initEvent();
+        initAnimation();
         iSportPresenter.startLocationService();
     }
 
@@ -81,14 +83,16 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         lockIv = findViewById(R.id.lockIv);
         mapIv = findViewById(R.id.mapIv);
         switchIv = findViewById(R.id.switchIv);
-        switchRl = findViewById(R.id.switchRl);
-        finishRl = findViewById(R.id.finishRl);
         updateRl = findViewById(R.id.updateRl);
         lockFl = findViewById(R.id.lockFl);
         startTimeFl = findViewById(R.id.startTimeFl);
         countDownTv = findViewById(R.id.countDownTv);
-        switchView = findViewById(R.id.switchView);
         gpsIv = findViewById(R.id.gpsIv);
+        gpsTv = findViewById(R.id.gpsTv);
+        sportTypeTv = findViewById(R.id.sportTypeTv);
+        sportStateTv = findViewById(R.id.sportStateTv);
+        finishIv = findViewById(R.id.finishIv);
+        sportTypeTv.setText(MathUtil.newInstance().getSportType(sportType,getApplicationContext()).getSportStr());
     }
 
     @Override
@@ -104,8 +108,8 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         updateView.setListener(pulldownListener);
         lockIv.setOnClickListener(onClickListener);
         mapIv.setOnClickListener(onClickListener);
-        switchRl.setOnClickListener(onClickListener);
-        finishRl.setOnClickListener(onClickListener);
+        switchIv.setOnClickListener(onClickListener);
+        finishIv.setOnClickListener(onClickListener);
     }
 
     /**
@@ -162,24 +166,24 @@ public class GpsActivity extends BaseActivity implements IGpsView{
                 if (iSportPresenter != null && started)
                     iSportPresenter.openMap(getSupportFragmentManager());
                 else
-                    showToast("请先开启运动");
-            } else if (id == R.id.switchRl) {
-                switchRl.startAnimation(touchAnimation);
-                if (switchRl.getTag().equals("start")) {
+                    showToast(getString(R.string.sport_start_sport));
+            } else if (id == R.id.switchIv) {
+                switchIv.startAnimation(touchAnimation);
+                if (switchIv.getTag().equals("start")) {
                     if (iSportPresenter != null)
                         iSportPresenter.startLocationService();
                 } else {
                     if (iSportPresenter != null)
                         iSportPresenter.stopLocationService();
                 }
-            } else if (id == R.id.finishRl) {
-                MyAlerDialog.getSingle().showAlerDialog("提醒", "确定要结束运动吗？",
-                        "确定", "取消", false,
+            } else if (id == R.id.finishIv) {
+                MyAlerDialog.getSingle().showAlerDialog(getString(R.string.tip),
+                        getString(R.string.sport_finish_sport), getString(R.string.confirm),
+                        getString(R.string.cancel), false,
                         new MyAlerDialog.AlerDialogOnclickListener() {
                             @Override
                             public void onDialogTouch(boolean flag) {
                                 if (flag) {
-                                    switchRl.startAnimation(touchAnimation);
                                     if (iSportPresenter != null)
                                         iSportPresenter.finishLocationService(true);
                                 }
@@ -199,18 +203,18 @@ public class GpsActivity extends BaseActivity implements IGpsView{
 
     @Override
     public void startRun() {
-        switchView.setBackgroundResource(R.drawable.sport_bg_circle_white);
+        sportStateTv.setText(getString(R.string.sport_running));
         switchIv.setImageResource(R.mipmap.sport_icon_stop);
-        switchRl.setTag("");
-        finishRl.setVisibility(View.GONE);
+        switchIv.setTag("");
+        finishIv.setVisibility(View.GONE);
     }
 
     @Override
     public void stopRun() {
-        switchView.setBackgroundResource(R.drawable.sport_bg_circle_green);
-        switchIv.setImageResource(R.mipmap.sport_icon_continue);
-        switchRl.setTag("start");
-        finishRl.setVisibility(View.VISIBLE);
+        sportStateTv.setText(getString(R.string.sport_run_pause));
+        switchIv.setImageResource(R.mipmap.sport_goon);
+        switchIv.setTag("start");
+        finishIv.setVisibility(View.VISIBLE);
     }
 
 
@@ -226,7 +230,7 @@ public class GpsActivity extends BaseActivity implements IGpsView{
                         .withBundle("bundle",bundle)
                         .navigation();
             }else {
-                showToast("运动时长跟距离太短，无法生成有效的运动报告");
+                showToast(getString(R.string.sport_time_short));
             }
         }
         finish();
@@ -247,12 +251,18 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         speedTv.setText(String.format("%d'%d''",speed/60,speed%60));
         distanceTv.setText(String.format("%.2f",distance/1000));
         calorieTv.setText(String.format("%.1f",calorie));
-        if (acc>=29){
+        if (acc == 0){
+            gpsIv.setImageResource(R.mipmap.sport_icon_gps_0);
+            gpsTv.setText(getString(R.string.sport_gps_low));
+        }else if (acc>=29){
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_1);
+            gpsTv.setText(getString(R.string.sport_gps_low));
         }else if (acc>=15){
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_2);
+            gpsTv.setText(getString(R.string.sport_gps_middle));
         }else {
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_3);
+            gpsTv.setText(getString(R.string.sport_gps_high));
         }
     }
 
@@ -265,7 +275,7 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             long secondtime = System.currentTimeMillis();
             if (secondtime - firstime > 3000) {
-                Toast.makeText(this, "再次点击退出本次运动",
+                Toast.makeText(this, getString(R.string.sport_destroy),
                         Toast.LENGTH_SHORT).show();
                 firstime = System.currentTimeMillis();
                 return true;

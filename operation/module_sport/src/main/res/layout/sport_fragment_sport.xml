@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/sport_outrun"
+                android:text="@string/outrun"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="@android:color/black"/>
@@ -82,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/sport_walk"
+                android:text="@string/walk"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="@android:color/darker_gray"/>
@@ -92,7 +92,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/sport_treadmill"
+                android:text="@string/treadmill"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="@android:color/darker_gray"/>

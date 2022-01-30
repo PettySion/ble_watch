@@ -27,7 +27,10 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
+import com.szip.blewatch.base.Const.SportConst;
+import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.View.MyAlerDialog;
+import com.szip.blewatch.base.model.SportTypeModel;
 
 
 import java.io.File;
@@ -35,10 +38,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.text.TextUtils.concat;
 import static android.text.TextUtils.isEmpty;
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_LOGIN;
 
@@ -827,7 +833,9 @@ public class MathUtil {
     public boolean needLogin(Context context){
         String token = getToken(context);
         if (token.equals("")){
-            MyAlerDialog.getSingle().showAlerDialog("提示", "需要登陆才可以进行下一步操作，请问是否现在登陆？", "是的", "取消",
+            MyAlerDialog.getSingle().showAlerDialog(context.getString(R.string.tip),
+                    context.getString(R.string.login_tip), context.getString(R.string.confirm),
+                    context.getString(R.string.cancel),
                     false, new MyAlerDialog.AlerDialogOnclickListener() {
                         @Override
                         public void onDialogTouch(boolean flag) {
@@ -1017,5 +1025,45 @@ public class MathUtil {
 
         }
         return option;
+    }
+
+    public SportTypeModel getSportType(int type, Context context){
+        SportTypeModel typeModel = null;
+        LogUtil.getInstance().logd("data******","type = "+type);
+        if (type== SportConst.RUN){
+            typeModel = new SportTypeModel(R.mipmap.sport_outrun,context.getString(R.string.outrun));
+        }else if (type == SportConst.BADMINTON){
+            typeModel = new SportTypeModel(R.mipmap.sport_badminton,context.getString(R.string.badminton));
+        }else if (type == SportConst.BASKETBALL){
+            typeModel = new SportTypeModel(R.mipmap.sport_basketball,context.getString(R.string.basketball));
+        }else if (type == SportConst.BICYCLE){
+            typeModel = new SportTypeModel(R.mipmap.sport_cycle,context.getString(R.string.bicycle));
+        }else if (type == SportConst.BOAT){
+
+        }else if (type == SportConst.CLIMB){
+            typeModel = new SportTypeModel(R.mipmap.sport_rockclimbing,context.getString(R.string.climb));
+        }else if (type == SportConst.FOOTBALL){
+            typeModel = new SportTypeModel(R.mipmap.sport_football,context.getString(R.string.football));
+        }else if (type == SportConst.MARATHON){
+            typeModel = new SportTypeModel(R.mipmap.sport_marathon,context.getString(R.string.marathon));
+        }else if (type == SportConst.MOUNTAIN){
+            typeModel = new SportTypeModel(R.mipmap.sport_mountaineering,context.getString(R.string.mountain));
+        }else if (type == SportConst.PING_PONG_BALL){
+            typeModel = new SportTypeModel(R.mipmap.sport_badminton,context.getString(R.string.ping));
+        }else if (type == SportConst.RUN_INDOOR){
+            typeModel = new SportTypeModel(R.mipmap.sport_treadmill,context.getString(R.string.treadmill));
+        }else if (type == SportConst.RUN_PLAN){
+            typeModel = new SportTypeModel(R.mipmap.sport_outrun,context.getString(R.string.outrun));
+        }else if (type == SportConst.SKI){
+            typeModel = new SportTypeModel(R.mipmap.sport_skiing,context.getString(R.string.skiing));
+        }else if (type == SportConst.SURFING){
+
+        }else if (type == SportConst.SWIMMING){
+
+        }else if (type == SportConst.WALK){
+            typeModel = new SportTypeModel(R.mipmap.sport_walk,context.getString(R.string.walk));
+        }
+
+        return typeModel;
     }
 }

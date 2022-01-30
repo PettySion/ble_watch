@@ -33,9 +33,9 @@ public class MainApplication extends BaseApplication {
         AMapLocationClient.updatePrivacyAgree(this,true);
 
 
-        MathUtil.newInstance().saveStringData(getApplicationContext(),"token","0rfD8nYL)IM9i4&LbQx$");
+        MathUtil.newInstance().saveStringData(getApplicationContext(),"token","l)a6G7s*TXmwmJ6~eC(9");
         MathUtil.newInstance().saveIntData(getApplicationContext(),"userId",136);
-        HttpClientUtils.newInstance().setToken("0rfD8nYL)IM9i4&LbQx$");
+        HttpClientUtils.newInstance().setToken("l)a6G7s*TXmwmJ6~eC(9");
         startService(new Intent(this, BleService.class));
 
 

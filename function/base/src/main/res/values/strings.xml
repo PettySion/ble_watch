@@ -5,4 +5,20 @@
     <string name="sport_permission">During use, the application requires access to location permissions to record and calibrate motion tracks and distances</string>
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
+    <string name="tip">Tip</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="outrun">Run</string>
+    <string name="walk">Walk</string>
+    <string name="treadmill">Run Indoor</string>
+    <string name="mountain">Mountain</string>
+    <string name="marathon">Marathon</string>
+    <string name="badminton">Badminton</string>
+    <string name="basketball">Basketball</string>
+    <string name="bicycle">Cycling</string>
+    <string name="skiing">Skiing</string>
+    <string name="ping">Ping Pong</string>
+    <string name="football">Football</string>
+    <string name="climb">Climb</string>
+    <string name="login_tip">需要登陆才可以进行下一步操作，请问是否现在登陆？</string>
 </resources>
