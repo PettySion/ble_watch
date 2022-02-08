@@ -450,32 +450,33 @@ public class SaveDataUtil {
                                         .from(HeartData.class)
                                         .where(HeartData_Table.time.is(heartData.time))
                                         .querySingle();
-                                if (sqlData == null){//为null则代表数据库没有保存
+                                if (sqlData == null&&heartData.averageHeart!=0){//为null则代表数据库没有保存
                                     heartData.save();
-                                } else {//不为null则代表数据库存在，进行更新
-                                    if (isAdd){
-                                        String heartStr = sqlData.heartArray+","+heartData.heartArray;
-                                        String []heartArray = heartStr.split(",");
-                                        int heartSum = 0;
-                                        int sum = 0;
-                                        for (int i = 0;i<heartArray.length;i++){
-                                            if (!heartArray[i].equals("0")){
-                                                heartSum+=Integer.valueOf(heartArray[i]);
-                                                sum++;
-                                            }
-                                        }
-                                        sqlData.averageHeart = heartSum/sum;
-                                        sqlData.heartArray = heartStr;
-                                        sqlData.update();
-                                    }else {
-                                        if (sqlData.getHeartArray().length()<heartData.getHeartArray().length()){
-                                            sqlData.averageHeart = heartData.averageHeart;
-                                            sqlData.heartArray = heartData.heartArray;
-                                            sqlData.update();
-                                        }
-                                    }
-
                                 }
+//                                else {//不为null则代表数据库存在，进行更新
+//                                    if (isAdd){
+//                                        String heartStr = sqlData.heartArray+","+heartData.heartArray;
+//                                        String []heartArray = heartStr.split(",");
+//                                        int heartSum = 0;
+//                                        int sum = 0;
+//                                        for (int i = 0;i<heartArray.length;i++){
+//                                            if (!heartArray[i].equals("0")){
+//                                                heartSum+=Integer.valueOf(heartArray[i]);
+//                                                sum++;
+//                                            }
+//                                        }
+//                                        sqlData.averageHeart = heartSum/sum;
+//                                        sqlData.heartArray = heartStr;
+//                                        sqlData.update();
+//                                    }else {
+//                                        if (sqlData.getHeartArray().length()<heartData.getHeartArray().length()){
+//                                            sqlData.averageHeart = heartData.averageHeart;
+//                                            sqlData.heartArray = heartData.heartArray;
+//                                            sqlData.update();
+//                                        }
+//                                    }
+//
+//                                }
                             }
                         }).addAll(heartDataList).build())  // add elements (can also handle multiple)
                 .error(new Transaction.Error() {

@@ -172,25 +172,13 @@ public class DataParser {
         }else if (type==0x02){//心率数据
             if (heartDataArrayList==null)
                 heartDataArrayList = new ArrayList<>();
-            long timeOfDay = DateUtil.getTimeScopeForDay(time);//这段心率数据所属的日期
-            if (timeOfDay!= timeOfdata){//判断这段计步数据是否属于同一天，如果跟上次缓存的时间不一样，说明是跨天了
-                timeOfdata = timeOfDay;
-                int heart = (data[0] & 0xff) + ((data[1] & 0xFF) << 8) + ((data[2] & 0xff) << 16) + ((data[3] & 0xFF) << 24);
-                if (heart!=0)
-                    heartDataArrayList.add(new HeartData(timeOfDay,heart,heart+""));
-            }else {
-                HeartData model = heartDataArrayList.get(heartDataArrayList.size()-1);
-                int heart = (data[0] & 0xff) + ((data[1] & 0xFF) << 8) + ((data[2] & 0xff) << 16) + ((data[3] & 0xFF) << 24);
-                if (heart!=0){
-                    model.heartArray+=(","+heart);
-                    model.averageHeart+=heart;
-                }
-            }
+            int heart = (data[0] & 0xff) + ((data[1] & 0xFF) << 8) + ((data[2] & 0xff) << 16) + ((data[3] & 0xFF) << 24);
+            if (heart!=0)
+                heartDataArrayList.add(new HeartData(time,heart));
             if (isEnd){
                 if (mIDataResponse!=null)
                     mIDataResponse.onSaveHeartDatas(heartDataArrayList);
                 heartDataArrayList = null;
-                timeOfdata = 0;
                 dataType = 0;
                 LogUtil.getInstance().logd("DATA******","心率数据接受结束");
             }
@@ -991,10 +979,9 @@ public class DataParser {
         }else if (type == 0x17){//实时心率
             if (heartDataArrayList==null)
                 heartDataArrayList = new ArrayList<>();
-            long timeOfDay = DateUtil.getTimeScopeForDay(time);//这段心率数据所属的日期
             int heart = data[0]&0xff;
             if (heart!=0)
-                heartDataArrayList.add(new HeartData(timeOfDay,heart,heart+""));
+                heartDataArrayList.add(new HeartData(time,heart));
             if (mIDataResponse!=null)
                 mIDataResponse.onSaveHeartDatas(heartDataArrayList);
             heartDataArrayList = null;

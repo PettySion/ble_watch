@@ -243,8 +243,9 @@ public class HealthyTableView extends View {
     }
 
     private void drawHeartView(Canvas canvas) {
-        if (healthyData.getDataStr() == null||healthyData.getDataStr().equals(""))
+        if (healthyData.getHeartDataList()==null||healthyData.getHeartDataList().size()==0)
             return;
+        float barWidth = 8.0f;
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(1f);
@@ -255,31 +256,60 @@ public class HealthyTableView extends View {
         paint.setColor(getContext().getResources().getColor(R.color.healthy_red));
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
+
+        HashMap<Integer,Integer> hashMap = new HashMap<>();
+        int sum = 0;
         int max = 0;
-        String data[] = healthyData.getDataStr().split(",");
-        int heart[] = new int[data.length];
-        for (int i = 0;i<data.length;i++){
-            int value = Integer.valueOf(data[i]);
+        for (int i = 0;i<healthyData.getHeartDataList().size();i++){
+            int index = DateUtil.getHour(healthyData.getHeartDataList().get(i).time);
+            int value = healthyData.getHeartDataList().get(i).averageHeart;
             if (value>max)
                 max = value;
-            heart[i] = value;
-        }
-        max*=1.2f;
-        float interval = mWidth/((float)heart.length-1);
-        float barHeight = mHeight-dpValue*12;
-        Path line = new Path();
-        Path mPathShader = new Path();
-        line.moveTo(0,mHeight-heart[0]/(float)max*barHeight-dpValue*12);
-        mPathShader.moveTo(0,mHeight-heart[0]/(float)max*barHeight-dpValue*12);
-        for (int i = 1;i<heart.length;i++){
-            line.lineTo(interval*i,mHeight-heart[i]/(float)max*barHeight-dpValue*12);
-            mPathShader.lineTo(interval*i,mHeight-heart[i]/(float)max*barHeight-dpValue*12);
-            if (i == heart.length - 1) {
-                mPathShader.lineTo(interval*i, mHeight-dpValue*12);
-                mPathShader.lineTo(0, mHeight-dpValue*12);
-                mPathShader.close();
+            if (i==0){
+                hashMap.put(index,value);
+            }else if (hashMap.get(index)==null){
+                int oldIndex = DateUtil.getHour(healthyData.getHeartDataList().get(i-1).time);
+                int oldValue = hashMap.get(oldIndex);
+                hashMap.put(oldIndex,oldValue/sum);
+                sum = 0;
+                hashMap.put(index,value);
+            }else {
+                hashMap.put(index,value+hashMap.get(index));
+            }
+            sum++;
+
+            if (i == healthyData.getHeartDataList().size()-1){
+                hashMap.put(index,hashMap.get(index)/sum);
             }
         }
+
+        float interval = (mWidth-barWidth*24)/23f;
+        float barHeight = mHeight-dpValue*12-barWidth;
+        max*=1.2f;
+        Path line = new Path();
+        Path mPathShader = new Path();
+
+        int i = 0;
+        float startShader = 0;
+        for (Map.Entry<Integer, Integer> entry : hashMap.entrySet()){
+            float startX = barWidth / 2 + (interval + barWidth) * entry.getKey();
+//            canvas.drawPoint(startX,mHeight-(entry.getValue()-90)/10f*barHeight-dpValue*12,paint);
+            if (i == 0){
+                startShader = startX;
+                line.moveTo(startX,mHeight-entry.getValue()/(float)max*barHeight-dpValue*12);
+                mPathShader.moveTo(startX,mHeight-entry.getValue()/(float)max*barHeight-dpValue*12);
+            }else {
+                line.lineTo(startX,mHeight-entry.getValue()/(float)max*barHeight-dpValue*12);
+                mPathShader.lineTo(startX,mHeight-entry.getValue()/(float)max*barHeight-dpValue*12);
+            }
+            i = entry.getKey();
+        }
+        mPathShader.lineTo(barWidth / 2 + (interval + barWidth) *i, mHeight-dpValue*12);
+        mPathShader.lineTo(startShader, mHeight-dpValue*12);
+        mPathShader.close();
+
+
+
         Shader mShader = new LinearGradient(0, 0, 0, getHeight(), 0x33FF0000,
                 Color.TRANSPARENT, Shader.TileMode.MIRROR);
         mPaintShader.setShader(mShader);

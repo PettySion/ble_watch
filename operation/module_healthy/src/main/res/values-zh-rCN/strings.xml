@@ -12,4 +12,5 @@
     <string name="healthy_temp">体温</string>
     <string name="healthy_edit_card">编辑卡片</string>
     <string name="healthy_last_sport">最近运动</string>
+    <string name="healthy_sport_list">运动列表</string>
 </resources>

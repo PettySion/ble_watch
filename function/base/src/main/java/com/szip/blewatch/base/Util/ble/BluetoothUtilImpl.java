@@ -583,11 +583,6 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
 
         @Override
         public void onSaveHeartDatas(ArrayList<HeartData> datas) {
-            for (int i = 0;i<datas.size();i++){
-                datas.get(i).averageHeart = datas.get(i).averageHeart/datas.get(i).heartArray.split(",").length;
-                LogUtil.getInstance().logd("DATA******","统计出来的心率数据  "+"time = "+datas.get(i).getTime()+" ;heart = "+datas.get(i).getAverageHeart()+
-                        " ;heartArray = "+datas.get(i).getHeartArray());
-            }
             SaveDataUtil.newInstance().saveHeartDataListData(datas,true,context);
         }
 

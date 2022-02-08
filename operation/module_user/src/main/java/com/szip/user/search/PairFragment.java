@@ -130,6 +130,8 @@ public class PairFragment extends DialogFragment implements MyHandle {
             public void onResponse(BaseApi response, int id) {
                 if (response.getCode()==200){
                     UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity()));
+                    if (userModel==null)
+                        return;
                     userModel.deviceCode = mac;
                     userModel.update();
                     Intent intent = new Intent(BroadcastConst.START_CONNECT_DEVICE);

@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.szip.blewatch.base.Util.LocationUtil;
+import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.UserModel;
@@ -241,14 +242,18 @@ public class GpsPresenterImpl implements IGpsPresenter {
          *步频公式：距离/（k值*2）
          * k=身高（厘米）*0.45f/100
          */
-        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(0);
+        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(context));
+        if (userModel==null)
+            return 0;
         float k = userModel.height*0.45f/100;
         return (int)(d/k*2);
     }
 
     private float getCalorie(float d) {
         //卡路里公式：体重(千克)*1.036f*距离(千米)
-        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(0);
+        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(context));
+        if (userModel==null)
+            return 0;
         float calorie = userModel.weight*1.036f*(d/1000);
         return calorie;
     }

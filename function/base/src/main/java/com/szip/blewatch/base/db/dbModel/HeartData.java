@@ -42,6 +42,12 @@ public class HeartData extends BaseModel implements Comparable<HeartData>{
         return heartArray;
     }
 
+
+    public HeartData(long time, int averageHeart) {
+        this.time = time;
+        this.averageHeart = averageHeart;
+    }
+
     public HeartData(long time, int averageHeart, String heartArray) {
         this.time = time;
         this.averageHeart = averageHeart;

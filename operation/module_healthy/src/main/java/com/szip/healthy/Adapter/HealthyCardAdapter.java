@@ -1,6 +1,7 @@
 package com.szip.healthy.Adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,43 +72,43 @@ public class HealthyCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_heart));
                 if (healthyData.getTime() == 0)
                     return;
-                ((Holder) holder).dataTv.setText(String.format(Locale.ENGLISH,"%d Bpm",healthyData.getData()));
+                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d</big> Bpm",healthyData.getData())));
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.STEP){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_steps_32);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_step));
                 if (healthyData.getTime() == 0)
                     return;
-                ((Holder) holder).dataTv.setText(String.format(Locale.ENGLISH,"%d steps", healthyData.getData()));
+                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d</big> steps", healthyData.getData())));
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.SLEEP){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_sleep);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_sleep));
                 if (healthyData.getTime() == 0)
                     return;
-                ((Holder) holder).dataTv.setText(String.format(Locale.ENGLISH,"%02dh%02dmin",
-                        healthyData.getData()/60,healthyData.getData()%60));
+                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%02d</big>h<big>%02d</big>min",
+                        healthyData.getData()/60,healthyData.getData()%60)));
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.BLOOD_OXYGEN){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_spo2);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_blood_oxygen));
                 if (healthyData.getTime() == 0)
                     return;
-                ((Holder) holder).dataTv.setText(String.format(Locale.ENGLISH,"%d%%",healthyData.getData()));
+                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d</big>%%",healthyData.getData())));
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.BLOOD_PRESSURE){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_bp);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_blood_pressure));
                 if (healthyData.getTime() == 0)
                     return;
-                ((Holder) holder).dataTv.setText(String.format(Locale.ENGLISH,"%d/%dmmhg",healthyData.getData(),healthyData.getData1()));
+                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d/%d</big>mmhg",healthyData.getData(),healthyData.getData1())));
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.TEMPERATURE){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_temperature);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_temp));
                 if (healthyData.getTime() == 0)
                     return;
-                ((Holder) holder).dataTv.setText(String.format(Locale.ENGLISH,"%.1f ℃",healthyData.getData()/10f));
+                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%.1f</big> ℃",healthyData.getData()/10f)));
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }
 

@@ -11,4 +11,5 @@
     <string name="healthy_temp">body temperature</string>
     <string name="healthy_edit_card">Edit card</string>
     <string name="healthy_last_sport">Last Sport</string>
+    <string name="healthy_sport_list">Sport List</string>
 </resources>

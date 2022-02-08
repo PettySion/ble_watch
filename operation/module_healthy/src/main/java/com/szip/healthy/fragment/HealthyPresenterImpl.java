@@ -151,15 +151,30 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
         HealthyData healthyData = new HealthyData(type);
         switch (type){
             case 1:{
-                HeartData heartData = LoadDataUtil.newInstance().getHeartWithDay(DateUtil.getTimeOfToday());
-                if (heartData!=null){
-                    healthyData.setDataStr(heartData.heartArray);
-                    healthyData.setTime(heartData.time);
-                    String hearts[] = heartData.heartArray.split(",");
-                    if (hearts.length!=0)
-                        healthyData.setData(Integer.valueOf(hearts[hearts.length-1]));
+                List<HeartData> heartDatas = LoadDataUtil.newInstance().getHeartWithDay(DateUtil.getTimeOfToday());
+                if (heartDatas!=null&&heartDatas.size()!=0){
+                    healthyData.setTime(heartDatas.get(heartDatas.size()-1).time);
+                    healthyData.setData(heartDatas.get(heartDatas.size()-1).averageHeart);
+                    healthyData.setHeartDataList(heartDatas);
                 }
-                healthyData.setDataStr("50,70,70,80,100,70,130,120,110,140,60");
+                healthyData.setTime(1644315680);
+                healthyData.setData(89);
+                heartDatas.add(new HeartData(1644250820,58));
+                heartDatas.add(new HeartData(1644254420,96));
+                heartDatas.add(new HeartData(1644258020,74));
+                heartDatas.add(new HeartData(1644261620,97));
+                heartDatas.add(new HeartData(1644265220,92));
+                heartDatas.add(new HeartData(1644268820,58));
+                heartDatas.add(new HeartData(1644272420,96));
+                heartDatas.add(new HeartData(1644276020,74));
+                heartDatas.add(new HeartData(1644279620,97));
+                heartDatas.add(new HeartData(1644283220,92));
+                heartDatas.add(new HeartData(1644286820,58));
+                heartDatas.add(new HeartData(1644308420,96));
+                heartDatas.add(new HeartData(1644312020,74));
+                heartDatas.add(new HeartData(1644315620,97));
+                heartDatas.add(new HeartData(1644315680,92));
+                healthyData.setHeartDataList(heartDatas);
             }
                 break;
             case 2: {
@@ -169,6 +184,8 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
                     healthyData.setTime(stepData.time);
                     healthyData.setData(stepData.steps);
                 }
+                healthyData.setTime(1644315680);
+                healthyData.setData(1668);
                 healthyData.setDataStr("0:150,1:260,2:170,3:380,4:290,5:1100,6:120,7:1120,8:2130,9:180,23:250");
             }
                 break;
@@ -180,6 +197,7 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
                     healthyData.setData(sleepData.deepTime);
                     healthyData.setData1(sleepData.lightTime);
                 }
+                healthyData.setTime(1644315680);
                 healthyData.setDataStr("22:10,10:1");
                 healthyData.setData(60);
                 healthyData.setData1(100);
@@ -194,6 +212,8 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
                     healthyData.setData(bloodOxygenDatas.get(bloodOxygenDatas.size()-1).bloodOxygenData);
                     healthyData.setBloodOxygenDataList(bloodOxygenDatas);
                 }
+                healthyData.setTime(1644315680);
+                healthyData.setData(89);
                 bloodOxygenDatas.add(new BloodOxygenData(1642648391,98));
                 bloodOxygenDatas.add(new BloodOxygenData(1642651991,96));
                 bloodOxygenDatas.add(new BloodOxygenData(1642654211,94));
@@ -210,6 +230,9 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
                     healthyData.setData1(bloodPressureData.get(bloodPressureData.size()-1).sbpDate);
                     healthyData.setBloodPressureDataList(bloodPressureData);
                 }
+                healthyData.setTime(1644315680);
+                healthyData.setData(89);
+                healthyData.setData1(150);
                 bloodPressureData.add(new BloodPressureData(1642648391,150,98));
                 bloodPressureData.add(new BloodPressureData(1642651991,140,96));
                 bloodPressureData.add(new BloodPressureData(1642654211,160,94));
@@ -225,6 +248,8 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
                     healthyData.setData(animalHeatData.get(animalHeatData.size()-1).tempData);
                     healthyData.setAnimalHeatDataList(animalHeatData);
                 }
+                healthyData.setTime(1644315680);
+                healthyData.setData(368);
                 animalHeatData.add(new AnimalHeatData(1642648391,368));
                 animalHeatData.add(new AnimalHeatData(1642651991,356));
                 animalHeatData.add(new AnimalHeatData(1642654211,364));

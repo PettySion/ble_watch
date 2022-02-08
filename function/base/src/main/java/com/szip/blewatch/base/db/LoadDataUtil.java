@@ -83,22 +83,18 @@ public class LoadDataUtil {
     /**
      * 取运动数据
      * */
-    public List<SportData> getSportList(long time){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(time*1000);
-        calendar.set(Calendar.DAY_OF_MONTH,1);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MILLISECOND,0);
-        long startTime = calendar.getTimeInMillis()/1000;//月报告的起始天数的第一秒
-
+    public List<SportData> getSportList(){
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(time*1000);
+//        calendar.set(Calendar.DAY_OF_MONTH,1);
+//        calendar.set(Calendar.HOUR_OF_DAY,0);
+//        calendar.set(Calendar.MINUTE,0);
+//        calendar.set(Calendar.SECOND,0);
+//        calendar.set(Calendar.MILLISECOND,0);
+//        long startTime = calendar.getTimeInMillis()/1000;//月报告的起始天数的第一秒
         List<SportData> list = SQLite.select()
                 .from(SportData.class)
-                .where(SportData_Table.time.lessThanOrEq(time+24*60*60-1),
-                        SportData_Table.time.greaterThanOrEq(startTime))
                 .queryList();
-
         return list;
     }
 
@@ -199,14 +195,15 @@ public class LoadDataUtil {
     /**
      * 取心率日报告
      * */
-    public HeartData getHeartWithDay(long time){
+    public List<HeartData> getHeartWithDay(long time){
         Log.d("DATA******","获取心率报告");
         //绘图数据-40传入控件
 
-        HeartData sqlData = SQLite.select()
+        List<HeartData> sqlData = SQLite.select()
                 .from(HeartData.class)
-                .where(HeartData_Table.time.is(time))
-                .querySingle();
+                .where(HeartData_Table.time.lessThan(time+24*60*60-1),
+                        HeartData_Table.time.greaterThanOrEq(time))
+                .queryList();
 
         return sqlData;
     }

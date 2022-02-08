@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.szip.blewatch.base.Util.LocationUtil;
+import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.UserModel;
@@ -287,7 +288,9 @@ public class StepPresenterImpl implements IGpsPresenter{
 
     private float getCalorie(float d) {
         //卡路里公式：体重(千克)*1.036f*距离(千米)
-        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(0);
+        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(context));
+        if (userModel==null)
+            return 0;
         float calorie = userModel.weight*1.036f*(d/1000);
         return calorie;
     }

@@ -5,6 +5,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.szip.blewatch.base.broadcast.ToActivityBroadcast;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.UserModel;
+import com.szip.blewatch.base.model.SportTypeModel;
 import com.szip.healthy.Adapter.HealthyCardAdapter;
 import com.szip.healthy.R;
 import com.szip.healthy.model.HealthyData;
@@ -159,31 +161,33 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
 
     @Override
     public void updateSportData(int step, int calorie, int distance) {
-        String stepStr = String.format("%d steps",step);
-        String calorieStr = String.format(Locale.ENGLISH,"%.1f kcal",((calorie+55)/100)/10f);
-        String distanceStr = "";
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity().getApplicationContext()));
+        if (userModel==null)
+            return;
+        String stepStr = String.format("<big>%d</big> steps",step);
+        String calorieStr = String.format(Locale.ENGLISH,"<big>%.1f</big> kcal",((calorie+55)/100)/10f);
+        String distanceStr = "";
         if (userModel.unit == 0){
-            distanceStr = String.format(Locale.ENGLISH,"%.2f km",(distance+55)/100/100f);
+            distanceStr = String.format(Locale.ENGLISH,"<big>%.2f</big> km",(distance+55)/100/100f);
         }else {
-            distanceStr = String.format(Locale.ENGLISH,"%.2f mile",MathUtil.newInstance().km2Miles(distance/10));
+            distanceStr = String.format(Locale.ENGLISH,"<big>%.2f</big> mile",MathUtil.newInstance().km2Miles(distance/10));
         }
-        stepTv.setText(stepStr);
-        caloriesTv.setText(calorieStr);
-        distanceTv.setText(distanceStr);
+        stepTv.setText(Html.fromHtml(stepStr));
+        caloriesTv.setText(Html.fromHtml(calorieStr));
+        distanceTv.setText(Html.fromHtml(distanceStr));
         colorArcProgressBar.setCurrentValues(step,distance/10,calorie);
     }
 
     @Override
     public void updateLastSport(SportData sportData) {
         sportDataTv.setText(String.format(Locale.ENGLISH,
-                "%.2f km,%02d:%02d:%02d,%.1f kcal",(sportData.distance+55)/100/100f,
-                sportData.sportTime/3600,
-                sportData.sportTime%3600/60,sportData.sportTime%3600%60,
-                ((sportData.calorie+55)/100)/10f));
-
-        sportTypeTv.setText(getActivity().getString(R.string.healthy_last_sport)+sportData.type+","+
-                DateUtil.getStringDateFromSecond(sportData.time,"MM/dd HH:mm:ss"));
+                "%.2fkm  %02dh%02dmin  %.1fkcal",(sportData.distance+55)/100/100f,
+                sportData.sportTime/3600, sportData.sportTime%3600/60, ((sportData.calorie+55)/100)/10f));
+        SportTypeModel sportTypeModel = MathUtil.newInstance().getSportType(sportData.type,getActivity().getApplicationContext());
+        if (sportTypeModel==null)
+            return;
+        sportTypeTv.setText(getActivity().getString(R.string.healthy_last_sport)+":"+sportTypeModel.getSportStr()+","+
+                DateUtil.getStringDateFromSecond(sportData.time,"yyyy-MM-dd HH:mm:ss"));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.szip.healthy.model;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
 import com.szip.blewatch.base.db.dbModel.BloodPressureData;
+import com.szip.blewatch.base.db.dbModel.HeartData;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class HealthyData {
     private List<BloodOxygenData> bloodOxygenDataList;
     private List<BloodPressureData> bloodPressureDataList;
     private List<AnimalHeatData> animalHeatDataList;
+    private List<HeartData> heartDataList;
     private long time;
 
     public HealthyData(int type) {
@@ -30,6 +32,14 @@ public class HealthyData {
 
     public void setDataStr(String dataStr) {
         this.dataStr = dataStr;
+    }
+
+    public void setHeartDataList(List<HeartData> heartDataList) {
+        this.heartDataList = heartDataList;
+    }
+
+    public List<HeartData> getHeartDataList() {
+        return heartDataList;
     }
 
     public void setBloodOxygenDataList(List<BloodOxygenData> bloodOxygenDataList) {
