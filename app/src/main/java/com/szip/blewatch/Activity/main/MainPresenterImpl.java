@@ -23,9 +23,9 @@ import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.consult.fragment.ConsultFragment;
-import com.szip.healthy.fragment.HealthyFragment;
-import com.szip.sport.fragment.SportFragment;
-import com.szip.user.fragment.MineFragment;
+import com.szip.healthy.Fragment.HealthyFragment;
+import com.szip.sport.Fragment.SportFragment;
+import com.szip.user.Fragment.MineFragment;
 
 import java.util.ArrayList;
 
@@ -125,10 +125,10 @@ public class MainPresenterImpl implements IMainPrisenter{
 
         final ArrayList<HostTabView> mTableItemList = new ArrayList<>();
         //添加tab
-        mTableItemList.add(new HostTabView(R.mipmap.a_tabbar_tab1,R.mipmap.a_tabbar_home_p,R.string.home, HealthyFragment.class,context));
-        mTableItemList.add(new HostTabView(R.mipmap.a_tabbar_tab2,R.mipmap.a_tabbar_trade_p,R.string.sport, SportFragment.class,context));
-        mTableItemList.add(new HostTabView(R.mipmap.a_tabbar_tab3,R.mipmap.a_tabbar_market_p,R.string.consult, ConsultFragment.class,context));
-        mTableItemList.add(new HostTabView(R.mipmap.a_tabbar_tab4,R.mipmap.a_tabbar_me_p,R.string.mine, MineFragment.class,context));
+        mTableItemList.add(new HostTabView(R.mipmap.nav_state,R.mipmap.nav_state_pre,R.string.home, HealthyFragment.class,context));
+        mTableItemList.add(new HostTabView(R.mipmap.nav_sport,R.mipmap.nav_sport_pre,R.string.sport, SportFragment.class,context));
+//        mTableItemList.add(new HostTabView(R.mipmap.a_tabbar_tab3,R.mipmap.a_tabbar_market_p,R.string.consult, ConsultFragment.class,context));
+        mTableItemList.add(new HostTabView(R.mipmap.nav_my,R.mipmap.nav_my_pre,R.string.mine, MineFragment.class,context));
         //去掉分割线
         fragmentTabHost.getTabWidget().setDividerDrawable(null);
 

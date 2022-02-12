@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,13 +39,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
-
     protected void setTitle(String msg){
         titleTv = findViewById(R.id.titleTv);
         titleBigTv = findViewById(R.id.titleBigTv);
@@ -52,12 +46,16 @@ public class BaseActivity extends AppCompatActivity {
 
         if (titleBigTv!=null)
             titleBigTv.setText(msg);
+        if (titleTv!=null)
+            titleTv.setText(msg);
 
-        if (titleTv==null||myScrollView==null)
+        if (titleBigTv==null&&titleTv!=null)
+            titleTv.setVisibility(View.VISIBLE);
+
+        if (myScrollView==null||titleTv==null)
             return;
 
         myScrollView.setOnScrollListener(listener);
-        titleTv.setText(msg);
     }
 
 

@@ -1,19 +1,14 @@
 package debug;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.provider.Settings;
 
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.szip.blewatch.base.BaseApplication;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.http.TokenInterceptor;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.UserModel;
-import com.szip.blewatch.base.service.BleService;
-import com.szip.user.utils.HttpMessageUtil;
+import com.szip.blewatch.base.Service.BleService;
 import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.GetBuilder;

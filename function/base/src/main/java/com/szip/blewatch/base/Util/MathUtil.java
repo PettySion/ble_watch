@@ -30,7 +30,7 @@ import com.amap.api.maps.model.LatLng;
 import com.szip.blewatch.base.Const.SportConst;
 import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.View.MyAlerDialog;
-import com.szip.blewatch.base.model.SportTypeModel;
+import com.szip.blewatch.base.Model.SportTypeModel;
 
 
 import java.io.File;
@@ -38,13 +38,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.text.TextUtils.concat;
 import static android.text.TextUtils.isEmpty;
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_LOGIN;
 
@@ -966,6 +963,7 @@ public class MathUtil {
         return index;
     }
 
+    //获取地图的zoom值以及偏移值
     public double[]getMapOption(String[] lats,String[] lngs){
         double[] option= new double[3];
         if (lats.length<2)
@@ -1029,7 +1027,6 @@ public class MathUtil {
 
     public SportTypeModel getSportType(int type, Context context){
         SportTypeModel typeModel = null;
-        LogUtil.getInstance().logd("data******","type = "+type);
         if (type== SportConst.RUN){
             typeModel = new SportTypeModel(R.mipmap.sport_outrun,context.getString(R.string.outrun));
         }else if (type == SportConst.BADMINTON){

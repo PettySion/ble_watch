@@ -8,8 +8,8 @@ import android.os.Looper;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
-import com.szip.blewatch.httpModel.UserInfoBean;
-import com.szip.blewatch.utils.HttpMessageUtil;
+import com.szip.blewatch.HttpModel.UserInfoBean;
+import com.szip.blewatch.Utils.HttpMessageUtil;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 

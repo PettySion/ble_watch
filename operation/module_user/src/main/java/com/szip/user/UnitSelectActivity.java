@@ -11,7 +11,7 @@ import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.UserModel;
-import com.szip.user.utils.HttpMessageUtil;
+import com.szip.user.Utils.HttpMessageUtil;
 import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;

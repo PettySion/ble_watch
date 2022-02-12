@@ -83,7 +83,7 @@ public class LoadDataUtil {
     /**
      * 取运动数据
      * */
-    public List<SportData> getSportList(){
+    public List<SportData> getSportList(int page){
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTimeInMillis(time*1000);
 //        calendar.set(Calendar.DAY_OF_MONTH,1);
@@ -94,6 +94,9 @@ public class LoadDataUtil {
 //        long startTime = calendar.getTimeInMillis()/1000;//月报告的起始天数的第一秒
         List<SportData> list = SQLite.select()
                 .from(SportData.class)
+                .orderBy(OrderBy.fromString(SportData_Table.time+OrderBy.DESCENDING))
+                .offset(page*20)
+                .limit(20)
                 .queryList();
         return list;
     }
@@ -187,6 +190,7 @@ public class LoadDataUtil {
         List<HealthyCardData> healthyCardData = SQLite.select()
                 .from(HealthyCardData.class)
                 .where(HealthyCardData_Table.state.is(state))
+                .orderBy(OrderBy.fromString(HealthyCardData_Table.sort+OrderBy.ASCENDING))
                 .queryList();
 
         return healthyCardData;

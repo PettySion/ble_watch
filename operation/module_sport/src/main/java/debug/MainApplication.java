@@ -2,21 +2,18 @@ package debug;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 
 import com.amap.api.location.AMapLocationClient;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.szip.blewatch.base.BaseApplication;
 import com.szip.blewatch.base.Const.BroadcastConst;
-import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.http.TokenInterceptor;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.UserModel;
-import com.szip.blewatch.base.model.HealthyConfig;
-import com.szip.blewatch.base.service.BleService;
+import com.szip.blewatch.base.Model.HealthyConfig;
+import com.szip.blewatch.base.Service.BleService;
 import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.GetBuilder;
@@ -29,9 +26,6 @@ public class MainApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        AMapLocationClient.updatePrivacyShow(this, true, true);
-        AMapLocationClient.updatePrivacyAgree(this,true);
-
 
         MathUtil.newInstance().saveStringData(getApplicationContext(),"token","!Lq~UU8jWX~au#lG#~q^");
         MathUtil.newInstance().saveIntData(getApplicationContext(),"userId",136);

@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Const.HealthyConst;
-import com.szip.blewatch.base.interfere.OnItemClickListener;
+import com.szip.blewatch.base.Interfere.OnItemClickListener;
 import com.szip.healthy.R;
-import com.szip.healthy.model.HealthyData;
-import com.szip.healthy.view.HealthyTableView;
+import com.szip.healthy.Model.HealthyData;
+import com.szip.healthy.View.HealthyTableView;
 
 import java.util.ArrayList;
 import java.util.List;

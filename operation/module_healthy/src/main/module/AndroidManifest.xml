@@ -11,12 +11,12 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <activity android:name=".Activity.card.CardEditActivity"></activity>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.sport.SportListActivity"></activity>
+        <activity android:name=".Activity.sport.SportListActivity"></activity>
     </application>
 
 </manifest>

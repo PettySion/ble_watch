@@ -5,7 +5,7 @@
 
     <application>
         <service
-            android:name=".service.BleService"
+            android:name=".Service.BleService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

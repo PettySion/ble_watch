@@ -107,6 +107,7 @@
         android:layout_centerVertical="true">
 
         <LinearLayout
+            android:id="@+id/speedLl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -210,6 +211,7 @@
 
 
     <LinearLayout
+        android:id="@+id/runLl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -220,7 +222,7 @@
         <ImageView
             android:id="@+id/lockIv"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_weight="3"
             android:layout_gravity="center"
@@ -233,29 +235,16 @@
             android:layout_centerHorizontal="true"
             android:layout_weight="6"
             android:gravity="center">
-
-
-
             <ImageView
-                android:id="@+id/switchIv"
-                android:layout_width="wrap_content"
+                android:id="@+id/pauseIv"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/sport_icon_continue"
-                android:tag="start"/>
-
-            <ImageView
-                android:id="@+id/finishIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:src="@mipmap/sport_end"
-                android:visibility="gone"
-                android:layout_marginLeft="8dp"/>
+                android:src="@mipmap/sport_stop"
+                android:tag="start"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
@@ -263,11 +252,79 @@
         <ImageView
             android:id="@+id/mapIv"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_weight="3"
             android:src="@mipmap/sport_map"/>
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/indoorLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/midLl"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/lockBigIv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:src="@mipmap/sport_lock_big"
+            android:layout_marginStart="45dp"/>
+
+
+        <ImageView
+            android:id="@+id/indoorPauseIv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="3"
+            android:src="@mipmap/sport_stop"
+            android:layout_marginEnd="45dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pauseLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/midLl"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/startIv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/sport_goon"
+            android:layout_weight="1"
+            android:layout_marginStart="45dp"/>
+
+        <ImageView
+            android:id="@+id/finishIv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/sport_end"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="45dp"/>
 
     </LinearLayout>
 

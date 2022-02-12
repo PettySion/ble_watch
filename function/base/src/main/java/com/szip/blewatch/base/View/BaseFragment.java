@@ -55,19 +55,22 @@ public abstract class BaseFragment extends Fragment {
 
         if (titleBigTv!=null)
             titleBigTv.setText(msg);
+        if (titleTv!=null)
+            titleTv.setText(msg);
 
-        if (titleTv==null||myScrollView==null)
+        if (titleBigTv==null&&titleTv!=null)
+            titleTv.setVisibility(View.VISIBLE);
+
+        if (myScrollView==null||titleTv==null)
             return;
 
         myScrollView.setOnScrollListener(listener);
-        titleTv.setText(msg);
     }
 
     private MyScrollView.OnScrollListener listener = new MyScrollView.OnScrollListener() {
         @Override
         public void onScroll(int scrollY) {
             if (titleTv!=null){
-                LogUtil.getInstance().logd("data******","scrollY = "+scrollY);
                 if (scrollY>120)
                     titleTv.setVisibility(View.VISIBLE);
                 else

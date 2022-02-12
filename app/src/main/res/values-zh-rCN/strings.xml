@@ -2,7 +2,7 @@
 <resources>
 
     <string name="name">My Application</string>
-    <string name="home">健康</string>
+    <string name="home">状态</string>
     <string name="sport">运动</string>
     <string name="consult">咨询</string>
     <string name="mine">我的</string>

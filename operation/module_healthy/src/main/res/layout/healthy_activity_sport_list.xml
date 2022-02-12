@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.sport.SportListActivity"
+    tools:context=".Activity.sport.SportListActivity"
     android:orientation="vertical"
     android:background="@color/bgColor">
 
@@ -19,13 +19,26 @@
         android:textSize="35sp"
         android:textStyle="bold"/>
 
-    <ListView
-        android:id="@+id/sportList"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="5dp"
-        android:listSelector="@android:color/transparent"/>
+        android:layout_height="match_parent">
+
+        <ExpandableListView
+            android:id="@+id/sportList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:childDivider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:listSelector="@android:color/transparent" />
+
+    </RelativeLayout>
+
+
+
+
 
 </LinearLayout>

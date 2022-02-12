@@ -7,7 +7,7 @@
             android:theme="@style/DefaultCityPickerTheme" >
 
         </activity>
-        <activity android:name=".register.RegisterActivity"
+        <activity android:name=".Register.RegisterActivity"
             android:theme="@style/DefaultCityPickerTheme" ></activity>
     </application>
 

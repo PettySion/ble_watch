@@ -31,7 +31,7 @@ import com.szip.blewatch.base.db.dbModel.HeartData;
 import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
-import com.szip.blewatch.base.model.BleStepModel;
+import com.szip.blewatch.base.Model.BleStepModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;

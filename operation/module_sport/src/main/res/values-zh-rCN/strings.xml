@@ -5,10 +5,21 @@
     <string name="sport_sport_time">运动时长</string>
     <string name="sport_sport_calorie">运动消耗</string>
     <string name="sport_sport_distance">运动距离</string>
-
+    <string name="sport_steps">步数</string>
+    <string name="sport_speed_hour">平均时速</string>
+    <string name="sport_stride">步频</string>
+    <string name="sport_heart">平均心率</string>
+    <string name="sport_height">爬升高度</string>
+    <string name="sport_sport_info">运动详情</string>
+    <string name="sport_heart_level">心率分布</string>
+    <string name="sport_heart1">极限(≥161)</string>
+    <string name="sport_heart2">无氧(149~160)</string>
+    <string name="sport_heart3">有氧(131~138)</string>
+    <string name="sport_heart4">燃脂(112~130)</string>
+    <string name="sport_heart5">热身(90~111)</string>
+    <string name="sport_speed">配速</string>
     <string name="sport_running">运动中</string>
     <string name="sport_run_pause">运动已暂停</string>
-    <string name="sport_speed">配速</string>
     <string name="sport_gps_low">GPS信号弱，数据准确度低</string>
     <string name="sport_gps_middle">GPS信号较强，数据准确度较高</string>
     <string name="sport_gps_high">GPS信号强，数据准确度高</string>

@@ -11,7 +11,7 @@
         <activity android:name=".UserSetActivity"></activity>
         <activity android:name=".NotificationActivity" />
         <activity android:name=".UnitSelectActivity" />
-        <activity android:name=".search.DeviceActivity" />
+        <activity android:name=".Search.DeviceActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

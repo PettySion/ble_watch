@@ -5,8 +5,8 @@
     <application>
         <activity android:name=".MainActivity">
         </activity>
-        <activity android:name=".gpsSport.GpsActivity"></activity>
-        <activity android:name=".gpsSport.SportResultActivity"></activity>
+        <activity android:name=".GpsSport.GpsActivity"></activity>
+        <activity android:name=".SportResult.SportResultActivity"></activity>
     </application>
 
 </manifest>

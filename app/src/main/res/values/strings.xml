@@ -1,6 +1,6 @@
 <resources>
     <string name="name">My Application</string>
-    <string name="home">healthy</string>
+    <string name="home">state</string>
     <string name="sport">sport</string>
     <string name="consult">consult</string>
     <string name="mine">mine</string>

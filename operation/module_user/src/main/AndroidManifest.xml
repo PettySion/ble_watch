@@ -3,7 +3,7 @@
     package="com.szip.user">
 
     <application>
-        <activity android:name=".search.DeviceActivity"></activity>
+        <activity android:name=".Search.DeviceActivity"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".UserSetActivity"></activity>
         <activity android:name=".NotificationActivity" />

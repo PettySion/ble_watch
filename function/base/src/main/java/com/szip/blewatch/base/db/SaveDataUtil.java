@@ -20,7 +20,7 @@ import com.szip.blewatch.base.db.dbModel.BloodPressureData_Table;
 import com.szip.blewatch.base.db.dbModel.EcgData;
 import com.szip.blewatch.base.db.dbModel.EcgData_Table;
 import com.szip.blewatch.base.db.dbModel.HealthyCardData;
-import com.szip.blewatch.base.model.HealthyConfig;
+import com.szip.blewatch.base.Model.HealthyConfig;
 import com.szip.blewatch.base.db.dbModel.HeartData;
 import com.szip.blewatch.base.db.dbModel.HeartData_Table;
 import com.szip.blewatch.base.db.dbModel.NotificationData;
@@ -123,13 +123,13 @@ public class SaveDataUtil {
             list.add(new HealthyCardData(HealthyConst.SLEEP,true,2));
         }
         if (healthyConfig.bloodOxygen == 1){
-            list.add(new HealthyCardData(HealthyConst.BLOOD_OXYGEN,false,0));
+            list.add(new HealthyCardData(HealthyConst.BLOOD_OXYGEN,false,3));
         }
         if (healthyConfig.bloodPressure == 1){
-            list.add(new HealthyCardData(HealthyConst.BLOOD_PRESSURE,false,0));
+            list.add(new HealthyCardData(HealthyConst.BLOOD_PRESSURE,false,4));
         }
         if (healthyConfig.temperature == 1){
-            list.add(new HealthyCardData(HealthyConst.TEMPERATURE,false,0));
+            list.add(new HealthyCardData(HealthyConst.TEMPERATURE,false,5));
         }
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
@@ -137,6 +137,31 @@ public class SaveDataUtil {
                             @Override
                             public void processModel(HealthyCardData healthyCardData, DatabaseWrapper wrapper) {
                                 healthyCardData.save();
+                            }
+                        }).addAll(list).build())  // add elements (can also handle multiple)
+                .error(new Transaction.Error() {
+                    @Override
+                    public void onError(Transaction transaction, Throwable error) {
+
+                    }
+                }).success(new Transaction.Success() {
+            @Override
+            public void onSuccess(Transaction transaction) {
+                LogUtil.getInstance().logd("DATA******","卡片配置缓存成功");
+            }
+        }).build().execute();
+    }
+
+    /**
+     * 批量更新设备健康配置
+     * */
+    public void updateHealthyConfigData(List<HealthyCardData> list){
+        FlowManager.getDatabase(AppDatabase.class)
+                .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
+                        new ProcessModelTransaction.ProcessModel<HealthyCardData>() {
+                            @Override
+                            public void processModel(HealthyCardData healthyCardData, DatabaseWrapper wrapper) {
+                                healthyCardData.update();
                             }
                         }).addAll(list).build())  // add elements (can also handle multiple)
                 .error(new Transaction.Error() {

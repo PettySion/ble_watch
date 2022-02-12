@@ -5,7 +5,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.szip.blewatch.base.db.AppDatabase;
-import com.szip.blewatch.base.model.HealthyConfig;
+import com.szip.blewatch.base.Model.HealthyConfig;
 
 
 /**

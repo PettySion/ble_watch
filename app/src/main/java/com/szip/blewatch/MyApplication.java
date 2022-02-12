@@ -5,9 +5,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.provider.Settings;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.szip.blewatch.base.BaseApplication;
-import com.szip.blewatch.base.notification.MyNotificationReceiver;
-import com.szip.blewatch.base.service.BleService;
+import com.szip.blewatch.base.Const.HealthyConst;
+import com.szip.blewatch.base.Constant;
+import com.szip.blewatch.base.Notification.MyNotificationReceiver;
+import com.szip.blewatch.base.Service.BleService;
+import com.szip.blewatch.base.db.SaveDataUtil;
+import com.szip.blewatch.base.db.dbModel.HealthyCardData;
+import com.szip.blewatch.base.db.dbModel.HealthyCardData_Table;
+import com.szip.blewatch.base.db.dbModel.SportData;
+import com.szip.blewatch.base.db.dbModel.SportData_Table;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ddnosh

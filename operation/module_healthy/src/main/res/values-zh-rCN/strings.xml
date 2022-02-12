@@ -13,4 +13,8 @@
     <string name="healthy_edit_card">编辑卡片</string>
     <string name="healthy_last_sport">最近运动</string>
     <string name="healthy_sport_list">运动列表</string>
+    <string name="healthy_sport_last">已经到底啦~</string>
+    <string name="healthy_card_visiable">显示的项目(按住右侧上下拖动，可调节顺序)</string>
+    <string name="healthy_card_gone">隐藏的项目</string>
+    <string name="healthy_card_need_gone">将不需要显示的项目拖到这里来</string>
 </resources>

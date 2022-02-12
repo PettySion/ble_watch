@@ -11,10 +11,9 @@ import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
-import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.db.dbModel.Weather;
-import com.szip.blewatch.base.model.Condition;
+import com.szip.blewatch.base.Model.Condition;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;

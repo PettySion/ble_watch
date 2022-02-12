@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.szip.blewatch.base.View.BaseActivity;
-import com.szip.user.fragment.MineFragment;
+import com.szip.user.Fragment.MineFragment;
 
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_USER;
 

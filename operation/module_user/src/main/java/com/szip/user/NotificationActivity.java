@@ -1,7 +1,5 @@
 package com.szip.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +14,7 @@ import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.NotificationData;
-import com.szip.user.adapter.NotificationAdapter;
+import com.szip.user.Adapter.NotificationAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
