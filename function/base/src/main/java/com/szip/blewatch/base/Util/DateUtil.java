@@ -317,7 +317,7 @@ public class DateUtil {
     public static String getStringDateFromSecond(long milSecond,String formatStyle) {
         long time = milSecond * 1000;
         Date date = new Date(time);
-        SimpleDateFormat format = new SimpleDateFormat(formatStyle,Locale.ENGLISH);
+        SimpleDateFormat format = new SimpleDateFormat(formatStyle);
         return format.format(date);
     }
 

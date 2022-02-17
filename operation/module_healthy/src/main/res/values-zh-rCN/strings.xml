@@ -17,4 +17,32 @@
     <string name="healthy_card_visiable">显示的项目(按住右侧上下拖动，可调节顺序)</string>
     <string name="healthy_card_gone">隐藏的项目</string>
     <string name="healthy_card_need_gone">将不需要显示的项目拖到这里来</string>
+    <string name="healthy_day">日</string>
+    <string name="healthy_week">周</string>
+    <string name="healthy_month">月</string>
+    <string name="healthy_sun">周日</string>
+    <string name="healthy_mon">周一</string>
+    <string name="healthy_survey">今日概况</string>
+    <string name="healthy_week_survey">每周概况</string>
+    <string name="healthy_month_survey">每月概况</string>
+    <string name="healthy_all_step">总计步</string>
+    <string name="healthy_all_calorie">总消耗</string>
+    <string name="healthy_all_distance">总距离</string>
+    <string name="healthy_plan">今日目标</string>
+    <string name="healthy_day_step">日均计步</string>
+    <string name="healthy_day_calorie">日均消耗</string>
+    <string name="healthy_day_distance">日均距离</string>
+    <string name="healthy_radio">目标达成率</string>
+    <string name="healthy_sleep_info">睡眠分布</string>
+    <string name="healthy_sleep_deep">深睡时长</string>
+    <string name="healthy_sleep_light">浅睡时长</string>
+    <string name="healthy_sleep_average_sleep">平均睡眠时长</string>
+    <string name="healthy_sleep_average_deep">平均深睡时长</string>
+    <string name="healthy_sleep_average_light">平均浅睡时长</string>
+    <string name="healthy_sleep_bed">入睡时间</string>
+    <string name="healthy_sleep_wake">起床时间</string>
+    <string name="healthy_heart_average">平均心率</string>
+    <string name="healthy_heart_max">最高心率</string>
+    <string name="healthy_heart_min">最低心率</string>
+
 </resources>

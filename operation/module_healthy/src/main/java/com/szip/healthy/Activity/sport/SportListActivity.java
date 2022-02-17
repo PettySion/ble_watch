@@ -30,6 +30,7 @@ public class SportListActivity extends BaseActivity implements ISportListView {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.healthy_activity_sport_list);
+        setAndroidNativeLightStatusBar(this,true);
         iSportListPresenter = new SportListPresenterImpl(getApplicationContext(),this);
         initView();
         iSportListPresenter.initList();

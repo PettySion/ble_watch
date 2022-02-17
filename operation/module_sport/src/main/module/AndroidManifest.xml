@@ -21,7 +21,7 @@
         android:label="@string/sport_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SportResult.SportResultActivity"></activity>
+        <activity android:name=".Activity.sportResult.SportResultActivity"></activity>
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -34,7 +34,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB60s6wRqlY5Mlyv5LmA8kZ30Aw4lSov4k" />
 
-        <activity android:name=".GpsSport.GpsActivity" />
+        <activity android:name=".Activity.gpsSport.GpsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

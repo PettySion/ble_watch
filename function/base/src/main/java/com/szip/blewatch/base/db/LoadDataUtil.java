@@ -141,18 +141,6 @@ public class LoadDataUtil {
         }
     }
 
-    /**
-     * 取当天的计步数据
-     * */
-    public StepData getStepData(long time) {
-
-        StepData stepData = SQLite.select()
-                .from(StepData.class)
-                .where(StepData_Table.time.is(time))
-                .querySingle();
-
-        return stepData;
-    }
 
     /**
      * 取最近一次运动数据
@@ -200,12 +188,22 @@ public class LoadDataUtil {
      * 取心率日报告
      * */
     public List<HeartData> getHeartWithDay(long time){
-        Log.d("DATA******","获取心率报告");
-        //绘图数据-40传入控件
-
         List<HeartData> sqlData = SQLite.select()
                 .from(HeartData.class)
                 .where(HeartData_Table.time.lessThan(time+24*60*60-1),
+                        HeartData_Table.time.greaterThanOrEq(time))
+                .queryList();
+
+        return sqlData;
+    }
+
+    /**
+     * 取心率日报告
+     * */
+    public List<HeartData> getHeartWithWeek(long time){
+        List<HeartData> sqlData = SQLite.select()
+                .from(HeartData.class)
+                .where(HeartData_Table.time.lessThan(time+7*24*60*60),
                         HeartData_Table.time.greaterThanOrEq(time))
                 .queryList();
 
@@ -224,6 +222,28 @@ public class LoadDataUtil {
     }
 
     /**
+     * 取计步周报告
+     * */
+    public List<StepData> getStepWithWeek(long time){
+        List<StepData> sqlData = SQLite.select()
+                .from(StepData.class)
+                .where(StepData_Table.time.greaterThanOrEq(time),StepData_Table.time.lessThan(time*7*24*60*60))
+                .queryList();
+        return sqlData;
+    }
+
+    /**
+     * 取计步月报告
+     * */
+    public List<StepData> getStepWithMonth(long time, long endTime){
+        List<StepData> sqlData = SQLite.select()
+                .from(StepData.class)
+                .where(StepData_Table.time.greaterThanOrEq(time),StepData_Table.time.lessThan(endTime))
+                .queryList();
+        return sqlData;
+    }
+
+    /**
      * 取睡眠日报告
      * */
     public SleepData getSleepWithDay(long time){
@@ -233,6 +253,32 @@ public class LoadDataUtil {
                 .where(SleepData_Table.time.is(time))
                 .querySingle();
 
+
+        return sleepData;
+    }
+
+    /**
+     * 取睡眠周报告
+     * */
+    public List<SleepData> getSleepWithWeek(long time){
+
+        List<SleepData> sleepData = SQLite.select()
+                .from(SleepData.class)
+                .where(SleepData_Table.time.greaterThanOrEq(time),SleepData_Table.time.lessThan(time+7*24*60*60))
+                .queryList();
+
+        return sleepData;
+    }
+
+    /**
+     * 取睡眠月报告
+     * */
+    public List<SleepData> getSleepWithMonth(long time,long endTime){
+
+        List<SleepData> sleepData = SQLite.select()
+                .from(SleepData.class)
+                .where(SleepData_Table.time.greaterThanOrEq(time),SleepData_Table.time.lessThan(endTime))
+                .queryList();
 
         return sleepData;
     }

@@ -22,4 +22,8 @@
         <attr name="max_value" format="float"/>
     </declare-styleable>
 
+    <declare-styleable name="NoScrollViewPager">
+        <attr name="scorll_able" format="boolean"/>
+    </declare-styleable>
+
 </resources>

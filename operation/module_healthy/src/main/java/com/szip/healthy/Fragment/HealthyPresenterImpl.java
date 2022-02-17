@@ -57,7 +57,7 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
     @Override
     public void initStepData() {
 
-        StepData stepData = LoadDataUtil.newInstance().getStepData(DateUtil.getTimeOfToday());
+        StepData stepData = LoadDataUtil.newInstance().getStepWithDay(DateUtil.getTimeOfToday());
         if (iHealthyView!=null&&stepData!=null){
             if (iHealthyView!=null)
                 iHealthyView.updateSportData(stepData.steps,stepData.calorie,stepData.distance);

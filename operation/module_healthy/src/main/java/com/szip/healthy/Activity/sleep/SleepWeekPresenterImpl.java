@@ -1,0 +1,86 @@
+package com.szip.healthy.Activity.sleep;
+
+import android.content.Context;
+
+import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.SleepData;
+import com.szip.blewatch.base.db.dbModel.UserModel;
+import com.szip.healthy.Model.ReportData;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
+public class SleepWeekPresenterImpl implements ISleepReportPresenter{
+
+    private Context mContext;
+    private ISleepReportView iSleepReportView;
+
+    public SleepWeekPresenterImpl(Context mContext, ISleepReportView iSleepReportView) {
+        this.mContext = mContext;
+        this.iSleepReportView = iSleepReportView;
+    }
+
+    @Override
+    public void loadSleep(long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time*1000);
+        calendar.set(Calendar.DAY_OF_WEEK,1);
+        time = calendar.getTimeInMillis()/1000;
+        List<SleepData> sleepList = LoadDataUtil.newInstance().getSleepWithWeek(time);
+        if (sleepList.size()==0)
+            return;
+        List<ReportData> reportDataList = new ArrayList<>();
+        for (int i = 0;i<7;i++){
+            reportDataList.add(new ReportData(0,time+i*24*60*60));
+        }
+        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(mContext));
+        if (userModel==null)
+            return;
+        int sum = 0;
+        int allDeep = 0;
+        int allLight = 0;
+        int allSleep = 0;
+        int plan = 0;
+        int max = 300;
+        for (SleepData sleepData:sleepList){
+            long sleepTime = sleepData.time;
+            ReportData reportData = new ReportData((sleepData.deepTime+sleepData.lightTime),0,sleepData.lightTime,sleepTime);
+            sum++;
+            allDeep+=sleepData.deepTime;
+            allLight+=sleepData.lightTime;
+            allSleep+=(sleepData.deepTime+sleepData.lightTime);
+            if ((sleepData.deepTime+sleepData.lightTime)>max)
+                max = (sleepData.deepTime+sleepData.lightTime);
+            if ((sleepData.deepTime+sleepData.lightTime)>userModel.sleepPlan)
+                plan++;
+            calendar.setTimeInMillis(sleepTime*1000);
+            int week = calendar.get(Calendar.DAY_OF_WEEK);
+            reportDataList.set(week-1,reportData);
+        }
+
+        if (iSleepReportView!=null){
+            iSleepReportView.updateTableView(reportDataList,max,0);
+            if (sum!=0){
+                String allTime = String.format("%02dh%02dmin",allSleep/sum/60,allSleep/sum%60);
+                String deepTime = String.format("%02dh%02dmin",allDeep/sum/60,allDeep/sum%60);
+                String lightTime = String.format("%02dh%02dmin",allLight/sum/60,allLight/sum%60);
+                String planStr = String.format(Locale.ENGLISH,"%.1f%%",plan/7f*100);
+                iSleepReportView.updateView(allTime,deepTime,lightTime,planStr);
+            }
+        }
+
+    }
+
+    @Override
+    public void register(ISleepReportView iSleepReportView) {
+        this.iSleepReportView = iSleepReportView;
+    }
+
+    @Override
+    public void unRegister() {
+        this.iSleepReportView = null;
+    }
+}

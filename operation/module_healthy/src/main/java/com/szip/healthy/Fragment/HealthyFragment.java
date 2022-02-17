@@ -38,6 +38,7 @@ import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_REPORT;
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
 import static com.szip.blewatch.base.Util.MathUtil.FILE;
 
@@ -107,6 +108,9 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
             public void onItemClick(int position) {
                 if (healthyDataList.size()%2!=0&&position == healthyDataList.size()){
                     startActivity(new Intent(getActivity(),CardEditActivity.class));
+                }else {
+                    ARouter.getInstance().build(PATH_ACTIVITY_REPORT+healthyDataList.get(position).getType())
+                            .navigation();
                 }
             }
         });

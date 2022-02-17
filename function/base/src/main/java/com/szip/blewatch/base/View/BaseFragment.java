@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -21,6 +22,8 @@ public abstract class BaseFragment extends Fragment {
     protected View mRootView;
     private TextView titleTv,titleBigTv;
     private MyScrollView myScrollView;
+
+
 
     @Nullable
     @Override
@@ -41,6 +44,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getLayoutId();
     protected abstract void afterOnCreated(Bundle savedInstanceState);
+
     protected void showToast(String string){
         Toast.makeText(getActivity(), string,Toast.LENGTH_LONG).show();
     }

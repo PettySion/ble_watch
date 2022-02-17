@@ -58,7 +58,7 @@ public class HeartData extends BaseModel implements Comparable<HeartData>{
 
     @Override
     public int compareTo(@NonNull HeartData o) {
-        return (int)(this.time-o.time);
+        return (int)(this.averageHeart-o.averageHeart);
     }
 
 }

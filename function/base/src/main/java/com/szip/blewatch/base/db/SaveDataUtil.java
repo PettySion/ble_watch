@@ -397,6 +397,8 @@ public class SaveDataUtil {
                         new ProcessModelTransaction.ProcessModel<SleepData>() {
                             @Override
                             public void processModel(SleepData sleepData, DatabaseWrapper wrapper) {
+                                if (sleepData.lightTime+sleepData.deepTime==0)
+                                    return;
                                 SleepData sqlData = SQLite.select()
                                         .from(SleepData.class)
                                         .where(SleepData_Table.time.is(sleepData.time))

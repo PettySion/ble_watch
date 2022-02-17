@@ -30,7 +30,7 @@ import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.sport.R;
 import com.szip.sport.Adapter.LastSportAdapter;
-import com.szip.sport.GpsSport.GpsActivity;
+import com.szip.sport.Activity.gpsSport.GpsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

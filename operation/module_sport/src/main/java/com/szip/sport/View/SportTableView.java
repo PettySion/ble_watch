@@ -16,7 +16,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.szip.blewatch.base.Util.DateUtil;
-import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.sport.R;
 
@@ -40,7 +39,7 @@ public class SportTableView extends View {
 
     private boolean isTouchAble = false;
     private int index;
-    private Paint pointPaint,squareBackPaint,weightTextPaint,unitTextPaint,timeTextPaint;
+    private Paint pointPaint,squareBackPaint, touchDataTextPaint,timeTextPaint;
 
 
     public SportTableView(Context context) {
@@ -85,12 +84,9 @@ public class SportTableView extends View {
 
         squareBackPaint = new Paint();
         squareBackPaint.setColor(Color.BLACK);
-        weightTextPaint = new Paint();
-        weightTextPaint.setColor(Color.WHITE);
-        weightTextPaint.setTextSize(dpValue*16);
-        unitTextPaint = new Paint();
-        unitTextPaint.setTextSize(dpValue*10);
-        unitTextPaint.setColor(Color.WHITE);
+        touchDataTextPaint = new Paint();
+        touchDataTextPaint.setColor(Color.WHITE);
+        touchDataTextPaint.setTextSize(dpValue*16);
         timeTextPaint = new Paint();
         timeTextPaint.setTextSize(dpValue*10);
         timeTextPaint.setColor(Color.WHITE);
@@ -180,10 +176,10 @@ public class SportTableView extends View {
                 String dataStr = "",timeStr = "";
                 dataStr = String.format("%d", data[index]);
                 timeStr = DateUtil.getStringDateFromSecond(time+index*10,"MM-dd HH:mm");
-                float weightTextWidth = weightTextPaint.measureText(dataStr);
+                float touchDataTextWidth = touchDataTextPaint.measureText(dataStr);
                 float timeTextWidth = timeTextPaint.measureText(timeStr);
-                canvas.drawText(dataStr, (x-(weightTextWidth)/2),
-                        mHeight/3-23*dpValue,weightTextPaint);
+                canvas.drawText(dataStr, (x-(touchDataTextWidth)/2),
+                        mHeight/3-23*dpValue, touchDataTextPaint);
                 canvas.drawText(timeStr,(x-timeTextWidth/2),
                         10*dpValue+18*dpValue,timeTextPaint);
             }

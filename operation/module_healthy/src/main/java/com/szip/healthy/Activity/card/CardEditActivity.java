@@ -3,6 +3,8 @@ package com.szip.healthy.Activity.card;
 import android.os.Bundle;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.SaveDataUtil;
@@ -13,6 +15,7 @@ import com.szip.healthy.View.DragListView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class CardEditActivity extends BaseActivity implements ICardEditView{
 
@@ -26,6 +29,7 @@ public class CardEditActivity extends BaseActivity implements ICardEditView{
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.healthy_activity_card_edit);
+        setAndroidNativeLightStatusBar(this,true);
         iCardEditPresenter = new CardEditPresenterImpl(getApplicationContext(),this);
         initView();
         iCardEditPresenter.initList();
