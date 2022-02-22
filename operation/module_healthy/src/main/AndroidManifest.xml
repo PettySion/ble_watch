@@ -7,8 +7,9 @@
         android:maxSdkVersion="22" />
 
     <application>
-        <activity android:name=".Activity.temp.TempReportActivity"></activity>
-        <activity android:name=".Activity.spo.SpoReportActivity" />
+        <activity android:name=".Activity.reportInfo.ReportInfoActivity"></activity>
+        <activity android:name=".Activity.temp.TempReportActivity" />
+        <activity android:name=".Activity.spo.BloodOxygenReportActivity" />
         <activity android:name=".Activity.sleep.SleepReportActivity" />
         <activity android:name=".Activity.heart.HeartReportActivity" />
         <activity android:name=".Activity.bp.BpReportActivity" />

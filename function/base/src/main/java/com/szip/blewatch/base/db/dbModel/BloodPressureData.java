@@ -45,7 +45,7 @@ public class BloodPressureData extends BaseModel implements Comparable<BloodPres
 
     @Override
     public int compareTo(@NonNull BloodPressureData o) {
-        return (int)(this.time-o.time);
+        return (int)(this.sbpDate-o.sbpDate);
     }
 
 }

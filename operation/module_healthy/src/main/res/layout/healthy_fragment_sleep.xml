@@ -18,7 +18,8 @@
             <com.szip.healthy.View.ReportTableView
                 android:id="@+id/tableView"
                 android:layout_width="match_parent"
-                android:layout_height="270dp"/>
+                android:layout_height="270dp"
+                android:layout_marginBottom="10dp"/>
 
         </RelativeLayout>
 
@@ -60,7 +61,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:background="@android:color/darker_gray"
+                android:background="@color/gray"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
 
@@ -92,7 +93,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:background="@android:color/darker_gray"
+                android:background="@color/gray"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
 
@@ -124,7 +125,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:background="@android:color/darker_gray"
+                android:background="@color/gray"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
 

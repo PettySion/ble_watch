@@ -2,7 +2,11 @@ package com.szip.blewatch.base.View;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ScrollView;
+
+import com.szip.blewatch.base.Interfere.OnScrollListener;
+import com.szip.blewatch.base.Util.LogUtil;
 
 public class MyScrollView extends ScrollView {
 
@@ -30,6 +34,14 @@ public class MyScrollView extends ScrollView {
         super.onScrollChanged(l, t, oldl, oldt);
         if (onScrollListener != null) {
             onScrollListener.onScroll(t);
+            View view = (View)getChildAt(getChildCount()-1);
+            int d = view.getBottom();
+            d -= (getHeight()+getScrollY());
+            if(d==0)
+            {
+                onScrollListener.onLoadMost();
+            }
+
         }
     }
 
@@ -48,12 +60,5 @@ public class MyScrollView extends ScrollView {
      * @author xiaanming
      *
      */
-    public interface OnScrollListener{
-        /**
-         * 回调方法， 返回MyScrollView滑动的Y方向距离
-         * @param scrollY
-         *              、
-         */
-        void onScroll(int scrollY);
-    }
+
 }

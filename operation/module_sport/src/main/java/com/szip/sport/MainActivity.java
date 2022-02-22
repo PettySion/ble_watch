@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.szip.blewatch.base.View.BaseActivity;
-import com.szip.sport.Fragment.SportFragment;
+import com.szip.sport.ModuleMain.SportFragment;
 
 /**
  * @author ddnosh

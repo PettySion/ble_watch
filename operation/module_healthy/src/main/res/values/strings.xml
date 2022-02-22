@@ -43,4 +43,25 @@
     <string name="healthy_heart_average">Average Heart Rate</string>
     <string name="healthy_heart_max">Max Heart Rate</string>
     <string name="healthy_heart_min">Min Heart Rate</string>
+    <string name="healthy_heart_level">Heart Rate Level</string>
+    <string name="healthy_heart1">Limit(≥161)</string>
+    <string name="healthy_heart2">Anaerobic(149~160)</string>
+    <string name="healthy_heart3">Aerobic(131~138)</string>
+    <string name="healthy_heart4">Fat Burn(112~130)</string>
+    <string name="healthy_heart5">Warm Up(90~111)</string>
+    <string name="healthy_heart6">Relax(≤89)</string>
+    <string name="healthy_spo_average">Average Data</string>
+    <string name="healthy_spo_max">Max Data</string>
+    <string name="healthy_spo_min">Min Data</string>
+    <string name="healthy_spo_measure_list">Measurement List</string>
+    <string name="healthy_spo_measure_info">Measurement Details</string>
+    <string name="healthy_spo_abnormal">Hypoxia Number</string>
+    <string name="healthy_temp_abnormal">Fever Number</string>
+    <string name="healthy_temp_average">Average Data</string>
+    <string name="healthy_temp_max">Max Data</string>
+    <string name="healthy_temp_min">Min Data</string>
+    <string name="healthy_sbp_average">Average Sbp Data</string>
+    <string name="healthy_dbp_average">Average Dbp Data</string>
+    <string name="healthy_bp_abnormal">Abnormal Number</string>
+    <string name="healthy_unit">%dtimes</string>
 </resources>

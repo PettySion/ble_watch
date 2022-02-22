@@ -2,8 +2,10 @@ package com.szip.healthy.Activity.sport;
 
 import android.content.Context;
 
+import com.szip.blewatch.base.Model.ReportInfoData;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.BloodPressureData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 
 import java.util.ArrayList;
@@ -14,8 +16,8 @@ public class SportListPresenterImpl implements ISportListPresenter{
     private Context mContext;
     private ISportListView iSportListView;
 
-    private ArrayList<String> groupList;
-    private ArrayList<ArrayList<SportData>> childList;
+    private ArrayList<SportData> groupList;
+    private ArrayList<SportData> childList;
 
     public SportListPresenterImpl(Context mContext, ISportListView iSportListView) {
         this.mContext = mContext;
@@ -28,20 +30,24 @@ public class SportListPresenterImpl implements ISportListPresenter{
         groupList = new ArrayList<>();
         childList = new ArrayList<>();
         List<SportData> list = LoadDataUtil.newInstance().getSportList(0);
-        ArrayList<SportData> child = null;
+        if (list.size()==0)
+            if (iSportListView!=null)
+                iSportListView.updateList(groupList,childList);
+        String oldTime =  DateUtil.getStringDateFromSecond(list.get(0).time,"yyyy/MM");
+        SportData sportData = new SportData(DateUtil.getTimeScope(oldTime,"yyyy/MM"));
+        groupList.add(sportData);
+        childList.add(sportData);
         for (int i = 0;i<list.size();i++){
             SportData data = list.get(i);
-            String timeStr = DateUtil.getStringDateFromSecond(data.time,"yyyy/MM");
-            if (!groupList.contains(timeStr)) {
-                if (child != null)
-                    childList.add(child);
-                groupList.add(timeStr);
-                child = new ArrayList<>();
+            String time = DateUtil.getStringDateFromSecond(data.time,"yyyy/MM");
+            if (!time.equals(oldTime)) {
+                sportData = new SportData(DateUtil.getTimeScope(time,"yyyy/MM"));
+                groupList.add(sportData);
+                childList.add(sportData);
+                oldTime = time;
             }
-            child.add(data);
+            childList.add(data);
         }
-        if (child!=null&&child.size()!=0)
-            childList.add(child);
 
         if (iSportListView!=null)
             iSportListView.updateList(groupList,childList);
@@ -49,23 +55,23 @@ public class SportListPresenterImpl implements ISportListPresenter{
 
     @Override
     public void getList(int page) {
-        if (groupList==null)
-            return;
         List<SportData> list = LoadDataUtil.newInstance().getSportList(page);
-        ArrayList<SportData> child = childList.get(groupList.size()-1);
+        if (list.size()==0)
+            if (iSportListView!=null)
+                iSportListView.updateList(groupList,childList);
+        String oldTime =  DateUtil.getStringDateFromSecond(groupList.get(groupList.size()-1).time,"yyyy/MM");
+
         for (int i = 0;i<list.size();i++){
             SportData data = list.get(i);
-            String timeStr = DateUtil.getStringDateFromSecond(data.time,"yyyy/MM");
-            if (!groupList.contains(timeStr)){//如果groupList已经存在这个时间
-                groupList.add(timeStr);
-                if (!childList.contains(child))
-                    childList.add(child);
-                child = new ArrayList<>();
+            String time = DateUtil.getStringDateFromSecond(data.time,"yyyy/MM");
+            if (!time.equals(oldTime)) {
+                SportData sportData = new SportData(DateUtil.getTimeScope(time,"yyyy/MM"));
+                groupList.add(sportData);
+                childList.add(sportData);
+                oldTime = time;
             }
-            child.add(data);
+            childList.add(data);
         }
-        if (child.size()!=0&&!childList.contains(child))
-            childList.add(child);
 
         if (iSportListView!=null)
             iSportListView.updateList(groupList,childList);

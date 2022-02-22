@@ -12,4 +12,5 @@
     <color name="healthy_yellow">#ffd527</color>
     <color name="healthy_yellow_background">#66ffd527</color>
     <color name="healthy_orange">#ff780d</color>
+    <color name="healthy_orange_background">#66ff780d</color>
 </resources>

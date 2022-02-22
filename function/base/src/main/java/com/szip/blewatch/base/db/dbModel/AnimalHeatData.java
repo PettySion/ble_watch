@@ -40,7 +40,7 @@ public class AnimalHeatData extends BaseModel implements Comparable<AnimalHeatDa
 
     @Override
     public int compareTo(@NonNull AnimalHeatData o) {
-        return (int)(this.time-o.time);
+        return (int)(this.tempData-o.tempData);
     }
 
 }

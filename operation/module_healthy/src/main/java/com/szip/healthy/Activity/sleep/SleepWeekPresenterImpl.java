@@ -24,18 +24,12 @@ public class SleepWeekPresenterImpl implements ISleepReportPresenter{
     }
 
     @Override
-    public void loadSleep(long time) {
+    public void loadData(long time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time*1000);
         calendar.set(Calendar.DAY_OF_WEEK,1);
         time = calendar.getTimeInMillis()/1000;
-        List<SleepData> sleepList = LoadDataUtil.newInstance().getSleepWithWeek(time);
-        if (sleepList.size()==0)
-            return;
-        List<ReportData> reportDataList = new ArrayList<>();
-        for (int i = 0;i<7;i++){
-            reportDataList.add(new ReportData(0,time+i*24*60*60));
-        }
+
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(mContext));
         if (userModel==null)
             return;
@@ -45,9 +39,14 @@ public class SleepWeekPresenterImpl implements ISleepReportPresenter{
         int allSleep = 0;
         int plan = 0;
         int max = 300;
-        for (SleepData sleepData:sleepList){
-            long sleepTime = sleepData.time;
-            ReportData reportData = new ReportData((sleepData.deepTime+sleepData.lightTime),0,sleepData.lightTime,sleepTime);
+        List<ReportData> reportDataList = new ArrayList<>();
+        for (int i = 0;i<7;i++){
+            SleepData sleepData = LoadDataUtil.newInstance().getSleepWithDay(time+i*24*60*60);
+            if (sleepData == null||(sleepData.deepTime+sleepData.lightTime)==0){
+                reportDataList.add(new ReportData(0,time+i*24*60*60));
+                continue;
+            }
+            ReportData reportData = new ReportData((sleepData.deepTime+sleepData.lightTime),0,sleepData.lightTime,sleepData.time);
             sum++;
             allDeep+=sleepData.deepTime;
             allLight+=sleepData.lightTime;
@@ -56,9 +55,7 @@ public class SleepWeekPresenterImpl implements ISleepReportPresenter{
                 max = (sleepData.deepTime+sleepData.lightTime);
             if ((sleepData.deepTime+sleepData.lightTime)>userModel.sleepPlan)
                 plan++;
-            calendar.setTimeInMillis(sleepTime*1000);
-            int week = calendar.get(Calendar.DAY_OF_WEEK);
-            reportDataList.set(week-1,reportData);
+            reportDataList.add(reportData);
         }
 
         if (iSleepReportView!=null){

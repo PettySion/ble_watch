@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.szip.blewatch.base.View.BaseActivity;
-import com.szip.healthy.Fragment.HealthyFragment;
+import com.szip.healthy.ModuleMain.HealthyFragment;
 
 /**
  * @author ddnosh

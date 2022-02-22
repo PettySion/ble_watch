@@ -7,6 +7,9 @@ import android.util.Log;
 
 import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.szip.blewatch.base.Const.HealthyConst;
+import com.szip.blewatch.base.Const.ReportConst;
+import com.szip.blewatch.base.Model.ReportInfoData;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData_Table;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
@@ -84,14 +87,7 @@ public class LoadDataUtil {
      * 取运动数据
      * */
     public List<SportData> getSportList(int page){
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(time*1000);
-//        calendar.set(Calendar.DAY_OF_MONTH,1);
-//        calendar.set(Calendar.HOUR_OF_DAY,0);
-//        calendar.set(Calendar.MINUTE,0);
-//        calendar.set(Calendar.SECOND,0);
-//        calendar.set(Calendar.MILLISECOND,0);
-//        long startTime = calendar.getTimeInMillis()/1000;//月报告的起始天数的第一秒
+
         List<SportData> list = SQLite.select()
                 .from(SportData.class)
                 .orderBy(OrderBy.fromString(SportData_Table.time+OrderBy.DESCENDING))
@@ -287,12 +283,11 @@ public class LoadDataUtil {
      * 取血氧日报告
      * */
     public List<BloodOxygenData> getBloodOxygenWithDay(long time){
-        //绘图数据-70传入控件
         List<BloodOxygenData> list = SQLite.select()
                 .from(BloodOxygenData.class)
                 .where(BloodOxygenData_Table.time.lessThan(time+24*60*60-1),
                         BloodOxygenData_Table.time.greaterThanOrEq(time))
-//                .orderBy(OrderBy.fromString(BloodPressureData_Table.time+OrderBy.DESCENDING))
+                .orderBy(OrderBy.fromString(BloodPressureData_Table.time+OrderBy.DESCENDING))
                 .queryList();
         return list;
     }
@@ -301,8 +296,6 @@ public class LoadDataUtil {
      * 取血压日报告
      * */
     public List<BloodPressureData> getBloodPressureWithDay(long time){
-        //绘图数据-45传入控件
-
         List<BloodPressureData> list = SQLite.select()
                 .from(BloodPressureData.class)
                 .where(BloodPressureData_Table.time.lessThan(time+24*60*60-1),
@@ -316,14 +309,60 @@ public class LoadDataUtil {
      * 取体温日报告
      * */
     public List<AnimalHeatData> getAnimalHeatWithDay(long time){
-        //绘图数据-70传入控件
         List<AnimalHeatData> list = SQLite.select()
                 .from(AnimalHeatData.class)
                 .where(AnimalHeatData_Table.time.lessThan(time+24*60*60-1),
                         AnimalHeatData_Table.time.greaterThanOrEq(time))
+                .orderBy(OrderBy.fromString(AnimalHeatData_Table.time+OrderBy.DESCENDING))
                 .queryList();
 
         return list;
+    }
+
+    /**
+     * 取所有的体温数据
+     * */
+    public List<AnimalHeatData> getTempList(int page){
+
+        List<AnimalHeatData> animalHeatDataList = SQLite.select()
+                .from(AnimalHeatData.class)
+                .orderBy(OrderBy.fromString(AnimalHeatData_Table.time+OrderBy.DESCENDING))
+                .offset(page*20)
+                .limit(20)
+                .queryList();
+
+        return animalHeatDataList;
+    }
+
+    /**
+     * 取所有的血压数据
+     * */
+    public List<BloodPressureData> getBloodPressureList(int page){
+
+        List<BloodPressureData> bloodPressureDataList = SQLite.select()
+                .from(BloodPressureData.class)
+                .orderBy(OrderBy.fromString(BloodPressureData_Table.time+OrderBy.DESCENDING))
+                .offset(page*20)
+                .limit(20)
+                .queryList();
+
+
+        return bloodPressureDataList;
+    }
+
+    /**
+     * 取所有的血氧数据
+     * */
+    public List<BloodOxygenData> getBloodOxygenList(int page){
+
+        List<BloodOxygenData> bloodOxygenDataList = SQLite.select()
+                .from(BloodOxygenData.class)
+                .orderBy(OrderBy.fromString(BloodOxygenData_Table.time+OrderBy.DESCENDING))
+                .offset(page*20)
+                .limit(20)
+                .queryList();
+
+        return bloodOxygenDataList;
     }
 
 }

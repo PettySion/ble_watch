@@ -4,12 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.szip.blewatch.base.Interfere.OnItemClickListener;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.dbModel.SportData;
@@ -17,125 +20,116 @@ import com.szip.blewatch.base.Model.SportTypeModel;
 import com.szip.healthy.R;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-public class SportListAdapter extends BaseExpandableListAdapter {
+public class SportListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
 
-    private ArrayList<String> groupList = new ArrayList<>();
-    private ArrayList<ArrayList<SportData>> childList = new ArrayList<>();
+    private ArrayList<SportData> groupList = new ArrayList<>();
+    private ArrayList<SportData> childList = new ArrayList<>();
+
+    private OnItemClickListener onItemClickListener;
 
     public SportListAdapter(Context context) {
         mContext = context;
     }
 
-    public void setDataList(ArrayList<String> groupList,ArrayList<ArrayList<SportData>> childList) {
+    public void setDataList(ArrayList<SportData> groupList,ArrayList<SportData> childList) {
         this.groupList = groupList;
         this.childList = childList;
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public int getGroupCount() {
-        return groupList.size();
-    }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return childList.get(groupPosition).size();
-    }
-
-    @Override
-    public Object getGroup(int groupPosition) {
-        return groupList.get(groupPosition);
-    }
-
-    @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        return childList.get(groupPosition).get(childPosition);
-    }
-
-    @Override
-    public long getGroupId(int groupPosition) {
-        return groupPosition;
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        GroupHolder holder = null;
-        if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.healthy_adapter_sport_time_list, null, false);
-            holder = new GroupHolder();
-            holder.timeTv = convertView.findViewById(R.id.timeTv);
-            convertView.setTag(holder);
-        } else {
-            holder = (GroupHolder) convertView.getTag();
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+        final RecyclerView.ViewHolder holder;
+        if (viewType==0){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.healthy_adapter_sport_time_list, null);
+            holder = new GroupHolder(view);
+        }else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.healthy_adapter_sport_list, null);
+            holder = new ViewHolder(view);
+            ((ViewHolder)holder).view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListener!=null)
+                        onItemClickListener.onItemClick(holder.getAdapterPosition());
+                }
+            });
         }
-        holder.timeTv.setText(groupList.get(groupPosition));
-        return convertView;
+        return holder;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        SportData sportData = childList.get(position);
+        if (holder.getItemViewType()==0){
+            ((GroupHolder)holder).timeTv.setText(DateUtil.getStringDateFromSecond(sportData.time,"yyyy/MM"));
+        }else {
+            SportTypeModel sportTypeModel = MathUtil.newInstance().getSportType(sportData.type,mContext);
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.healthy_adapter_sport_list, null, false);
-            holder = new ViewHolder();
-            holder.timeTv = convertView.findViewById(R.id.timeTv);
-            holder.typeTv = convertView.findViewById(R.id.typeTv);
-            holder.dataTv = convertView.findViewById(R.id.dataTv);
-            holder.typeIv = convertView.findViewById(R.id.typeIv);
-            holder.bottomLl = convertView.findViewById(R.id.bottomLl);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+            ((ViewHolder)holder).timeTv.setText(DateUtil.getStringDateFromSecond(sportData.time,"yyyy/MM/dd"));
+            ((ViewHolder)holder).dataTv.setText(String.format(Locale.ENGLISH,"%.1f kcal,%d min",((sportData.calorie+55)/100)/10f,sportData.sportTime/60));
+            if (sportTypeModel==null){
+                ((ViewHolder)holder).typeTv.setText(mContext.getString(R.string.outrun));
+                ((ViewHolder)holder).typeIv.setImageResource(R.mipmap.sport_outrun);
+            }else {
+                ((ViewHolder)holder).typeTv.setText(sportTypeModel.getSportStr());
+                ((ViewHolder)holder).typeIv.setImageResource(sportTypeModel.getType());
+            }
+
+            if (position==childList.size()-1)
+                ((ViewHolder)holder).bottomRl.setVisibility(View.VISIBLE);
+            else
+                ((ViewHolder)holder).bottomRl.setVisibility(View.GONE);
+
         }
+    }
 
-        final SportData result = childList.get(groupPosition).get(childPosition);
-        SportTypeModel sportTypeModel = MathUtil.newInstance().getSportType(result.type,mContext);
+    @Override
+    public int getItemCount() {
+        return childList.size();
+    }
 
-        holder.timeTv.setText(DateUtil.getStringDateFromSecond(result.time,"MM/dd"));
-        holder.dataTv.setText(String.format(Locale.ENGLISH,"%.1f kcal,%d min",((result.calorie+55)/100)/10f,result.sportTime/60));
-        if (sportTypeModel==null)
-            return convertView;
-        holder.typeTv.setText(sportTypeModel.getSportStr());
-        holder.typeIv.setImageResource(sportTypeModel.getType());
-
-        if (groupPosition==groupList.size()-1&&childPosition == childList.get(groupPosition).size()-1)
-            holder.bottomLl.setVisibility(View.VISIBLE);
+    @Override
+    public int getItemViewType(int position) {
+        SportData sportData = childList.get(position);
+        if (groupList.contains(sportData))
+            return 0;
         else
-            holder.bottomLl.setVisibility(View.GONE);
-        return convertView;
-
+            return 1;
     }
 
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
-    }
-
-    private static class ViewHolder {
+    private static class ViewHolder extends RecyclerView.ViewHolder{
+        View view;
         ImageView typeIv;
         TextView timeTv,typeTv,dataTv;
-        LinearLayout bottomLl;
+        RelativeLayout bottomRl;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            view = itemView;
+            timeTv = itemView.findViewById(R.id.timeTv);
+            typeTv = itemView.findViewById(R.id.typeTv);
+            dataTv = itemView.findViewById(R.id.dataTv);
+            typeIv = itemView.findViewById(R.id.typeIv);
+            bottomRl = itemView.findViewById(R.id.bottomRl);
+        }
     }
 
-    private static class GroupHolder{
+    private static class GroupHolder extends RecyclerView.ViewHolder{
         TextView timeTv;
+
+        public GroupHolder(@NonNull View itemView) {
+            super(itemView);
+            timeTv = itemView.findViewById(R.id.timeTv);
+        }
     }
 
 }

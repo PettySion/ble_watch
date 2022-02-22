@@ -29,22 +29,23 @@ public class StepWeekPresenterImpl implements IStepReportPresenter{
         calendar.setTimeInMillis(time*1000);
         calendar.set(Calendar.DAY_OF_WEEK,1);
         time = calendar.getTimeInMillis()/1000;
-        List<StepData> stepDataList = LoadDataUtil.newInstance().getStepWithWeek(time);
-        if (stepDataList.size()==0)
-            return;
 
-        List<ReportData> reportDataList = new ArrayList<>();
-        for (int i = 0;i<7;i++){
-            reportDataList.add(new ReportData(0,time+i*24*60*60));
-        }
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(mContext));
+        if (userModel==null)
+            return;
         int sum = 0;
         int allStep = 0;
         int allCalorie = 0;
         int allDistance = 0;
         int plan = 0;
         int max = 5;
-        for (StepData stepData:stepDataList){
+        List<ReportData> reportDataList = new ArrayList<>();
+        for (int i = 0;i<7;i++){
+            StepData stepData = LoadDataUtil.newInstance().getStepWithDay(time+i*24*60*60);
+            if (stepData == null||stepData.steps==0){
+                reportDataList.add(new ReportData(0,time+i*24*60*60));
+                continue;
+            }
             int step = stepData.steps;
             long stepTime = stepData.time;
             ReportData reportData = new ReportData(step,stepTime);
@@ -56,25 +57,24 @@ public class StepWeekPresenterImpl implements IStepReportPresenter{
                 max = stepData.steps;
             if (stepData.steps>userModel.stepsPlan)
                 plan++;
-            calendar.setTimeInMillis(stepTime*1000);
-            int week = calendar.get(Calendar.DAY_OF_WEEK);
-            reportDataList.set(week-1,reportData);
+            reportDataList.add(reportData);
+
         }
 
         if (iStepReportView!=null){
             iStepReportView.updateTableView(reportDataList,max);
-            if (sum!=0){
-                String step = String.format(Locale.ENGLISH,"%d steps",allStep/sum);
-                String calorieStr = String.format(Locale.ENGLISH,"%.1f kcal",((allCalorie/sum+55)/100)/10f);
-                String distanceStr = "";
-                if (userModel.unit == 0){
-                    distanceStr = String.format(Locale.ENGLISH,"%.2f km",(allDistance/sum+55)/100/100f);
-                }else {
-                    distanceStr = String.format(Locale.ENGLISH,"%.2f mile", MathUtil.newInstance().km2Miles(allDistance/sum/10));
-                }
-                String planStr = String.format(Locale.ENGLISH,"%.1f%%",plan/7f*100);
-                iStepReportView.updateStepView(step,calorieStr,distanceStr,planStr);
+
+            String step = String.format(Locale.ENGLISH,"%d steps",sum==0?0:allStep/sum);
+            String calorieStr = String.format(Locale.ENGLISH,"%.1f kcal",((sum==0?0:allCalorie/sum+55)/100)/10f);
+            String distanceStr = "";
+            if (userModel.unit == 0){
+                distanceStr = String.format(Locale.ENGLISH,"%.2f km",(sum==0?0:allDistance/sum+55)/100/100f);
+            }else {
+                distanceStr = String.format(Locale.ENGLISH,"%.2f mile", MathUtil.newInstance().km2Miles(sum==0?0:allDistance/sum/10));
             }
+            String planStr = String.format(Locale.ENGLISH,"%.1f%%",plan/7f*100);
+            iStepReportView.updateStepView(step,calorieStr,distanceStr,planStr);
+
         }
     }
 

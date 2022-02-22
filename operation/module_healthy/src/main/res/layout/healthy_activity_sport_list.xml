@@ -10,35 +10,43 @@
 
     <include layout="@layout/title"/>
 
-    <TextView
-        android:id="@+id/titleBigTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:textColor="@android:color/black"
-        android:textSize="35sp"
-        android:textStyle="bold"/>
-
-
-    <RelativeLayout
+    <com.szip.blewatch.base.View.MyScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ExpandableListView
-            android:id="@+id/sportList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleBigTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:childDivider="@android:color/transparent"
-            android:dividerHeight="5dp"
-            android:listSelector="@android:color/transparent" />
-
-    </RelativeLayout>
+            android:textColor="@android:color/black"
+            android:textSize="35sp"
+            android:textStyle="bold"/>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sportList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:listSelector="@android:color/transparent" />
 
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    </com.szip.blewatch.base.View.MyScrollView>
 
 </LinearLayout>

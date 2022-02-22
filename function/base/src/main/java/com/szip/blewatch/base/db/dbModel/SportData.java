@@ -158,6 +158,10 @@ public class SportData extends BaseModel implements Comparable<SportData>,Serial
 
     public SportData() {}
 
+    public SportData(long time) {
+        this.time = time;
+    }
+
     public SportData(long time, int sportTime, int distance, int calorie, int speed, int type, int heart, int stride) {
         this.time = time;
         this.sportTime = sportTime;

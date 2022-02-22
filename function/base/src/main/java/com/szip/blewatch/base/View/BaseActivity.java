@@ -1,28 +1,19 @@
 package com.szip.blewatch.base.View;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.szip.blewatch.base.Interfere.OnScrollListener;
 import com.szip.blewatch.base.R;
-import com.szip.blewatch.base.Util.LogUtil;
-import com.szip.blewatch.base.Util.MathUtil;
 
 
 /**
@@ -102,7 +93,7 @@ public class BaseActivity extends AppCompatActivity {
         return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private MyScrollView.OnScrollListener listener = new MyScrollView.OnScrollListener() {
+    private OnScrollListener listener = new OnScrollListener() {
         @Override
         public void onScroll(int scrollY) {
             if (titleTv!=null){
@@ -112,6 +103,12 @@ public class BaseActivity extends AppCompatActivity {
                     titleTv.setVisibility(View.GONE);
             }
         }
+
+        @Override
+        public void onLoadMost() {
+            loadMost();
+        }
     };
 
+    protected void loadMost(){}
 }

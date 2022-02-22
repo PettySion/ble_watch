@@ -1,14 +1,11 @@
 package com.szip.healthy.Activity.sleep;
 
-import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.szip.blewatch.base.Util.DateUtil;
-import com.szip.blewatch.base.View.BaseFragment;
 import com.szip.blewatch.base.View.BaseLazyLoadingFragment;
-import com.szip.healthy.Activity.step.StepDayPresenterImpl;
 import com.szip.healthy.Model.ReportData;
 import com.szip.healthy.R;
 import com.szip.healthy.View.ReportTableView;
@@ -44,7 +41,7 @@ public class SleepDayFragment extends BaseLazyLoadingFragment implements ISleepR
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
         iSleepReportPresenter = new SleepDayPresenterImpl(getActivity().getApplicationContext(),this);
-        iSleepReportPresenter.loadSleep(DateUtil.getTimeOfToday());
+        iSleepReportPresenter.loadData(DateUtil.getTimeOfToday());
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 
 public class RectProgressBar extends View {
@@ -59,7 +60,8 @@ public class RectProgressBar extends View {
     }
 
     public void setRatio(float ratio) {
-        this.ratio = ratio;
+        LogUtil.getInstance().logd("data******","ratio = "+ratio);
+        this.ratio = ratio/100f;
         postInvalidate();
     }
 }

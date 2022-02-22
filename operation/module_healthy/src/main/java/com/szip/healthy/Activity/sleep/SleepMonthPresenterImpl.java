@@ -26,7 +26,7 @@ public class SleepMonthPresenterImpl implements ISleepReportPresenter{
     }
 
     @Override
-    public void loadSleep(long time) {
+    public void loadData(long time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time*1000);
         calendar.set(Calendar.DAY_OF_MONTH,1);
@@ -35,13 +35,9 @@ public class SleepMonthPresenterImpl implements ISleepReportPresenter{
         calendar.add(Calendar.HOUR_OF_DAY,-1);
         int dataSize = calendar.get(Calendar.DAY_OF_MONTH);
 
-        List<SleepData> sleepList = LoadDataUtil.newInstance().getSleepWithMonth(time,time+dataSize*24*60*60);
-        if (sleepList.size()==0)
-            return;
-        List<ReportData> reportDataList = new ArrayList<>();
-        for (int i = 0;i<dataSize;i++){
-            reportDataList.add(new ReportData(0,time+i*24*60*60));
-        }
+//        List<SleepData> sleepList = LoadDataUtil.newInstance().getSleepWithMonth(time,time+dataSize*24*60*60);
+//        if (sleepList.size()==0)
+//            return;
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(mContext));
         if (userModel==null)
             return;
@@ -51,9 +47,14 @@ public class SleepMonthPresenterImpl implements ISleepReportPresenter{
         int allSleep = 0;
         int plan = 0;
         int max = 300;
-        for (SleepData sleepData:sleepList){
-            long sleepTime = sleepData.time;
-            ReportData reportData = new ReportData((sleepData.deepTime+sleepData.lightTime),0,sleepData.lightTime,sleepTime);
+        List<ReportData> reportDataList = new ArrayList<>();
+        for (int i = 0;i<dataSize;i++){
+            SleepData sleepData = LoadDataUtil.newInstance().getSleepWithDay(time+i*24*60*60);
+            if (sleepData == null||(sleepData.deepTime+sleepData.lightTime)==0){
+                reportDataList.add(new ReportData(0,time+i*24*60*60));
+                continue;
+            }
+            ReportData reportData = new ReportData((sleepData.deepTime+sleepData.lightTime),0,sleepData.lightTime,sleepData.time);
             sum++;
             allDeep+=sleepData.deepTime;
             allLight+=sleepData.lightTime;
@@ -62,9 +63,7 @@ public class SleepMonthPresenterImpl implements ISleepReportPresenter{
                 max = (sleepData.deepTime+sleepData.lightTime);
             if ((sleepData.deepTime+sleepData.lightTime)>userModel.sleepPlan)
                 plan++;
-            calendar.setTimeInMillis(sleepTime*1000);
-            int month = calendar.get(Calendar.DAY_OF_MONTH);
-            reportDataList.set(month-1,reportData);
+            reportDataList.add(reportData);
         }
 
         if (iSleepReportView!=null){

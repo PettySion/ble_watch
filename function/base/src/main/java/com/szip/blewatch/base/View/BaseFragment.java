@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.szip.blewatch.base.Interfere.OnScrollListener;
 import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.Util.LogUtil;
 
@@ -71,7 +72,7 @@ public abstract class BaseFragment extends Fragment {
         myScrollView.setOnScrollListener(listener);
     }
 
-    private MyScrollView.OnScrollListener listener = new MyScrollView.OnScrollListener() {
+    private OnScrollListener listener = new OnScrollListener() {
         @Override
         public void onScroll(int scrollY) {
             if (titleTv!=null){
@@ -80,6 +81,11 @@ public abstract class BaseFragment extends Fragment {
                 else
                     titleTv.setVisibility(View.GONE);
             }
+        }
+
+        @Override
+        public void onLoadMost() {
+
         }
     };
 }

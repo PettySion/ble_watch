@@ -44,5 +44,25 @@
     <string name="healthy_heart_average">平均心率</string>
     <string name="healthy_heart_max">最高心率</string>
     <string name="healthy_heart_min">最低心率</string>
-
+    <string name="healthy_heart_level">心率分布</string>
+    <string name="healthy_heart1">极限(≥161)</string>
+    <string name="healthy_heart2">无氧(149~160)</string>
+    <string name="healthy_heart3">有氧(131~138)</string>
+    <string name="healthy_heart4">燃脂(112~130)</string>
+    <string name="healthy_heart5">热身(90~111)</string>
+    <string name="healthy_heart6">放松(≤89)</string>
+    <string name="healthy_spo_average">平均血氧值</string>
+    <string name="healthy_spo_max">最高血氧值</string>
+    <string name="healthy_spo_min">最低血氧值</string>
+    <string name="healthy_spo_measure_list">测量记录</string>
+    <string name="healthy_spo_measure_info">测量记录详情</string>
+    <string name="healthy_spo_abnormal">出现缺氧次数</string>
+    <string name="healthy_temp_abnormal">出现发热次数</string>
+    <string name="healthy_temp_average">平均体温</string>
+    <string name="healthy_temp_max">最高体温</string>
+    <string name="healthy_temp_min">最低体温</string>
+    <string name="healthy_sbp_average">平均收缩压</string>
+    <string name="healthy_dbp_average">平均舒张压</string>
+    <string name="healthy_bp_abnormal">血压异常次数</string>
+    <string name="healthy_unit">%d次</string>
 </resources>

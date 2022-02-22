@@ -16,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.szip.blewatch.base.Interfere.OnScrollListener;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.View.MyScrollView;
 import com.szip.blewatch.base.db.dbModel.SportData;
@@ -198,7 +199,7 @@ public class SportResultActivity extends BaseActivity implements ISportResultVie
         iMapUtil.addPolyline();
     }
 
-    private MyScrollView.OnScrollListener listener = new MyScrollView.OnScrollListener() {
+    private OnScrollListener listener = new OnScrollListener() {
         @Override
         public void onScroll(int scrollY) {
             int alpha = 0;
@@ -206,6 +207,11 @@ public class SportResultActivity extends BaseActivity implements ISportResultVie
             if (alpha>255)
                 alpha = 255;
             backgroundView.getBackground().setAlpha(alpha);
+        }
+
+        @Override
+        public void onLoadMost() {
+
         }
     };
 

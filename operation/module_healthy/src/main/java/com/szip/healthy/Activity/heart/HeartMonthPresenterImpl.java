@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class HeartMonthPresenterImpl implements IHeartPresenter{
     private Context mContext;
@@ -23,7 +24,7 @@ public class HeartMonthPresenterImpl implements IHeartPresenter{
     }
 
     @Override
-    public void loadDate(long time) {
+    public void loadData(long time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time*1000);
         calendar.set(Calendar.DAY_OF_MONTH,1);
@@ -33,35 +34,42 @@ public class HeartMonthPresenterImpl implements IHeartPresenter{
         int dataSize = calendar.get(Calendar.DAY_OF_MONTH);
         List<ReportData> reportDataList = new ArrayList<>();
         int allMax = 0;
+        int allMin = 1000;
+        int allSum = 0;
+        int allHeart = 0;
         for (int i = 0;i<dataSize;i++){
             List<HeartData> heartDataList = LoadDataUtil.newInstance().getHeartWithDay(time+i*24*60*60);
             if (heartDataList.size() == 0){
                 reportDataList.add(new ReportData(0,0,0,time+i*24*60*60));
                 continue;
             }
-            int allHeart = 0;
+            int heart = 0;
             int sum = 0;
             int min = 0;
             int max = 0;
             for (int a = 0;a<heartDataList.size();a++){
                 HeartData heartData = heartDataList.get(a);
-                LogUtil.getInstance().logd("data******","heart = "+heartData.averageHeart+
-                        " ;time = "+ DateUtil.getStringDateFromSecond(heartData.time,"yyyy/MM/dd HH:mm:ss"));
                 sum++;
+                allSum++;
+                heart+=heartData.averageHeart;
                 allHeart+=heartData.averageHeart;
             }
             Collections.sort(heartDataList);
             min = heartDataList.get(0).averageHeart;
             max = heartDataList.get(heartDataList.size()-1).averageHeart;
-            LogUtil.getInstance().logd("data******","max = "+max+
-                    " ;min = "+ min);
 
             if (max>allMax)
                 allMax = max;
-            reportDataList.add(new ReportData(allHeart/sum,max,min,time+i*24*60*60));
+            if (min<allMin)
+                allMin = min;
+            reportDataList.add(new ReportData(heart/sum,max,min,time+i*24*60*60));
         }
         if (iHeartView!=null){
             iHeartView.updateTable(reportDataList,allMax);
+            String maxStr = String.format(Locale.ENGLISH,"%d Bpm",allMax);
+            String minStr = String.format(Locale.ENGLISH,"%d Bpm",allMin);
+            String averageStr = String.format(Locale.ENGLISH,"%d Bpm",allSum==0?0:allHeart/allSum);
+            iHeartView.updateView(averageStr,maxStr,minStr);
         }
 
     }

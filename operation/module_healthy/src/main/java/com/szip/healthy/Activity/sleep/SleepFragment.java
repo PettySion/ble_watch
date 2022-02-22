@@ -44,7 +44,7 @@ public class SleepFragment extends BaseLazyLoadingFragment implements ISleepRepo
             iSleepReportPresenter = new SleepWeekPresenterImpl(getActivity().getApplicationContext(),this);
         else
             iSleepReportPresenter = new SleepMonthPresenterImpl(getActivity().getApplicationContext(),this);
-        iSleepReportPresenter.loadSleep(DateUtil.getTimeOfToday());
+        iSleepReportPresenter.loadData(DateUtil.getTimeOfToday());
     }
 
     @Override

@@ -44,7 +44,7 @@ public class BloodOxygenData extends BaseModel implements Comparable<BloodOxygen
 
     @Override
     public int compareTo(@NonNull BloodOxygenData o) {
-        return (int)(this.time-o.time);
+        return (int)(this.bloodOxygenData-o.bloodOxygenData);
     }
 
 

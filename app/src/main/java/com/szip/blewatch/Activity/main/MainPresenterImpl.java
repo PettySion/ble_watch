@@ -22,10 +22,9 @@ import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.db.LoadDataUtil;
-import com.szip.consult.fragment.ConsultFragment;
-import com.szip.healthy.Fragment.HealthyFragment;
-import com.szip.sport.Fragment.SportFragment;
-import com.szip.user.Fragment.MineFragment;
+import com.szip.healthy.ModuleMain.HealthyFragment;
+import com.szip.sport.ModuleMain.SportFragment;
+import com.szip.user.ModuleMain.MineFragment;
 
 import java.util.ArrayList;
 

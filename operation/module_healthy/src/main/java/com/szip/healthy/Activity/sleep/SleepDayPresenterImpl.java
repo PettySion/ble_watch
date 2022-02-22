@@ -20,7 +20,7 @@ public class SleepDayPresenterImpl implements ISleepReportPresenter{
     }
 
     @Override
-    public void loadSleep(long time) {
+    public void loadData(long time) {
         SleepData sleepData = LoadDataUtil.newInstance().getSleepWithDay(time);
         if (sleepData==null)
             return;

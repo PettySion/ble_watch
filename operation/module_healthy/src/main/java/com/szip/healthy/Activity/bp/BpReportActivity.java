@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.tabs.TabLayout;
+import com.szip.blewatch.base.Const.ReportConst;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.healthy.Adapter.MyPagerAdapter;
 import com.szip.healthy.R;
@@ -46,9 +47,9 @@ public class BpReportActivity extends BaseActivity {
 
         ArrayList<Fragment> fragments = new ArrayList<>();
         // 创建一个集合,装填Fragment
-        BpDayFragment dayFragment =  new BpDayFragment();
-        BpWeekFragment weekFragment =  new BpWeekFragment();
-        BpMonthFragment monthFragment =  new BpMonthFragment();
+        BpFragment dayFragment =  new BpFragment(ReportConst.REPORT_DAY);
+        BpFragment weekFragment =  new BpFragment(ReportConst.REPORT_WEEK);
+        BpFragment monthFragment =  new BpFragment(ReportConst.REPORT_MONTH);
         // 装填
         fragments.add(dayFragment);
         fragments.add(weekFragment);

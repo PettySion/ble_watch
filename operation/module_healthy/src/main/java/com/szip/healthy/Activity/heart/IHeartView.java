@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IHeartView {
     void updateTable(List<ReportData> reportDataList, int max);
+    void updateView(String average,String max,String min);
+    void updateHeartLevel(int []date,int size);
 }
