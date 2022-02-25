@@ -27,17 +27,39 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.szip.blewatch.base.Const.SportConst;
 import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.Model.SportTypeModel;
+import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
+import com.szip.blewatch.base.db.dbModel.AnimalHeatData_Table;
+import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
+import com.szip.blewatch.base.db.dbModel.BloodOxygenData_Table;
+import com.szip.blewatch.base.db.dbModel.BloodPressureData;
+import com.szip.blewatch.base.db.dbModel.BloodPressureData_Table;
+import com.szip.blewatch.base.db.dbModel.EcgData;
+import com.szip.blewatch.base.db.dbModel.EcgData_Table;
+import com.szip.blewatch.base.db.dbModel.HeartData;
+import com.szip.blewatch.base.db.dbModel.HeartData_Table;
+import com.szip.blewatch.base.db.dbModel.SleepData;
+import com.szip.blewatch.base.db.dbModel.SleepData_Table;
+import com.szip.blewatch.base.db.dbModel.SportData;
+import com.szip.blewatch.base.db.dbModel.SportData_Table;
+import com.szip.blewatch.base.db.dbModel.StepData;
+import com.szip.blewatch.base.db.dbModel.StepData_Table;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -556,168 +578,168 @@ public class MathUtil {
 //                heartStr.toString().substring(1));
 //    }
 //
-//    /**
-//     * 把手表的数据换成json格式字符串用于上传到服务器
-//     * */
-//    public String getStringWithJson(SharedPreferences sharedPreferences){
-//
-//        long lastTime = sharedPreferences.getLong("lastTime",0);
-//        long lastTimeBp = sharedPreferences.getLong("lastTimeBp",0);
-//        long lastTimeBo = sharedPreferences.getLong("lastTimeBo",0);
-//        long lastTimeEcg = sharedPreferences.getLong("lastTimeEcg",0);
-//        long lastTimeSport = sharedPreferences.getLong("lastTimeSport",0);
-//        long lastTimeAh = sharedPreferences.getLong("lastTimeAh",0);
-//
-//
-//
-//        List<StepData> stepDataList = SQLite.select()
-//                .from(StepData.class)
-//                .where(StepData_Table.time.greaterThanOrEq(lastTime))
-//                .queryList();
-//
-//        List<SleepData> sleepDataList = SQLite.select()
-//                .from(SleepData.class)
-//                .where(SleepData_Table.time.greaterThanOrEq(lastTime))
-//                .queryList();
-//
-//        List<HeartData> heartDataList = SQLite.select()
-//                .from(HeartData.class)
-//                .where(HeartData_Table.time.greaterThanOrEq(lastTime))
-//                .queryList();
-//
-//        List<BloodPressureData> bloodPressureDataList = SQLite.select()
-//                .from(BloodPressureData.class)
-//                .where(BloodPressureData_Table.time.greaterThan(lastTimeBp))
-//                .queryList();
-//
-//        List<BloodOxygenData> bloodOxygenDataList = SQLite.select()
-//                .from(BloodOxygenData.class)
-//                .where(BloodOxygenData_Table.time.greaterThan(lastTimeBo))
-//                .queryList();
-//
-//        List<EcgData> ecgDataList = SQLite.select()
-//                .from(EcgData.class)
-//                .where(EcgData_Table.time.greaterThan(lastTimeEcg))
-//                .queryList();
-//
-//        List<SportData> sportDataList = SQLite.select()
-//                .from(SportData.class)
-//                .where(SportData_Table.time.greaterThan(lastTimeSport))
-//                .queryList();
-//
-//        List<AnimalHeatData> animalHeatDataList = SQLite.select()
-//                .from(AnimalHeatData.class)
-//                .where(AnimalHeatData_Table.time.greaterThan(lastTimeAh))
-//                .queryList();
-//        JSONArray array = new JSONArray();
-//        JSONObject data = new JSONObject();
-//
-//        /**
-//         * 遍历数据库里面的数据
-//         * */
-//        try {
-//            for (int i = 0;i<bloodOxygenDataList.size();i++){
-//                JSONObject object = new JSONObject();
-//                object.put("time",bloodOxygenDataList.get(i).time);
-//                object.put("bloodOxygenData",bloodOxygenDataList.get(i).bloodOxygenData);
-//                array.put(object);
-//            }
-//            data.put("bloodOxygenDataList",array);
-//
-//            array = new JSONArray();
-//            for (int i = 0;i<bloodPressureDataList.size();i++){
-//                JSONObject object = new JSONObject();
-//                object.put("time",bloodPressureDataList.get(i).time);
-//                object.put("sbpDate",bloodPressureDataList.get(i).sbpDate);
-//                object.put("dbpDate",bloodPressureDataList.get(i).dbpDate);
-//                array.put(object);
-//            }
-//            data.put("bloodPressureDataList",array);
-//
-//            array = new JSONArray();
-//            for (int i = 0;i<ecgDataList.size();i++){
-//                JSONObject object = new JSONObject();
-//                object.put("time",ecgDataList.get(i).time);
-//                object.put("heart",ecgDataList.get(i).heart);
-//                array.put(object);
-//            }
-//            data.put("ecgDataList",array);
-//
-//            array = new JSONArray();
-//            for (int i = 0;i<heartDataList.size();i++){
-//                JSONObject object = new JSONObject();
-//                object.put("time",heartDataList.get(i).time);
-//                object.put("averageHeart",heartDataList.get(i).averageHeart);
-//                object.put("heartArray",heartDataList.get(i).getHeartArray());
-//                array.put(object);
-//            }
-//            data.put("heartDataList",array);
-//
-//            array = new JSONArray();
-//            for (int i = 0;i<sleepDataList.size();i++){
-//                JSONObject object = new JSONObject();
-//                object.put("time",sleepDataList.get(i).time);
-//                object.put("deepTime",sleepDataList.get(i).deepTime);
-//                object.put("lightTime",sleepDataList.get(i).lightTime);
-//                object.put("dataForHour",sleepDataList.get(i).dataForHour);
-//                array.put(object);
-//            }
-//            data.put("sleepDataList",array);
-//
-//            array = new JSONArray();
-//            for (int i = 0;i<sportDataList.size();i++){
-//                JSONObject object = new JSONObject();
-//                object.put("type",sportDataList.get(i).type);
-//                object.put("time",sportDataList.get(i).time);
-//                object.put("sportTime",sportDataList.get(i).sportTime);
-//                object.put("distance",sportDataList.get(i).distance);
-//                object.put("calorie",sportDataList.get(i).calorie);
-//                object.put("speed",sportDataList.get(i).speed);
-//                object.put("speedArray",sportDataList.get(i).speedArray);
-//                object.put("heart",sportDataList.get(i).heart);
-//                object.put("heartArray",sportDataList.get(i).heartArray);
-//                object.put("stride",sportDataList.get(i).stride);
-//                object.put("strideArray",sportDataList.get(i).strideArray);
-//                object.put("step",sportDataList.get(i).step);
-//                object.put("altitude",sportDataList.get(i).altitude);
-//                object.put("altitudeArray",sportDataList.get(i).altitudeArray);
-//                object.put("temp",sportDataList.get(i).temp);
-//                object.put("tempArray",sportDataList.get(i).tempArray);
-//                object.put("height",sportDataList.get(i).height);
-//                object.put("speedPerHour",sportDataList.get(i).speedPerHour);
-//                object.put("speedPerHourArray",sportDataList.get(i).speedPerHourArray);
-//                object.put("lngArray",sportDataList.get(i).lngArray);
-//                object.put("latArray",sportDataList.get(i).latArray);
-//                array.put(object);
-//            }
-//            data.put("sportDataList",array);
-//
-//            array = new JSONArray();
-//            for (int i = 0;i<stepDataList.size();i++){
-//                JSONObject object = new JSONObject();
-//                object.put("time",stepDataList.get(i).time);
-//                object.put("steps",stepDataList.get(i).steps);
-//                object.put("distance",stepDataList.get(i).distance);
-//                object.put("calorie",stepDataList.get(i).calorie);
-//                object.put("dataForHour",stepDataList.get(i).dataForHour);
-//                array.put(object);
-//            }
-//            data.put("stepDataList",array);
-//
-//            array = new JSONArray();
-//            for (int i = 0;i<animalHeatDataList.size();i++){
-//                JSONObject object = new JSONObject();
-//                object.put("time",animalHeatDataList.get(i).time);
-//                object.put("tempData",animalHeatDataList.get(i).tempData);
-//                array.put(object);
-//            }
-//            data.put("tempDataList",array);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        Log.d("TOKENSZIP******","array = "+data.toString());
-//        return data.toString();
-//    }
+    /**
+     * 把手表的数据换成json格式字符串用于上传到服务器
+     * */
+    public String getStringWithJson(SharedPreferences sharedPreferences){
+
+        long lastTime = sharedPreferences.getLong("lastTime",0);
+        long lastTimeBp = sharedPreferences.getLong("lastTimeBp",0);
+        long lastTimeBo = sharedPreferences.getLong("lastTimeBo",0);
+        long lastTimeEcg = sharedPreferences.getLong("lastTimeEcg",0);
+        long lastTimeSport = sharedPreferences.getLong("lastTimeSport",0);
+        long lastTimeAh = sharedPreferences.getLong("lastTimeAh",0);
+
+
+
+        List<StepData> stepDataList = SQLite.select()
+                .from(StepData.class)
+                .where(StepData_Table.time.greaterThanOrEq(lastTime))
+                .queryList();
+
+        List<SleepData> sleepDataList = SQLite.select()
+                .from(SleepData.class)
+                .where(SleepData_Table.time.greaterThanOrEq(lastTime))
+                .queryList();
+
+        List<HeartData> heartDataList = SQLite.select()
+                .from(HeartData.class)
+                .where(HeartData_Table.time.greaterThanOrEq(lastTime))
+                .queryList();
+
+        List<BloodPressureData> bloodPressureDataList = SQLite.select()
+                .from(BloodPressureData.class)
+                .where(BloodPressureData_Table.time.greaterThan(lastTimeBp))
+                .queryList();
+
+        List<BloodOxygenData> bloodOxygenDataList = SQLite.select()
+                .from(BloodOxygenData.class)
+                .where(BloodOxygenData_Table.time.greaterThan(lastTimeBo))
+                .queryList();
+
+        List<EcgData> ecgDataList = SQLite.select()
+                .from(EcgData.class)
+                .where(EcgData_Table.time.greaterThan(lastTimeEcg))
+                .queryList();
+
+        List<SportData> sportDataList = SQLite.select()
+                .from(SportData.class)
+                .where(SportData_Table.time.greaterThan(lastTimeSport))
+                .queryList();
+
+        List<AnimalHeatData> animalHeatDataList = SQLite.select()
+                .from(AnimalHeatData.class)
+                .where(AnimalHeatData_Table.time.greaterThan(lastTimeAh))
+                .queryList();
+        JSONArray array = new JSONArray();
+        JSONObject data = new JSONObject();
+
+        /**
+         * 遍历数据库里面的数据
+         * */
+        try {
+            for (int i = 0;i<bloodOxygenDataList.size();i++){
+                JSONObject object = new JSONObject();
+                object.put("time",bloodOxygenDataList.get(i).time);
+                object.put("bloodOxygenData",bloodOxygenDataList.get(i).bloodOxygenData);
+                array.put(object);
+            }
+            data.put("bloodOxygenDataList",array);
+
+            array = new JSONArray();
+            for (int i = 0;i<bloodPressureDataList.size();i++){
+                JSONObject object = new JSONObject();
+                object.put("time",bloodPressureDataList.get(i).time);
+                object.put("sbpDate",bloodPressureDataList.get(i).sbpDate);
+                object.put("dbpDate",bloodPressureDataList.get(i).dbpDate);
+                array.put(object);
+            }
+            data.put("bloodPressureDataList",array);
+
+            array = new JSONArray();
+            for (int i = 0;i<ecgDataList.size();i++){
+                JSONObject object = new JSONObject();
+                object.put("time",ecgDataList.get(i).time);
+                object.put("heart",ecgDataList.get(i).heart);
+                array.put(object);
+            }
+            data.put("ecgDataList",array);
+
+            array = new JSONArray();
+            for (int i = 0;i<heartDataList.size();i++){
+                JSONObject object = new JSONObject();
+                object.put("time",heartDataList.get(i).time);
+                object.put("averageHeart",heartDataList.get(i).averageHeart);
+                object.put("heartArray",heartDataList.get(i).getHeartArray());
+                array.put(object);
+            }
+            data.put("heartDataList",array);
+
+            array = new JSONArray();
+            for (int i = 0;i<sleepDataList.size();i++){
+                JSONObject object = new JSONObject();
+                object.put("time",sleepDataList.get(i).time);
+                object.put("deepTime",sleepDataList.get(i).deepTime);
+                object.put("lightTime",sleepDataList.get(i).lightTime);
+                object.put("dataForHour",sleepDataList.get(i).dataForHour);
+                array.put(object);
+            }
+            data.put("sleepDataList",array);
+
+            array = new JSONArray();
+            for (int i = 0;i<sportDataList.size();i++){
+                JSONObject object = new JSONObject();
+                object.put("type",sportDataList.get(i).type);
+                object.put("time",sportDataList.get(i).time);
+                object.put("sportTime",sportDataList.get(i).sportTime);
+                object.put("distance",sportDataList.get(i).distance);
+                object.put("calorie",sportDataList.get(i).calorie);
+                object.put("speed",sportDataList.get(i).speed);
+                object.put("speedArray",sportDataList.get(i).speedArray);
+                object.put("heart",sportDataList.get(i).heart);
+                object.put("heartArray",sportDataList.get(i).heartArray);
+                object.put("stride",sportDataList.get(i).stride);
+                object.put("strideArray",sportDataList.get(i).strideArray);
+                object.put("step",sportDataList.get(i).step);
+                object.put("altitude",sportDataList.get(i).altitude);
+                object.put("altitudeArray",sportDataList.get(i).altitudeArray);
+                object.put("temp",sportDataList.get(i).temp);
+                object.put("tempArray",sportDataList.get(i).tempArray);
+                object.put("height",sportDataList.get(i).height);
+                object.put("speedPerHour",sportDataList.get(i).speedPerHour);
+                object.put("speedPerHourArray",sportDataList.get(i).speedPerHourArray);
+                object.put("lngArray",sportDataList.get(i).lngArray);
+                object.put("latArray",sportDataList.get(i).latArray);
+                array.put(object);
+            }
+            data.put("sportDataList",array);
+
+            array = new JSONArray();
+            for (int i = 0;i<stepDataList.size();i++){
+                JSONObject object = new JSONObject();
+                object.put("time",stepDataList.get(i).time);
+                object.put("steps",stepDataList.get(i).steps);
+                object.put("distance",stepDataList.get(i).distance);
+                object.put("calorie",stepDataList.get(i).calorie);
+                object.put("dataForHour",stepDataList.get(i).dataForHour);
+                array.put(object);
+            }
+            data.put("stepDataList",array);
+
+            array = new JSONArray();
+            for (int i = 0;i<animalHeatDataList.size();i++){
+                JSONObject object = new JSONObject();
+                object.put("time",animalHeatDataList.get(i).time);
+                object.put("tempData",animalHeatDataList.get(i).tempData);
+                array.put(object);
+            }
+            data.put("tempDataList",array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("TOKENSZIP******","array = "+data.toString());
+        return data.toString();
+    }
 
 
     /**
@@ -819,7 +841,7 @@ public class MathUtil {
 
     public String getToken(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(FILE,MODE_PRIVATE);
-        return sharedPreferences.getString("token","");
+        return sharedPreferences.getString("token",null);
     }
 
     public long getUserId(Context context){
@@ -829,7 +851,7 @@ public class MathUtil {
 
     public boolean needLogin(Context context){
         String token = getToken(context);
-        if (token.equals("")){
+        if (token==null){
             MyAlerDialog.getSingle().showAlerDialog(context.getString(R.string.tip),
                     context.getString(R.string.login_tip), context.getString(R.string.confirm),
                     context.getString(R.string.cancel),

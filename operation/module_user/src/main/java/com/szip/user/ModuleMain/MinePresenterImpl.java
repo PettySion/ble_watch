@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.szip.blewatch.base.Const.BroadcastConst;
+import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
+import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
+import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.user.Utils.HttpMessageUtil;
 import com.zhy.http.okhttp.BaseApi;
@@ -31,9 +34,9 @@ public class MinePresenterImpl implements IMinePresenter{
         userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(context));
         if (userModel!=null){
             if (userModel.deviceCode==null){
-                iMineView.initUserInfo(false);
+                iMineView.updateUserInfo(false);
             }else {
-                iMineView.initUserInfo(true);
+                iMineView.updateUserInfo(true);
                 Intent intent = new Intent(BroadcastConst.START_CONNECT_DEVICE);
                 intent.putExtra("isConnect",1);
                 context.sendBroadcast(intent);
@@ -41,7 +44,7 @@ public class MinePresenterImpl implements IMinePresenter{
                 getDeviceData();
             }
         }else {
-            iMineView.initUserInfo(false);
+            iMineView.updateUserInfo(false);
         }
     }
 
@@ -56,9 +59,28 @@ public class MinePresenterImpl implements IMinePresenter{
     private void getDeviceData(){
         int step = 0;
         int sleep = 0;
-        SportWatchAppFunctionConfigDTO sportWatchAppFunctionConfigDTO;
-        sportWatchAppFunctionConfigDTO = LoadDataUtil.newInstance().getSportConfig(userModel.id);
-        iMineView.updateDeviceView(step,sleep,0,sportWatchAppFunctionConfigDTO);
+        int calorie = 0;
+        StepData stepData = LoadDataUtil.newInstance().getStepWithDay(DateUtil.getTimeOfToday());
+        if (stepData==null){
+            step = 0;
+            calorie = 0;
+        } else {
+            step = stepData.steps;
+            calorie = stepData.calorie;
+        }
+
+
+        SleepData sleepData = LoadDataUtil.newInstance().getSleepWithDay(DateUtil.getTimeOfToday());
+        if (sleepData==null)
+            sleep = 0;
+        else
+            sleep = sleepData.getDeepTime()+sleepData.getLightTime();
+        SportWatchAppFunctionConfigDTO sportWatchAppFunctionConfigDTO = LoadDataUtil.newInstance().getSportConfig(userModel.id);
+        if (sportWatchAppFunctionConfigDTO == null)
+            return;
+
+
+        iMineView.updateDeviceView(step,sleep,calorie,userModel.stepsPlan,userModel.sleepPlan,0,sportWatchAppFunctionConfigDTO);
     }
 
     private GenericsCallback<BaseApi> callback = new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {

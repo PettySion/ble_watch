@@ -20,5 +20,10 @@
     <string name="ping">Ping Pong</string>
     <string name="football">Football</string>
     <string name="climb">Climb</string>
-    <string name="login_tip">需要登陆才可以进行下一步操作，请问是否现在登陆？</string>
+    <string name="login_tip">You need to log in to proceed with the next operation. Do you want to log in now?</string>
+
+    <string name="save_success">Save Success</string>
+    <string name="waiting">Waiting...</string>
+    <string name="http_error">Network reply timed out. Please check the network connection status</string>
+    <string name="user_upload_data">Data Uploading...</string>
 </resources>

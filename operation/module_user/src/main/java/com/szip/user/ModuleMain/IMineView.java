@@ -4,7 +4,7 @@ import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 
 public interface IMineView {
-    void initUserInfo(boolean userVisible);
+    void updateUserInfo(boolean userVisible);
     void updateUserView(UserModel userModel);
-    void updateDeviceView(int step, int sleep, int calorie, SportWatchAppFunctionConfigDTO device);
+    void updateDeviceView(int step, int sleep, int calorie,int stepPlan,int sleepPlan,int caloriePlan, SportWatchAppFunctionConfigDTO device);
 }

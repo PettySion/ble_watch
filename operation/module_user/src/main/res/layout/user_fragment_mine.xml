@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none">
@@ -8,7 +9,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/bgColor">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="47dp"/>
 
 
         <RelativeLayout
@@ -20,16 +26,19 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginStart="15dp"
-                android:src="@mipmap/cp_icon_clear_all"/>
+                android:src="@mipmap/my_head_58"
+                app:is_circular="true"/>
 
             <TextView
                 android:id="@+id/nameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/user_user_name"
+                android:text="@string/user_name"
                 android:layout_toRightOf="@id/iconIv"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"/>
 
 
             <ImageView
@@ -39,7 +48,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="15dp"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/cp_icon_clear_all"/>
+                android:src="@mipmap/my_setting"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -102,8 +111,8 @@
 
 
                     <LinearLayout
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:orientation="vertical"
                         android:background="@drawable/bg_white_corner_gray"
                         android:layout_marginStart="15dp">
@@ -112,7 +121,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@mipmap/cp_icon_empty"
+                            android:src="@mipmap/my_target_steps"
                             android:layout_marginTop="30dp"/>
 
                         <TextView
@@ -129,32 +138,34 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"/>
 
-                        <SeekBar
+                        <com.szip.user.View.RoundProgressBar
                             android:id="@+id/stepSb"
                             android:layout_width="match_parent"
-                            android:layout_height="5dp"
+                            android:layout_height="8dp"
                             android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp" />
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="5dp"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginTop="5dp">
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp">
 
                             <TextView
                                 android:id="@+id/stepDataTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="sss"/>
+                                android:textSize="10sp"/>
 
                             <TextView
                                 android:id="@+id/stepRateTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                android:text="sss"/>
+                                android:textSize="10sp"/>
 
                         </RelativeLayout>
 
@@ -163,8 +174,8 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:orientation="vertical"
                         android:background="@drawable/bg_white_corner_gray"
                         android:layout_marginStart="15dp">
@@ -173,7 +184,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@mipmap/cp_icon_empty"
+                            android:src="@mipmap/my_target_sleep"
                             android:layout_marginTop="30dp"/>
 
                         <TextView
@@ -190,32 +201,34 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"/>
 
-                        <SeekBar
+                        <com.szip.user.View.RoundProgressBar
                             android:id="@+id/sleepSb"
                             android:layout_width="match_parent"
-                            android:layout_height="5dp"
+                            android:layout_height="8dp"
                             android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp" />
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="5dp"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginTop="5dp">
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp">
 
                             <TextView
                                 android:id="@+id/sleepDataTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="sss"/>
+                                android:textSize="10sp"/>
 
                             <TextView
                                 android:id="@+id/sleepRateTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                android:text="sss"/>
+                                android:textSize="10sp"/>
 
                         </RelativeLayout>
 
@@ -224,8 +237,8 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:orientation="vertical"
                         android:background="@drawable/bg_white_corner_gray"
                         android:layout_marginStart="15dp"
@@ -235,7 +248,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@mipmap/cp_icon_empty"
+                            android:src="@mipmap/my_target_kcal"
                             android:layout_marginTop="30dp"/>
 
                         <TextView
@@ -252,32 +265,34 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"/>
 
-                        <SeekBar
+                        <com.szip.user.View.RoundProgressBar
                             android:id="@+id/calorieSb"
                             android:layout_width="match_parent"
-                            android:layout_height="5dp"
+                            android:layout_height="8dp"
                             android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp" />
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="5dp"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginTop="5dp">
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp">
 
                             <TextView
                                 android:id="@+id/calorieDataTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="sss"/>
+                                android:textSize="10sp"/>
 
                             <TextView
                                 android:id="@+id/calorieRateTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                android:text="sss"/>
+                                android:textSize="10sp"/>
 
                         </RelativeLayout>
 
@@ -305,11 +320,11 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp">
 
-                    <com.szip.blewatch.base.View.CircularImageView
+                    <ImageView
                         android:id="@+id/watchIv"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@mipmap/cp_icon_empty"/>
+                        android:src="@mipmap/my_device"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -335,7 +350,7 @@
                         android:id="@+id/unbindIv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/cp_icon_empty"
+                        android:src="@mipmap/my_device_del"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/updateIv"
                         android:layout_marginEnd="15dp"/>
@@ -346,7 +361,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/cp_icon_empty"/>
+                        android:src="@mipmap/my_device_refresh"/>
 
                 </RelativeLayout>
 

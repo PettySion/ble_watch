@@ -542,18 +542,19 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         sendCommand(CommandUtil.getCommandbyteArray(context,0x43, 12, 4, true));
     }
 
+    public void writeForSetUnit(){
+        sendCommand(CommandUtil.getCommandbyteArray(context,0x41, 10, 2, true));
+    }
+
     @Override
     public void writeForFindWatch() {
         sendCommand( CommandUtil.getCommandbyteArray(context,0x38, 9, 1, true));
     }
 
+
     @Override
     public void writeToSendNotify(String title, String label, int id) {
         sendCommand(CommandUtil.getCommandbyteArray(title,label,id));
-    }
-
-    public void writeForSetUnit(){
-        sendCommand(CommandUtil.getCommandbyteArray(context,0x41, 10, 2, true));
     }
 
     private IDataResponse iDataResponse = new IDataResponse() {

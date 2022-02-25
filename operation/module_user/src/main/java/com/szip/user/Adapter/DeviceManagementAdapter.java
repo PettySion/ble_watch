@@ -27,13 +27,12 @@ public class DeviceManagementAdapter extends RecyclerView.Adapter<DeviceManageme
                 context.getString(R.string.user_ble_camera),context.getString(R.string.user_unit)
                 ,context.getString(R.string.user_notification),context.getString(R.string.user_about));
         imageList = new int[6];
-        imageList[0] = R.mipmap.cp_icon_empty;
-        imageList[1] = R.mipmap.cp_icon_empty;
-        imageList[2] = R.mipmap.cp_icon_empty;
-        imageList[3] = R.mipmap.cp_icon_empty;
-        imageList[4] = R.mipmap.cp_icon_empty;
-        imageList[5] = R.mipmap.cp_icon_empty;
-        LogUtil.getInstance().logd("data******","size = "+nameList.size());
+        imageList[0] = R.mipmap.my_device_findwatch;
+        imageList[1] = R.mipmap.my_device_btphone;
+        imageList[2] = R.mipmap.my_device_btcamera;
+        imageList[3] = R.mipmap.my_device_unit;
+        imageList[4] = R.mipmap.my_device_message;
+        imageList[5] = R.mipmap.my_device_about;
     }
 
     @NonNull
@@ -59,7 +58,6 @@ public class DeviceManagementAdapter extends RecyclerView.Adapter<DeviceManageme
 
     @Override
     public int getItemCount() {
-        LogUtil.getInstance().logd("data******","size = "+(nameList == null ? 0 : nameList.size()));
         return nameList == null ? 0 : nameList.size();
     }
 

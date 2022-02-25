@@ -1,6 +1,5 @@
 <resources>
-    <string name="user_name">user module</string>
-    <string name="user_user_name">User Name</string>
+    <string name="user_app_name">user module</string>
     <string name="user_plan">Target</string>
     <string name="user_edit_plan">Edit Target</string>
     <string name="user_step">Step</string>
@@ -33,7 +32,7 @@
     <string name="user_notify_msg">iSmarport Needs To Forward Application Notifications To Remote Smart Devices. Press\"Confirm\"Enter Notification Page To Activate.</string>
     <string name="user_cancel">Cancel</string>
     <string name="user_confirm">Confirm</string>
-v
+    v
     <string name="user_account_safe">Accounts and Security</string>
     <string name="user_version">App Version</string>
     <string name="user_help">Help&amp;Feedback</string>
@@ -41,4 +40,34 @@ v
     <string name="user_logout">Logout</string>
     <string name="user_unbind_tip">unbind</string>
     <string name="user_unbind_message">Are you sure to unbind the current device？</string>
+
+    <string name="user_info">User Information</string>
+    <string name="user_set">Account Setting</string>
+    <string name="user_head">Head</string>
+    <string name="user_name">Name</string>
+    <string name="user_sex">Gender</string>
+    <string name="user_birthday">Birthday</string>
+    <string name="user_height">Height</string>
+    <string name="user_weight">Weight</string>
+    <string name="user_male">Male</string>
+    <string name="user_female">Female</string>
+    <string name="user_camera">Camera</string>
+    <string name="user_album">Album</string>
+    <string name="user_enter_name">Please Enter Your Nickname</string>
+    <string name="user_name_long">Nicknames cannot exceed 12 characters</string>
+    <string name="user_permission_error_camera">Permission Failed, Can Not Turn On Camera Function</string>
+    <string name="user_crop_pic_failed">Image capture failed, please select JPG image!</string>
+    <string name="user_account">Account</string>
+    <string name="user_change">Change Password</string>
+    <string name="user_delete_account">Destruction Account</string>
+    <string name="user_logout_tip">Are You Sure You Want To Log Out？</string>
+    <string name="user_upload_data">Data Uploading...</string>
+    <string name="user_faq">FAQ</string>
+    <string name="user_feedback_hint">Your feedback/question</string>
+    <string name="user_send_feedback">Send</string>
+    <string name="user_feedback_long">Input is too long</string>
+    <string name="user_feedback_empty">Field cannot be empty</string>
+    <string name="user_feedback_success">Feedback Success</string>
+    <string name="user_guide">User Guide</string>
+    <string name="user_service">Keep app active</string>
 </resources>

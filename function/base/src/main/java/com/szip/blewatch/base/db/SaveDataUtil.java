@@ -88,6 +88,17 @@ public class SaveDataUtil {
         }
     }
 
+    public void saveUserInfoAvatar(String avatar,long id){
+        UserModel sqlData =  SQLite.select()
+                .from(UserModel.class)
+                .where(UserModel_Table.id.is(id))
+                .querySingle();
+        if (sqlData==null)
+            return;
+        sqlData.avatar = avatar;
+        sqlData.update();
+    }
+
 
     /**
      * 批量保存设备配置
@@ -720,6 +731,36 @@ public class SaveDataUtil {
 
         SQLite.delete()
                 .from(HealthyCardData.class)
+                .execute();
+    }
+
+    /**
+     * 清除数据库
+     * */
+    public void clearDB(){
+        SQLite.delete()
+                .from(BloodOxygenData.class)
+                .execute();
+        SQLite.delete()
+                .from(BloodPressureData.class)
+                .execute();
+        SQLite.delete()
+                .from(EcgData.class)
+                .execute();
+        SQLite.delete()
+                .from(HeartData.class)
+                .execute();
+        SQLite.delete()
+                .from(SleepData.class)
+                .execute();
+        SQLite.delete()
+                .from(StepData.class)
+                .execute();
+        SQLite.delete()
+                .from(SportData.class)
+                .execute();
+        SQLite.delete()
+                .from(AnimalHeatData.class)
                 .execute();
     }
 

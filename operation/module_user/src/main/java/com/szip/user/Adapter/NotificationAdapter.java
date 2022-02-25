@@ -25,9 +25,6 @@ public class NotificationAdapter extends BaseAdapter {
 
     public class ViewHolder {
         public TextView nameTv;
-
-        public ImageView iconIv;
-
         public Switch stateSw;
     }
 
@@ -71,7 +68,6 @@ public class NotificationAdapter extends BaseAdapter {
                     R.layout.user_adaper_notification, null, false);
             viewHolder = new ViewHolder();
             viewHolder.nameTv = view.findViewById(R.id.nameTv);
-            viewHolder.iconIv = view.findViewById(R.id.iconIv);
             viewHolder.stateSw = view.findViewById(R.id.stateSw);
             view.setTag(viewHolder);
         } else {
@@ -95,7 +91,6 @@ public class NotificationAdapter extends BaseAdapter {
                 });
 
         packageItem = notificationDatas.get(position);
-        viewHolder.iconIv.setImageDrawable(mContext.getResources().getDrawable(packageItem.packageImgId));
         viewHolder.nameTv.setText(packageItem.name);
         viewHolder.stateSw.setChecked(packageItem.state);
 

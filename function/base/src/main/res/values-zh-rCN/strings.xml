@@ -22,4 +22,8 @@
     <string name="ping">乒乓球</string>
     <string name="football">足球</string>
     <string name="climb">攀岩</string>
+
+    <string name="save_success">保存成功</string>
+    <string name="waiting">请等待...</string>
+    <string name="http_error">网络应答超时，请检查网络连接状况</string>
 </resources>

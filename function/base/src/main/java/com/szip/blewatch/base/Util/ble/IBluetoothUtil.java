@@ -7,5 +7,6 @@ public interface IBluetoothUtil {
     void writeForSetUnit();
     void writeForSetWeather();
     void writeForFindWatch();
+    void writeForUpdateUserInfo();
     void writeToSendNotify(String title,String label,int id);
 }

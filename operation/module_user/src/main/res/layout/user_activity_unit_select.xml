@@ -4,21 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bgColor">
+
+
+    <include layout="@layout/title"/>
+
+    <TextView
+        android:id="@+id/titleBigTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
+        android:textColor="@color/user_gray_text"
         android:layout_marginStart="15dp"
         android:text="@string/user_tempUnit"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@android:color/white">
 
         <RelativeLayout
             android:id="@+id/cRl"
@@ -40,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:src="@mipmap/cp_icon_empty"/>
+                android:src="@mipmap/unit_radio_pre"/>
         </RelativeLayout>
 
 
@@ -48,9 +63,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@android:color/black"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"/>
+            android:background="@color/gray"/>
 
         <RelativeLayout
             android:id="@+id/fRl"
@@ -72,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:src="@mipmap/cp_icon_empty"/>
+                android:src="@mipmap/unit_radio_pre"/>
         </RelativeLayout>
 
 
@@ -83,17 +96,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
+        android:textColor="@color/user_gray_text"
         android:layout_marginStart="15dp"
         android:text="@string/user_measureUnit"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        android:background="@android:color/white">
 
         <RelativeLayout
             android:id="@+id/metricRl"
@@ -116,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:src="@mipmap/cp_icon_empty"/>
+                android:src="@mipmap/unit_radio_pre"/>
         </RelativeLayout>
 
 
@@ -124,9 +138,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@android:color/black"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"/>
+            android:background="@color/gray"/>
 
         <RelativeLayout
             android:id="@+id/britishRl"
@@ -149,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:src="@mipmap/cp_icon_empty"/>
+                android:src="@mipmap/unit_radio_pre"/>
         </RelativeLayout>
 
 
@@ -161,12 +173,14 @@
     <TextView
         android:id="@+id/saveTv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:gravity="center"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/user_save"/>
+        android:layout_marginTop="40dp"
+        android:text="@string/user_save"
+        android:textColor="@android:color/white"
+        android:background="@drawable/user_bg_bottom"/>
 
 
 </LinearLayout>

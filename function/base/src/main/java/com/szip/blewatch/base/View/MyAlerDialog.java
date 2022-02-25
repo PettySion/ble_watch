@@ -2,7 +2,6 @@ package com.szip.blewatch.base.View;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -82,6 +81,46 @@ public class MyAlerDialog {
 //
 //        return alertDialog;
 //    }
+
+    public AlertDialog showAlerDialogWithEdit(String title, String edit1, String editHint1, String positive, String negative, boolean cancelable,
+                                              final AlerDialogEditOnclickListener onclickListener, Context context){
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setCancelable(true)
+                .create();
+        alertDialog.setView(new EditText(context));
+        alertDialog.show();
+        alertDialog.setCancelable(cancelable);
+        Window window = alertDialog.getWindow();
+        window.setContentView(R.layout.dialog_layout_edit);
+        TextView tv_title = window.findViewById(R.id.dialogTitle);
+        tv_title.setText(title);
+        final EditText et1 =  window.findViewById(R.id.editText);
+        et1.setHint(editHint1);
+        et1.setText(edit1);
+
+        Button cancel = window.findViewById(R.id.btn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });//取消按钮
+        Button confirm = window.findViewById(R.id.btn_comfirm);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onclickListener!=null){
+                    onclickListener.onDialogEditTouch(et1.getText().toString());
+                }
+                alertDialog.dismiss();
+            }
+        });//确定按钮
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        return alertDialog;
+    }
 
     public AlertDialog showAlerDialog(String title, String msg, String positive, String negative, boolean cancelable,
                                       final AlerDialogOnclickListener onclickListener, Context context){

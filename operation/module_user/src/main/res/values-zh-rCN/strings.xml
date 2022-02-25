@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <string name="user_user_name">用户名称</string>
+
     <string name="user_plan">我的目标</string>
     <string name="user_edit_plan">编辑目标</string>
     <string name="user_step">步数</string>
@@ -42,4 +41,34 @@
     <string name="user_logout">退出登录</string>
     <string name="user_unbind_tip">解除绑定</string>
     <string name="user_unbind_message">确定接触当前设备的绑定吗？</string>
+
+    <string name="user_info">个人信息</string>
+    <string name="user_set">账号信息</string>
+    <string name="user_head">头像</string>
+    <string name="user_name">昵称</string>
+    <string name="user_sex">性别</string>
+    <string name="user_birthday">出生年月</string>
+    <string name="user_height">身高</string>
+    <string name="user_weight">体重</string>
+    <string name="user_male">男</string>
+    <string name="user_female">女</string>
+    <string name="user_camera">拍照</string>
+    <string name="user_album">相册</string>
+    <string name="user_enter_name">请输入您的昵称</string>
+    <string name="user_name_long">昵称不能超过12个字符</string>
+    <string name="user_permission_error_camera">权限没通过，无法打开拍照功能</string>
+    <string name="user_crop_pic_failed">截取图像失败，请选择jpg格式图片！</string>
+    <string name="user_account">登陆账号</string>
+    <string name="user_change">修改密码</string>
+    <string name="user_delete_account">注销账号</string>
+    <string name="user_logout_tip">确定要退出登录吗？</string>
+    <string name="user_upload_data">正在上传数据...</string>
+    <string name="user_faq">常见问题</string>
+    <string name="user_feedback_hint">您的反馈/问题</string>
+    <string name="user_send_feedback">提交反馈</string>
+    <string name="user_feedback_long">您输入的文本太长了</string>
+    <string name="user_feedback_empty">意见不能为空</string>
+    <string name="user_feedback_success">反馈成功</string>
+    <string name="user_guide">连接指引</string>
+    <string name="user_service">保持后台运行</string>
 </resources>

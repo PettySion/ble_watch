@@ -2,16 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.szip.user">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NETWORK_PROVIDER" />
+
     <application
         android:name="debug.MainApplication"
         android:allowBackup="true"
-        android:label="@string/user_name"
+        android:label="@string/user_app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserSetActivity"></activity>
-        <activity android:name=".NotificationActivity" />
-        <activity android:name=".UnitSelectActivity" />
+        <activity android:name=".Activity.UserSetActivity"></activity>
         <activity android:name=".Search.DeviceActivity" />
+        <activity android:name=".Activity.UserSetActivity" />
+        <activity android:name=".Activity.NotificationActivity" />
+        <activity android:name=".Activity.UnitSelectActivity" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

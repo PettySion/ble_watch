@@ -4,14 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserSetActivity"
-    android:orientation="vertical">
+    tools:context=".Activity.UserSetActivity"
+    android:orientation="vertical"
+    android:background="@color/bgColor">
+
+
+    <include layout="@layout/title"/>
+
+    <TextView
+        android:id="@+id/titleBigTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"/>
 
     <RelativeLayout
         android:id="@+id/userInfoRl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="15dp"/>
 
         <com.szip.blewatch.base.View.CircularImageView
             android:id="@+id/iconIv"
@@ -20,16 +42,19 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:src="@mipmap/cp_icon_clear_all"/>
+            android:src="@mipmap/my_head_58"
+            app:is_circular="true"/>
 
         <TextView
             android:id="@+id/nameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/user_user_name"
+            android:text="@string/user_name"
             android:layout_toRightOf="@id/iconIv"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"/>
 
 
         <ImageView
@@ -38,7 +63,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/cp_icon_clear_all"/>
+            android:src="@mipmap/my_arrow_r_black"/>
     </RelativeLayout>
 
     <View
@@ -57,7 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/user_account_safe"
-            android:layout_marginStart="15dp" />
+            android:layout_marginStart="15dp"
+            android:textColor="@android:color/black"/>
 
 
         <ImageView
@@ -66,7 +92,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:src="@mipmap/cp_icon_clear_all"/>
+            android:src="@mipmap/my_arrow_r_black"/>
 
     </RelativeLayout>
 
@@ -81,7 +107,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/user_version"
-            android:layout_marginStart="15dp" />
+            android:layout_marginStart="15dp"
+            android:textColor="@android:color/black"/>
 
 
         <TextView
@@ -111,7 +138,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/user_help"
-            android:layout_marginStart="15dp" />
+            android:layout_marginStart="15dp"
+            android:textColor="@android:color/black"/>
 
 
         <ImageView
@@ -120,7 +148,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:src="@mipmap/cp_icon_clear_all"/>
+            android:src="@mipmap/my_arrow_r_black"/>
 
     </RelativeLayout>
 
@@ -141,7 +169,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/user_privacy"
-            android:layout_marginStart="15dp" />
+            android:layout_marginStart="15dp"
+            android:textColor="@android:color/black"/>
 
 
         <ImageView
@@ -150,7 +179,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:src="@mipmap/cp_icon_clear_all"/>
+            android:src="@mipmap/my_arrow_r_black"/>
 
     </RelativeLayout>
 
@@ -158,10 +187,12 @@
     <TextView
         android:id="@+id/logoutTv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:gravity="center"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/user_logout"/>
+        android:layout_marginTop="40dp"
+        android:text="@string/user_logout"
+        android:textColor="@android:color/holo_red_light"
+        android:background="@drawable/user_bg_bottom_logout"/>
 </LinearLayout>

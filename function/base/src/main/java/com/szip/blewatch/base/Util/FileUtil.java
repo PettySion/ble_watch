@@ -69,22 +69,21 @@ public class FileUtil {
     }
 
     public void writeUriSdcardFile(Uri uri){
-
-//        try {
-//            AssetFileDescriptor audioAsset = context.getContentResolver()
-//                    .openAssetFileDescriptor(uri, "r");
-//            InputStream in = audioAsset.createInputStream();
-//            OutputStream out = new FileOutputStream(MyApplication.getInstance().getPrivatePath()+"camera.jpg");
-//            byte[] buf = new byte[1024];
-//            int len;
-//            while ((len = in.read(buf)) > 0) {
-//                out.write(buf, 0, len);
-//            }
-//            in.close();
-//            out.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            AssetFileDescriptor audioAsset = context.getContentResolver()
+                    .openAssetFileDescriptor(uri, "r");
+            InputStream in = audioAsset.createInputStream();
+            OutputStream out = new FileOutputStream(context.getExternalFilesDir(null).getPath()+"/camera");
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void writeLog(String logPath,byte[] datas){

@@ -14,7 +14,7 @@ public class PrivacyActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_privacy);
+        setContentView(R.layout.user_activity_privacy);
         initView();
     }
 

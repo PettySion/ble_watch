@@ -1,4 +1,4 @@
-package com.szip.user;
+package com.szip.user.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.UserModel;
+import com.szip.user.R;
 import com.szip.user.Utils.HttpMessageUtil;
 import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.callback.GenericsCallback;
@@ -30,13 +31,16 @@ public class UnitSelectActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.user_activity_unit_select);
+        setAndroidNativeLightStatusBar(this,true);
         userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(this));
         initView();
         initEvent();
     }
 
     private void initView() {
+        setTitle(getString(R.string.user_unit));
         cIv = findViewById(R.id.cIv);
         fIv = findViewById(R.id.fIv);
         metricIv = findViewById(R.id.metricIv);

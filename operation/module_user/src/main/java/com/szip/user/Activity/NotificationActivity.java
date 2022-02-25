@@ -1,4 +1,4 @@
-package com.szip.user;
+package com.szip.user.Activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,6 +15,7 @@ import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.NotificationData;
 import com.szip.user.Adapter.NotificationAdapter;
+import com.szip.user.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,9 @@ public class NotificationActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.user_activity_notification);
+        setAndroidNativeLightStatusBar(this,true);
         sharedPreferences = getSharedPreferences(FILE,MODE_PRIVATE);
         notificationState = sharedPreferences.getBoolean("notificationState",false);
         initView();
@@ -80,6 +83,7 @@ public class NotificationActivity extends BaseActivity {
     }
 
     private void initView() {
+        setTitle(getString(R.string.user_notification));
         allSw = findViewById(R.id.allSw);
         switchList = findViewById(R.id.switchList);
         notificationAdapter = new NotificationAdapter(getApplicationContext());

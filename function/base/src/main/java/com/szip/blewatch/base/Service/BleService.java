@@ -165,8 +165,10 @@ public class BleService extends Service implements MyHandle {
                     case "findWatch":
                         iBluetoothUtil.writeForFindWatch();
                         break;
+                    case "setInfo":
+                        iBluetoothUtil.writeForUpdateUserInfo();
+                        break;
                     case "sendNotify":{
-
                         String title = intent.getStringExtra("title");
                         String label = intent.getStringExtra("label");
                         int id = intent.getIntExtra("id",0);

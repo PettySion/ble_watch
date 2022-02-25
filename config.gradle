@@ -32,7 +32,10 @@ ext {
             //google地图SDK
             "gms" :'com.google.android.gms:play-services-maps:12.0.1',
             "google-map" :'com.google.maps.android:android-maps-utils:0.5+',
-            "progress" :'com.kaopiz:kprogresshud:1.0.1'
+            "progress" :'com.kaopiz:kprogresshud:1.0.1',
+            //图片裁剪
+            "commons" :'org.apache.commons:commons-lang3:3.7',
+            "uCrop" :'com.github.Creky:uCrop:2.2.3'
     ]
 
     otherDeps = [

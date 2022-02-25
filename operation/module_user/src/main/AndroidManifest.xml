@@ -3,11 +3,20 @@
     package="com.szip.user">
 
     <application>
-        <activity android:name=".Search.DeviceActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".UserSetActivity"></activity>
-        <activity android:name=".NotificationActivity" />
-        <activity android:name=".UnitSelectActivity" />
+        <activity android:name=".Activity.help.FaqActivity"></activity>
+        <activity android:name=".Activity.help.HelpActivity" />
+        <activity android:name=".Activity.PrivacyActivity" />
+        <activity android:name=".Activity.SecurityActivity" />
+        <activity android:name=".Activity.userInfo.UserInfoActivity" />
+        <activity android:name=".Search.DeviceActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Activity.UserSetActivity" />
+        <activity android:name=".Activity.NotificationActivity" />
+        <activity android:name=".Activity.UnitSelectActivity" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

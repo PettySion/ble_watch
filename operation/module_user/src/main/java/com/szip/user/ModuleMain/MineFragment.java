@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.szip.blewatch.base.Const.BroadcastConst;
-import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseFragment;
 import com.szip.blewatch.base.View.CircularImageView;
@@ -25,11 +23,14 @@ import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
 import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
-import com.szip.user.NotificationActivity;
+import com.szip.user.Activity.NotificationActivity;
+import com.szip.user.Activity.UserSetActivity;
+import com.szip.user.Activity.userInfo.UserInfoActivity;
 import com.szip.user.R;
-import com.szip.user.UnitSelectActivity;
+import com.szip.user.Activity.UnitSelectActivity;
 import com.szip.user.Adapter.DeviceManagementAdapter;
 import com.szip.user.Search.DeviceActivity;
+import com.szip.user.View.RoundProgressBar;
 
 /**
  * Created by Administrator on 2019/12/1.
@@ -37,10 +38,9 @@ import com.szip.user.Search.DeviceActivity;
 
 public class MineFragment extends BaseFragment implements View.OnClickListener, MyHandle ,IMineView{
 
-    private CircularImageView iconIv,dialIv,watchIv;
+    private CircularImageView iconIv,dialIv;
     private TextView nameTv,stepTv,stepDataTv,stepRateTv,sleepTv,sleepDataTv,sleepRateTv,calorieTv,calorieDataTv,calorieRateTv,stateTv,watchTv;
-    private SeekBar stepSb,sleepSb,calorieSb;
-    private UserModel userModel;
+    private RoundProgressBar stepSb,sleepSb,calorieSb;
     private RecyclerView menuList;
     private RelativeLayout addDeviceRl;
     private LinearLayout deviceLl;
@@ -103,7 +103,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         calorieSb = getView().findViewById(R.id.calorieSb);
         dialIv = getView().findViewById(R.id.dialIv);
         iconIv = getView().findViewById(R.id.iconIv);
-        watchIv = getView().findViewById(R.id.watchIv);
         watchTv = getView().findViewById(R.id.watchTv);
         stateTv = getView().findViewById(R.id.stateTv);
         menuList = getView().findViewById(R.id.menuList);
@@ -122,9 +121,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         int id = v.getId();
         if (id == R.id.iconIv || id == R.id.nameTv) {
             if (!MathUtil.newInstance().needLogin(getActivity())) {
-
+                startActivity(new Intent(getActivity(), UserInfoActivity.class));
             }
-        } else if (id == R.id.addDeviceRl) {
+        }else if (id == R.id.setIv) {
+            if (!MathUtil.newInstance().needLogin(getActivity())) {
+                startActivity(new Intent(getActivity(), UserSetActivity.class));
+            }
+        }else if (id == R.id.addDeviceRl) {
             if (!MathUtil.newInstance().needLogin(getActivity())) {
                 startActivity(new Intent(getActivity(), DeviceActivity.class));
             }
@@ -180,13 +183,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 }
                 break;
             case BroadcastConst.UPDATE_UI_VIEW:
-                LogUtil.getInstance().logd("data******","刷新UI");
+
                 break;
         }
     }
 
     @Override
-    public void initUserInfo(boolean userVisible) {
+    public void updateUserInfo(boolean userVisible) {
         if (userVisible){
             deviceLl.setVisibility(View.VISIBLE);
             addDeviceRl.setVisibility(View.GONE);
@@ -200,17 +203,26 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public void updateUserView(UserModel userModel) {
         nameTv.setText(userModel.userName);
         Glide.with(getActivity()).load(userModel.avatar)
-                .error(R.mipmap.cp_icon_empty);
-        stepTv.setText(String.format("%d",userModel.stepsPlan));
-        sleepTv.setText(String.format("%d",userModel.sleepPlan));
-        stepSb.setMax(userModel.stepsPlan);
-        sleepSb.setMax(userModel.sleepPlan);
+                .fallback(R.mipmap.my_head_58)
+                .error(R.mipmap.my_head_58)
+                .into(iconIv);
+
     }
 
     @Override
-    public void updateDeviceView(int step, int sleep, int calorie, SportWatchAppFunctionConfigDTO device) {
-        stepSb.setProgress(step);
-        sleepSb.setProgress(sleep);
+    public void updateDeviceView(int step, int sleep, int calorie,int stepPlan,int sleepPlan,int caloriePlan, SportWatchAppFunctionConfigDTO device) {
+        stepTv.setText(String.format("%d",stepPlan));
+        sleepTv.setText(String.format("%dh",sleepPlan/60));
+        calorieTv.setText(String.format("%d",caloriePlan));
+        stepSb.setRatio(step>=stepPlan?1:step/(float)stepPlan);
+        sleepSb.setRatio(sleep>=sleepPlan?1:sleep/(float)sleepPlan);
+        calorieSb.setRatio(calorie>=caloriePlan?1:calorie/(float)caloriePlan);
+        stepDataTv.setText(String.format("%d",step));
+        sleepDataTv.setText(String.format("%dh%dmin",sleep/60,sleep%60));
+        calorieDataTv.setText(String.format("%.1fkcal",((calorie+55)/100)/10f));
+        stepRateTv.setText(String.format("%.1f%%",step>=stepPlan?100:step/(float)stepPlan*100));
+        sleepRateTv.setText(String.format("%.1f%%",sleep>=sleepPlan?100:sleep/(float)sleepPlan*100));
+        calorieRateTv.setText(String.format("%.1f%%",calorie>=caloriePlan?100:calorie/(float)caloriePlan*100));
         watchTv.setText(device.appName);
     }
 }

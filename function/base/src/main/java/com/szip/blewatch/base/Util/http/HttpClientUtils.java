@@ -6,7 +6,9 @@ import com.szip.blewatch.base.BuildConfig;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.zhy.http.okhttp.builder.GetBuilder;
+import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.builder.PostJsonBuilder;
+import com.zhy.http.okhttp.builder.PostJsonListBuider;
 import com.zhy.http.okhttp.callback.Callback;
 
 
@@ -28,7 +30,7 @@ public class HttpClientUtils {
     public void setToken(String token) {
         this.token = token;
         if (token.equals("")){//如果token = ""说明登陆过期了，把之前缓存的token换成""
-            MathUtil.newInstance().saveStringData(mContext,"token","");
+            MathUtil.newInstance().saveStringData(mContext,"token",null);
             MathUtil.newInstance().saveIntData(mContext,"userId",-1);
         }
     }
@@ -68,5 +70,22 @@ public class HttpClientUtils {
                 .execute(callback);
     }
 
+    public void buildRequest(PostFormBuilder builder, String method, Callback callback){
+        builder.url(url+method)
+                .addHeader("Time-Diff",time)
+                .addHeader("Accept-Language",language)
+                .addHeader("token",token)
+                .build()
+                .execute(callback);
+    }
+
+    public void buildRequest(PostJsonListBuider builder, String method, Callback callback){
+        builder.url(url+method)
+                .addHeader("Time-Diff",time)
+                .addHeader("Accept-Language",language)
+                .addHeader("token",token)
+                .build()
+                .execute(callback);
+    }
 
 }
