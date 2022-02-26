@@ -4,36 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bgColor">
 
 
-    <ImageView
-        android:id="@+id/backIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"/>
-
-
-    <TextView
-        android:id="@+id/titleTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:textColor="@android:color/black"
-        android:textSize="30sp"
-        android:text="@string/login_register_account"
-        android:layout_below="@+id/backIv"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="@string/login_register_account_tip"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_below="@+id/titleTv"/>
+        android:orientation="vertical">
+
+        <include layout="@layout/title"/>
+
+        <TextView
+            android:id="@+id/titleBigTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/login_gray_text"
+            android:text="@string/login_register_account_tip"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/titleTv"/>
+
+    </LinearLayout>
+
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,7 +61,8 @@
             android:orientation="horizontal"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:background="@drawable/login_bg_edit">
 
             <TextView
                 android:id="@+id/countryTv"
@@ -64,13 +71,9 @@
                 android:text="@string/login_chose_location"
                 android:layout_centerVertical="true"
                 android:textSize="15sp"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/login_gray_text"
+                android:layout_marginStart="15dp"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@android:color/black"
-                android:layout_alignParentBottom="true"/>
         </RelativeLayout>
 
         <TextView
@@ -87,7 +90,8 @@
             android:layout_height="50dp"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:background="@drawable/login_bg_edit">
 
             <EditText
                 android:id="@+id/userEt"
@@ -97,13 +101,9 @@
                 android:background="@null"
                 android:layout_centerVertical="true"
                 android:textSize="15sp"
-                android:textColorHint="@color/gray"/>
+                android:textColorHint="@color/login_gray_text"
+                android:layout_marginStart="15dp"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@android:color/black"
-                android:layout_alignParentBottom="true"/>
         </RelativeLayout>
 
         <TextView
@@ -120,7 +120,8 @@
             android:layout_height="50dp"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:background="@drawable/login_bg_edit">
 
             <EditText
                 android:id="@+id/verifyCodeEt"
@@ -130,9 +131,10 @@
                 android:background="@null"
                 android:layout_centerVertical="true"
                 android:textSize="15sp"
-                android:textColorHint="@color/gray"
+                android:textColorHint="@color/login_gray_text"
                 android:inputType="number"
-                android:layout_toStartOf="@id/sendTv"/>
+                android:layout_toStartOf="@id/sendTv"
+                android:layout_marginStart="15dp"/>
 
 
             <TextView
@@ -142,14 +144,10 @@
                 android:text="@string/login_send"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
                 android:textSize="15sp"
                 android:textColor="@android:color/black"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@android:color/black"
-                android:layout_alignParentBottom="true"/>
         </RelativeLayout>
 
 
@@ -157,7 +155,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginStart="15dp">
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp">
 
             <CheckBox
                 android:id="@+id/checkbox"
@@ -183,12 +182,14 @@
         <TextView
             android:id="@+id/nextTv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="@string/login_next"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="40dp"
+            android:textColor="@android:color/white"
             android:layout_marginStart="40dp"
-            android:gravity="center"/>
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:background="@drawable/login_bg_bottom"/>
     </LinearLayout>
 
 

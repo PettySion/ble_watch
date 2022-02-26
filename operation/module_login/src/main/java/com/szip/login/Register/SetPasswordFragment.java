@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,6 +59,7 @@ public class SetPasswordFragment extends DialogFragment implements View.OnClickL
 
 
     private void initView() {
+        ((TextView)mRootView.findViewById(R.id.titleBigTv)).setText(R.string.login_set_password);
         passwordEt = mRootView.findViewById(R.id.pswEt);
         confirmPasswordEt = mRootView.findViewById(R.id.confirmPswEt);
     }

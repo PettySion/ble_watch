@@ -276,7 +276,7 @@ public class ReportTableView extends View {
 
 
     private String[] getYMsg(){
-        String[] yMsg= new String[6];
+        String[] yMsg= new String[]{"","","","","","",""};
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getContext()));
         if (userModel==null)
             return yMsg;

@@ -35,6 +35,8 @@ public class StepMonthPresenterImpl implements IStepReportPresenter{
 
 
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(mContext));
+        if (userModel == null)
+            return;
         int sum = 0;
         int allStep = 0;
         int allCalorie = 0;

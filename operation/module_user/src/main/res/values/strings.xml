@@ -18,6 +18,7 @@
     <string name="user_unit">Unit</string>
     <string name="user_notification">Notification</string>
     <string name="user_about">About Device</string>
+    <string name="user_add_device">Add Device</string>
 
     <string name="user_measureUnit">Unit Of Measure</string>
     <string name="user_tempUnit">Unit Of Temperature</string>

@@ -15,7 +15,7 @@
         android:text="Dialog标题"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="@android:color/black"
         android:layout_marginTop="15dp"/>
 
 
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="@android:color/black"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:textCursorDrawable="@null"
@@ -34,7 +34,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@android:color/darker_gray" />
 
     <LinearLayout
@@ -49,16 +49,16 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#00000000"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/gray"
             android:textSize="15sp"
             android:text="取消"
             android:textAllCaps="false"/>
 
         <View
-            android:layout_width="1dp"
+            android:layout_width="0.5dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
-            android:background="@android:color/darker_gray"></View>
+            android:background="@android:color/black"></View>
 
         <Button
             android:id="@+id/btn_comfirm"
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:background="#00000000"
             android:text="确定"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@android:color/black"
             android:textSize="15sp"
             android:textAllCaps="false"/>
     </LinearLayout>

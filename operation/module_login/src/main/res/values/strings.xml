@@ -10,7 +10,7 @@
     <string name="login_psw">Password</string>
     <string name="login_input_psw">enter your password</string>
     <string name="login_forget_psw">Forget Password?</string>
-    <string name="login_register">Register</string>
+    <string name="login_register">No account? Go to register</string>
     <string name="login_privacy">Agree<u>"User Agreement And Privacy Policy"</u></string>
     <string name="login_checkPrivacy">Please Confirm You’ve Read The User Agreement And Privacy Policy</string>
 

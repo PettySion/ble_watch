@@ -3,12 +3,14 @@
     package="com.szip.login">
 
     <application>
-        <activity android:name=".MainActivity"
+        <activity android:name=".LoginMainActivity"
             android:theme="@style/DefaultCityPickerTheme" >
-
         </activity>
         <activity android:name=".Register.RegisterActivity"
             android:theme="@style/DefaultCityPickerTheme" ></activity>
+
+        <activity android:name=".Forget.ForgetPasswordActivity"
+            android:theme="@style/DefaultCityPickerTheme"></activity>
     </application>
 
 </manifest>

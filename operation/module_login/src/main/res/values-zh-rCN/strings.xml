@@ -11,7 +11,7 @@
     <string name="login_psw">密码</string>
     <string name="login_input_psw">输入您的密码</string>
     <string name="login_forget_psw">忘记密码?</string>
-    <string name="login_register">注册</string>
+    <string name="login_register">没有账号？去注册</string>
     <string name="login_privacy">同意《<u>用户协议与隐私条款</u>》</string>
     <string name="login_checkPrivacy">未同意《用户协议与隐私条款》</string>
 

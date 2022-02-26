@@ -19,6 +19,7 @@
     <string name="user_unit">单位制式</string>
     <string name="user_notification">消息通知</string>
     <string name="user_about">关于设备</string>
+    <string name="user_add_device">添加设备</string>
 
     <string name="user_measureUnit">度量单位</string>
     <string name="user_tempUnit">温度单位</string>

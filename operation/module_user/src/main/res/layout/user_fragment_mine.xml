@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="@color/bgColor">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/bgColor">
+        android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
@@ -54,19 +54,37 @@
         <RelativeLayout
             android:id="@+id/addDeviceRl"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/bg_white_corner"
+            android:layout_height="match_parent"
             android:visibility="gone">
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/cp_icon_empty"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/bg_white_corner">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/my_help_addpic"
+                    android:layout_marginTop="50dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/user_gray_text"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/user_add_device"
+                    android:layout_marginBottom="50dp"/>
+            </LinearLayout>
+
+
 
         </RelativeLayout>
 

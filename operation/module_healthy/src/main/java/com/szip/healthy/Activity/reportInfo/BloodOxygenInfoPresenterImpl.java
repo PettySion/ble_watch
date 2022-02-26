@@ -29,9 +29,12 @@ public class BloodOxygenInfoPresenterImpl implements IReportInfoPresenter{
         groupList = new ArrayList<>();
         childList = new ArrayList<>();
         List<BloodOxygenData> list = LoadDataUtil.newInstance().getBloodOxygenList(0);
-        if (list.size()==0)
+        if (list.size()==0){
             if (iReportInfoView!=null)
                 iReportInfoView.updateList(groupList,childList);
+            return;
+        }
+
 
         String oldTime =  DateUtil.getStringDateFromSecond(list.get(0).time,"yyyy/MM");
         ReportInfoData reportInfoData = new ReportInfoData("", DateUtil.getTimeScope(oldTime,"yyyy/MM"));

@@ -13,7 +13,7 @@
             android:name=".Register.RegisterActivity"
             android:theme="@style/DefaultCityPickerTheme" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginMainActivity"
             android:theme="@style/DefaultCityPickerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

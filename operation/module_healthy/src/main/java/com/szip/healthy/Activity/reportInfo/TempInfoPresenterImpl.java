@@ -32,9 +32,12 @@ public class TempInfoPresenterImpl implements IReportInfoPresenter{
         groupList = new ArrayList<>();
         childList = new ArrayList<>();
         List<AnimalHeatData> list = LoadDataUtil.newInstance().getTempList(0);
-        if (list.size()==0)
+        if (list.size()==0){
             if (iReportInfoView!=null)
                 iReportInfoView.updateList(groupList,childList);
+            return;
+        }
+
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(mContext));
         if (userModel==null)
             return;

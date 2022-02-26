@@ -32,9 +32,12 @@ public class BloodPressureInfoPresenterImpl implements IReportInfoPresenter{
         groupList = new ArrayList<>();
         childList = new ArrayList<>();
         List<BloodPressureData> list = LoadDataUtil.newInstance().getBloodPressureList(0);
-        if (list.size()==0)
+        if (list.size()==0){
             if (iReportInfoView!=null)
                 iReportInfoView.updateList(groupList,childList);
+            return;
+        }
+
 
         String oldTime =  DateUtil.getStringDateFromSecond(list.get(0).time,"yyyy/MM");
         ReportInfoData reportInfoData = new ReportInfoData("", DateUtil.getTimeScope(oldTime,"yyyy/MM"));

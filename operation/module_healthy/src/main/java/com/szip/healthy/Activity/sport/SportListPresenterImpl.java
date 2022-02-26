@@ -30,9 +30,12 @@ public class SportListPresenterImpl implements ISportListPresenter{
         groupList = new ArrayList<>();
         childList = new ArrayList<>();
         List<SportData> list = LoadDataUtil.newInstance().getSportList(0);
-        if (list.size()==0)
+        if (list.size()==0){
             if (iSportListView!=null)
                 iSportListView.updateList(groupList,childList);
+
+            return;
+        }
         String oldTime =  DateUtil.getStringDateFromSecond(list.get(0).time,"yyyy/MM");
         SportData sportData = new SportData(DateUtil.getTimeScope(oldTime,"yyyy/MM"));
         groupList.add(sportData);

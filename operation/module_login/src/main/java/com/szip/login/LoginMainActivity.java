@@ -2,6 +2,7 @@ package com.szip.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -39,7 +40,7 @@ import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_PRIVACY
  */
 
 @Route(path = PATH_ACTIVITY_LOGIN)
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class LoginMainActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText userEt,pswEt;
     private TextView countryTv;
@@ -52,7 +53,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.login_main);
+        setAndroidNativeLightStatusBar(this,true);
         sharedPreferences = getSharedPreferences(FILE,MODE_PRIVATE);
         countryStr = sharedPreferences.getString("countryName","");
         codeStr = sharedPreferences.getString("countryCode","");
@@ -81,11 +84,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
+        setTitle(getString(R.string.login_login_account));
         userEt = findViewById(R.id.userEt);
         pswEt = findViewById(R.id.pswEt);
         countryTv = findViewById(R.id.countryTv);
-        if (!countryStr.equals(""))
+        if (!countryStr.equals("")){
             countryTv.setText(countryStr);
+            countryTv.setTextColor(Color.BLACK);
+        }
+
         checkBox = findViewById(R.id.checkbox);
     }
 
@@ -130,7 +137,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         public void onPick(int position, City data) {
                             if (data!=null){
                                 countryTv.setText(data == null ? "" :  data.getName());
-                                countryTv.setTextColor(getResources().getColor(R.color.rayblue));
+                                countryTv.setTextColor(Color.BLACK);
                                 if (sharedPreferences==null)
                                     sharedPreferences = getSharedPreferences(FILE,MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -152,7 +159,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }else if (id == R.id.privacyTv){
             ARouter.getInstance().build(PATH_ACTIVITY_PRIVACY).navigation();
         }else if (id == R.id.forgetTv){
-            startActivity(new Intent(this, ForgetPasswordActivity.class));
+            startActivity(new Intent(LoginMainActivity.this, ForgetPasswordActivity.class));
         }
     }
 

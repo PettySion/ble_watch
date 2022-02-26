@@ -19,8 +19,6 @@ import com.szip.user.Utils.HttpMessageUtil;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
-import java.io.IOException;
-
 import okhttp3.Call;
 
 public class FaqFragment extends DialogFragment {

@@ -106,11 +106,13 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
         healthyCardAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                if (healthyDataList.size()%2!=0&&position == healthyDataList.size()){
-                    startActivity(new Intent(getActivity(),CardEditActivity.class));
-                }else {
-                    ARouter.getInstance().build(PATH_ACTIVITY_REPORT+healthyDataList.get(position).getType())
-                            .navigation();
+                if (!MathUtil.newInstance().needLogin(getActivity())) {
+                    if (healthyDataList.size()%2!=0&&position == healthyDataList.size()){
+                        startActivity(new Intent(getActivity(),CardEditActivity.class));
+                    }else {
+                        ARouter.getInstance().build(PATH_ACTIVITY_REPORT+healthyDataList.get(position).getType())
+                                .navigation();
+                    }
                 }
             }
         });
@@ -173,14 +175,18 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
     public void onClick(View v) {
         int id = v.getId();
         if(id == R.id.moreTv){
-            startActivity(new Intent(getActivity(),SportListActivity.class));
+            if (!MathUtil.newInstance().needLogin(getActivity())){
+                startActivity(new Intent(getActivity(),SportListActivity.class));
+            }
         }else if (id == R.id.lastSportLl){
-            if (sportData!=null){
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("sportData",sportData);
-                ARouter.getInstance().build(PATH_ACTIVITY_SPORT_RESULT)
-                        .withBundle("bundle",bundle)
-                        .navigation();
+            if (!MathUtil.newInstance().needLogin(getActivity())){
+                if (sportData!=null){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("sportData",sportData);
+                    ARouter.getInstance().build(PATH_ACTIVITY_SPORT_RESULT)
+                            .withBundle("bundle",bundle)
+                            .navigation();
+                }
             }
         }else if (id == R.id.editTv){
             startActivity(new Intent(getActivity(), CardEditActivity.class));

@@ -1,6 +1,7 @@
 package com.szip.login.Register;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -71,7 +72,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.login_activity_register);
+        setAndroidNativeLightStatusBar(this,true);
         sharedPreferences = getSharedPreferences(FILE,MODE_PRIVATE);
         countryStr = sharedPreferences.getString("countryName","");
         codeStr = sharedPreferences.getString("countryCode","");
@@ -88,10 +91,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
+        setTitle(getString(R.string.login_register_account));
         userEt = findViewById(R.id.userEt);
         countryTv = findViewById(R.id.countryTv);
-        if (!countryStr.equals(""))
+        if (!countryStr.equals("")){
             countryTv.setText(countryStr);
+            countryTv.setTextColor(Color.BLACK);
+        }
         verifyCodeEt = findViewById(R.id.verifyCodeEt);
         sendTv = findViewById(R.id.sendTv);
         nextTv = findViewById(R.id.nextTv);
@@ -109,7 +115,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }else {
                 if (!MathUtil.newInstance().isNumeric(userEt.getText().toString())){
                     if (!MathUtil.newInstance().isEmail(userEt.getText().toString()))
-                        showToast("请输入正确的邮箱");
+                        showToast(getString(R.string.login_right_email));
                     else
                         startTimer();
                 } else

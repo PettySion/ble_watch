@@ -24,7 +24,7 @@
         android:layout_height="45dp"
         android:padding="8dp"
         android:background="@drawable/bg_edit"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:textCursorDrawable="@null"
@@ -35,9 +35,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        android:layout_marginTop="20dp" />
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"
+        android:layout_marginTop="40dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,10 +57,10 @@
             android:textAllCaps="false"/>
 
         <View
-            android:layout_width="1dp"
+            android:layout_width="0.5dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
-            android:background="@color/gray"></View>
+            android:background="@android:color/black"></View>
 
         <Button
             android:id="@+id/btn_comfirm"
@@ -69,7 +69,7 @@
             android:layout_weight="1"
             android:background="#00000000"
             android:text="@string/confirm"
-            android:textColor="@color/blue"
+            android:textColor="@android:color/black"
             android:textSize="17sp"
             android:textAllCaps="false"/>
     </LinearLayout>
