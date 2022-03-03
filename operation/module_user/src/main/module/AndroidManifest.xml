@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NETWORK_PROVIDER" />
-
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <application
         android:name="debug.MainApplication"
         android:allowBackup="true"
@@ -18,6 +18,8 @@
         <activity android:name=".Activity.UserSetActivity" />
         <activity android:name=".Activity.NotificationActivity" />
         <activity android:name=".Activity.UnitSelectActivity" />
+        <activity android:name=".Activity.dial.DialSelectActivity"></activity>
+        <activity android:name=".Activity.diy.DIYActivity"></activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"

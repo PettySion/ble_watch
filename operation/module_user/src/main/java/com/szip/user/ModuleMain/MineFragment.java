@@ -25,6 +25,7 @@ import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
 import com.szip.user.Activity.NotificationActivity;
 import com.szip.user.Activity.UserSetActivity;
+import com.szip.user.Activity.dial.DialSelectActivity;
 import com.szip.user.Activity.userInfo.UserInfoActivity;
 import com.szip.user.R;
 import com.szip.user.Activity.UnitSelectActivity;
@@ -140,6 +141,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                         }
                     }, getActivity());
 
+        }else if (id == R.id.dialLl){
+            startActivity(new Intent(getActivity(), DialSelectActivity.class));
         }
     }
 

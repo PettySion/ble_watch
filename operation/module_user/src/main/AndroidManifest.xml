@@ -3,7 +3,9 @@
     package="com.szip.user">
 
     <application>
-        <activity android:name=".Activity.help.FaqActivity"></activity>
+        <activity android:name=".Activity.diy.DIYActivity"></activity>
+        <activity android:name=".Activity.dial.DialSelectActivity" />
+        <activity android:name=".Activity.help.FaqActivity" />
         <activity android:name=".Activity.help.HelpActivity" />
         <activity android:name=".Activity.PrivacyActivity" />
         <activity android:name=".Activity.SecurityActivity" />

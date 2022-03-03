@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -32,6 +34,7 @@ import com.szip.blewatch.base.Const.SportConst;
 import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.Model.SportTypeModel;
+import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData_Table;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
@@ -46,6 +49,7 @@ import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SleepData_Table;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.SportData_Table;
+import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.db.dbModel.StepData_Table;
 
@@ -54,9 +58,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -969,6 +976,59 @@ public class MathUtil {
             return true;
         }
         return false;
+    }
+
+    public boolean toJpgFile(Context context){
+        String filePath =context.getExternalFilesDir(null).getPath()+"/crop";
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+
+        if (!checkFaceType(bitmap.getWidth(),bitmap.getHeight(),getFaceType(context)))
+            return false;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int options = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
+            while (baos.toByteArray().length>40960) { // 循环判断如果压缩后图片是否大于40kb,大于继续压缩
+                baos.reset(); // 重置baos即清空baos
+                bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+                options -= 5;// 每次都减少5
+            }
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+            if (bitmap.compress(Bitmap.CompressFormat.JPEG, options, bos)) {
+                bos.flush();
+            }
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            bitmap.recycle();
+        }
+        return true;
+    }
+
+    private boolean checkFaceType(int width,int height,String[] faceStr){
+
+        int faceWidth = Integer.valueOf(faceStr[0]);
+        int faceHeight = Integer.valueOf(faceStr[1]);
+        if (width!=faceWidth||height!=faceHeight)
+            return false;
+        return true;
+    }
+
+    public String[] getFaceType(Context context) {
+        SportWatchAppFunctionConfigDTO data = LoadDataUtil.newInstance().getSportConfig(MathUtil.newInstance().getUserId(context));
+        if (data==null)
+            return new String[]{"320*385"};
+
+        String type = data.screen;
+        if (type!=null&&type.indexOf("*")>=0){
+            int index = type.indexOf("*");
+            type = type.substring(index-3,index+4);
+            return type.split("\\*");
+        }else {
+            return new String[]{"320*385"};
+        }
+
     }
 
     public int getBodyFatStateIndex(String arrays,float data){

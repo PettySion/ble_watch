@@ -20,8 +20,10 @@ import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.inuker.bluetooth.library.model.BleGattCharacter;
 import com.inuker.bluetooth.library.model.BleGattProfile;
 import com.inuker.bluetooth.library.model.BleGattService;
+import com.szip.blewatch.base.Const.SendFileConst;
 import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.Const.BroadcastConst;
+import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
@@ -214,6 +216,7 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
     private BleNotifyResponse bleNotifyResponse = new BleNotifyResponse() {
         @Override
         public void onNotify(UUID service, UUID character, byte[] value) {
+            LogUtil.getInstance().logd("DATA******","收到蓝牙通知信息:"+ DateUtil.byteToHexString(value));
             if (value.length == 8) {
                 if ((value[4] == -16) && (value[5] == -16) && (value[6] == -16) && (value[7] == -16)) {
                     ClientManager.getClient().read(mMac,serviceUUID,UUID.fromString(Config.char3),bleReadResponse);
@@ -557,6 +560,43 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         sendCommand(CommandUtil.getCommandbyteArray(title,label,id));
     }
 
+    @Override
+    public void writeForSendDialFile(int type, byte clockId, int address, int num, byte[] data) {
+        if (type == 3){
+            ClientManager.getClient().write(mMac,UUID.fromString(Config.char5),UUID.fromString(Config.char4),
+                    CommandUtil.getCommandbyteDialFile(2,type,clockId,address,num,data),bleWriteResponse);
+        }else if (type == 4){
+            ClientManager.getClient().write(mMac,UUID.fromString(Config.char5),UUID.fromString(Config.char4),
+                    CommandUtil.getCommandbyteDialFile(data.length+7,type,clockId,address,num,data),bleWriteResponse);
+        }else if (type == 5){
+            ClientManager.getClient().write(mMac,UUID.fromString(Config.char5),UUID.fromString(Config.char4),
+                    CommandUtil.getCommandbyteDialFile(2,type,clockId,address,num,data),bleWriteResponse);
+        }else if (type == 6){
+            ClientManager.getClient().write(mMac,UUID.fromString(Config.char5),UUID.fromString(Config.char4),
+                    CommandUtil.getCommandbyteDialFile(2,type,clockId,address,num,data),bleWriteResponse);
+        }else if (type == 7){
+            ClientManager.getClient().write(mMac,UUID.fromString(Config.char5),UUID.fromString(Config.char4),
+                    CommandUtil.getCommandbyteDialFile(data.length+7,type,clockId,address,num,data),bleWriteResponse);
+        }else if (type == 8){
+            ClientManager.getClient().write(mMac,UUID.fromString(Config.char5),UUID.fromString(Config.char4),
+                    CommandUtil.getCommandbyteDialFile(2,type,clockId,address,num,data),bleWriteResponse);
+        }
+    }
+
+    @Override
+    public void writeForSendDialBackground(int type,int clockType,int clockIndex,int num,byte[] datas) {
+        if (type == 0){
+            ClientManager.getClient().write(mMac,serviceUUID,UUID.fromString(Config.char1),
+                    CommandUtil.getCommandbytePicture(13,5,type,clockType,clockType,num,datas),bleWriteResponse);
+        }else if (type == 1){
+            ClientManager.getClient().write(mMac,serviceUUID,UUID.fromString(Config.char1),
+                    CommandUtil.getCommandbytePicture(datas.length+11,datas.length+3,type,clockType,clockType,num,datas),bleWriteResponse);
+        }else {
+            ClientManager.getClient().write(mMac,serviceUUID,UUID.fromString(Config.char1),
+                    CommandUtil.getCommandbytePicture(10,2,type,clockType,clockType,num,datas),bleWriteResponse);
+        }
+    }
+
     private IDataResponse iDataResponse = new IDataResponse() {
 
         @Override
@@ -723,6 +763,78 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         @Override
         public void endCall() {
 //            toEndCall(MyApplication.getInstance().getApplicationContext());
+        }
+
+        @Override
+        public void sendDialFinish() {
+            Intent intent = new Intent(BroadcastConst.UPDATE_DIAL_STATE);
+            intent.putExtra("command", SendFileConst.FINISH);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void sendDialError() {
+            Intent intent = new Intent(BroadcastConst.UPDATE_DIAL_STATE);
+            intent.putExtra("command", SendFileConst.ERROR);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void sendDialStart(int address) {
+            Intent intent = new Intent(BroadcastConst.UPDATE_DIAL_STATE);
+            intent.putExtra("command", SendFileConst.START_SEND);
+            intent.putExtra("address",address);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void sendDialContinue(int page) {
+            Intent intent = new Intent(BroadcastConst.UPDATE_DIAL_STATE);
+            intent.putExtra("command", SendFileConst.CONTINUE);
+            intent.putExtra("page",page);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void sendDialProgress() {
+            Intent intent = new Intent(BroadcastConst.UPDATE_DIAL_STATE);
+            intent.putExtra("command", SendFileConst.PROGRESS);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void sendBackgroundFinish() {
+            Intent intent = new Intent(BroadcastConst.UPDATE_BACKGROUND_STATE);
+            intent.putExtra("command", SendFileConst.FINISH);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void sendBackgroundError() {
+            Intent intent = new Intent(BroadcastConst.UPDATE_BACKGROUND_STATE);
+            intent.putExtra("command", SendFileConst.ERROR);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void sendBackgroundStart() {
+            Intent intent = new Intent(BroadcastConst.UPDATE_BACKGROUND_STATE);
+            intent.putExtra("command", SendFileConst.START_SEND);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void startSendFile() {
+            Intent intent = new Intent(BroadcastConst.UPDATE_BACKGROUND_STATE);
+            intent.putExtra("command", SendFileConst.SEND_BIN);
+            context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void sendBackgroundProgress() {
+            Intent intent = new Intent(BroadcastConst.UPDATE_BACKGROUND_STATE);
+            intent.putExtra("command", SendFileConst.PROGRESS);
+            context.sendBroadcast(intent);
         }
     };
 

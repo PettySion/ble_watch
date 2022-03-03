@@ -14,10 +14,13 @@ import androidx.annotation.Nullable;
 
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Const.HealthyConst;
+import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.healthy.R;
 import com.szip.healthy.Model.HealthyData;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -262,6 +265,7 @@ public class HealthyTableView extends View {
         int max = 0;
         for (int i = 0;i<healthyData.getHeartDataList().size();i++){
             int index = DateUtil.getHour(healthyData.getHeartDataList().get(i).time);
+
             int value = healthyData.getHeartDataList().get(i).averageHeart;
             if (value>max)
                 max = value;
@@ -289,22 +293,30 @@ public class HealthyTableView extends View {
         Path line = new Path();
         Path mPathShader = new Path();
 
-        int i = 0;
-        float startShader = 0;
-        for (Map.Entry<Integer, Integer> entry : hashMap.entrySet()){
-            float startX = barWidth / 2 + (interval + barWidth) * entry.getKey();
-//            canvas.drawPoint(startX,mHeight-(entry.getValue()-90)/10f*barHeight-dpValue*12,paint);
-            if (i == 0){
-                startShader = startX;
-                line.moveTo(startX,mHeight-entry.getValue()/(float)max*barHeight-dpValue*12);
-                mPathShader.moveTo(startX,mHeight-entry.getValue()/(float)max*barHeight-dpValue*12);
-            }else {
-                line.lineTo(startX,mHeight-entry.getValue()/(float)max*barHeight-dpValue*12);
-                mPathShader.lineTo(startX,mHeight-entry.getValue()/(float)max*barHeight-dpValue*12);
-            }
-            i = entry.getKey();
+        ArrayList<Integer> integers = new ArrayList<>();
+        for (int i = 0;i<24;i++){
+            integers.add(0);
         }
-        mPathShader.lineTo(barWidth / 2 + (interval + barWidth) *i, mHeight-dpValue*12);
+        for (Map.Entry<Integer, Integer> entry : hashMap.entrySet()){
+            integers.set(entry.getKey(),entry.getValue());
+        }
+        float startShader = 0;
+        int lastPoint = 0;
+        for (int i = 0;i<integers.size();i++){
+            if (integers.get(i)==0)
+                continue;
+            float startX = barWidth / 2 + (interval + barWidth) * i;
+            if (startShader == 0){
+                startShader = startX;
+                line.moveTo(startX,mHeight-integers.get(i)/(float)max*barHeight-dpValue*12);
+                mPathShader.moveTo(startX,mHeight-integers.get(i)/(float)max*barHeight-dpValue*12);
+            }else {
+                line.lineTo(startX,mHeight-integers.get(i)/(float)max*barHeight-dpValue*12);
+                mPathShader.lineTo(startX,mHeight-integers.get(i)/(float)max*barHeight-dpValue*12);
+            }
+            lastPoint = i;
+        }
+        mPathShader.lineTo(barWidth / 2 + (interval + barWidth) *lastPoint, mHeight-dpValue*12);
         mPathShader.lineTo(startShader, mHeight-dpValue*12);
         mPathShader.close();
 

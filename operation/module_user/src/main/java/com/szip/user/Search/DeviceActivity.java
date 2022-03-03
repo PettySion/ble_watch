@@ -1,20 +1,21 @@
 package com.szip.user.Search;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
+import com.szip.blewatch.base.Interfere.OnItemClickListener;
+import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
+import com.szip.user.Adapter.ProductAdapter;
 import com.szip.user.R;
 import com.szip.user.HttpModel.DeviceConfigBean;
 import com.szip.user.Utils.HttpMessageUtil;
@@ -25,18 +26,20 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 
-public class DeviceActivity extends AppCompatActivity {
+public class DeviceActivity extends BaseActivity {
 
 
-    private ListView deviceList;
+    private RecyclerView deviceList;
     private ProductAdapter productAdapter;
     private ArrayList<SportWatchAppFunctionConfigDTO> dtoArrayList;
-    private DialogFragment mapFragment;
+    private DialogFragment pairFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.user_activity_device);
+        setAndroidNativeLightStatusBar(this,true);
         checkPermission();
         initView();
         initData();
@@ -60,13 +63,17 @@ public class DeviceActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        setTitle(getString(R.string.user_add_device));
         deviceList = findViewById(R.id.deviceList);
-        productAdapter = new ProductAdapter(this);
+        deviceList.setLayoutManager(new LinearLayoutManager(this));
+        deviceList.setHasFixedSize(true);
+        deviceList.setNestedScrollingEnabled(false);
+        productAdapter = new ProductAdapter(getApplicationContext());
         deviceList.setAdapter(productAdapter);
 
-        deviceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        productAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(int position) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 final Fragment prev = fragmentManager.findFragmentByTag("PAIR");
@@ -75,8 +82,8 @@ public class DeviceActivity extends AppCompatActivity {
                     ft = fragmentManager.beginTransaction();
                 }
                 ft.addToBackStack(null);
-                mapFragment = new PairFragment(dtoArrayList.get(position));
-                mapFragment.show(ft, "PAIR");
+                pairFragment = new PairFragment(dtoArrayList.get(position));
+                pairFragment.show(ft, "PAIR");
             }
         });
     }

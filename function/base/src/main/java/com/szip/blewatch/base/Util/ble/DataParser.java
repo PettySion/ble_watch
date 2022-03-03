@@ -13,6 +13,8 @@ import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.Model.BleStepModel;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -62,51 +64,61 @@ public class DataParser {
         }else if (data[1] == 0x16){
 //            mIDataResponse.findPhone(data[8]);
         }else if (data[1] == 0x46){
-//            if (data[9]==2||data[9]==5){
-//                EventBus.getDefault().post(new UpdateDialView(2));
-//            }else {
-//                if (data[8]==0){
-//                    EventBus.getDefault().post(new UpdateDialView(3));
-//                }else if (data[8]==1){
-//                    EventBus.getDefault().post(new UpdateDialView(0));
-//                }else {
-//                    EventBus.getDefault().post(new UpdateDialView(1));
-//                }
-//            }
+            if (mIDataResponse==null)
+                return;
+            if (data[9]==2||data[9]==5){
+                mIDataResponse.sendBackgroundError();
+            }else if (data[9] == 6){
+                mIDataResponse.startSendFile();
+            }else {
+                if (data[8]==0){
+                    mIDataResponse.sendBackgroundStart();
+                }else if (data[8]==1){
+                    mIDataResponse.sendBackgroundProgress();
+                }else {
+                    mIDataResponse.sendBackgroundFinish();
+                }
+            }
         }else if (data[1] == 0x47){
-//            switch (data[8]){
-//                case 0:
-//                    break;
-//                case 1:
-//                    break;
-//                case 2:
-//                    break;
-//                case 3:{
-//                    if(data[9]==2){
-//                        EventBus.getDefault().post(new UpdateDialView(5));
-//                    }else if (data[9] == 5){
-//                        EventBus.getDefault().post(new UpdateDialView(2));
-//                    }else {
-//                        int address = (data[10] & 0xff) + ((data[11] & 0xFF) << 8) +
-//                                ((data[12] & 0xff) << 16) + ((data[13] & 0xFF) << 24);
-//                        EventBus.getDefault().post(new UpdateDialView(3,address));
-//                    }
-//                }
-//                    break;
-//                case 4:{
-//                    if (data[9]==1)
-//                        EventBus.getDefault().post(new UpdateDialView(0));
-//                    else if (data[9] == 2)
-//                        EventBus.getDefault().post(new UpdateDialView(4,(data[10] & 0xff) + ((data[11] & 0xFF) << 8)));
-//                    else
-//                        EventBus.getDefault().post(new UpdateDialView(2));
-//                }
-//                    break;
-//                case 5:{
-//                    EventBus.getDefault().post(new UpdateDialView(1));
-//                }
-//                break;
-//            }
+            if (mIDataResponse==null)
+                return;
+            switch (data[8]){
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                case 6:{//开始包
+                    if(data[9]==2){//手表端已经存在该文件，无需传送直接发送传送成功
+                        mIDataResponse.sendDialFinish();
+                    }else if (data[9] == 5){//开始包发送失败
+                        mIDataResponse.sendDialError();
+                    }else {//准备开始传送
+                        int address = (data[10] & 0xff) + ((data[11] & 0xFF) << 8) +
+                                ((data[12] & 0xff) << 16) + ((data[13] & 0xFF) << 24);
+                        mIDataResponse.sendDialStart(address);
+                    }
+                }
+                    break;
+                case 4:
+                case 7:{//传输包
+                    if (data[9]==1) {//传输包进度+1
+                        mIDataResponse.sendDialProgress();
+                    } else if (data[9] == 2) {//传输包发送失败，重新开始传送
+                        mIDataResponse.sendDialContinue((data[10] & 0xff) + ((data[11] & 0xFF) << 8));
+                    } else {//因其他问题导致的传输失败
+                        mIDataResponse.sendDialError();
+                    }
+                }
+                    break;
+                case 5:
+                case 8:{//结束包，收到即代表传输结束
+                    mIDataResponse.sendDialFinish();
+                }
+                break;
+            }
         }else if (data[1] == 0x48){//音乐控制
 //            if (mIDataResponse!=null){
 //                if (data[8] != 4){

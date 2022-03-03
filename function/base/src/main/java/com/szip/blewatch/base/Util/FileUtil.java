@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -111,6 +112,17 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public byte[] toByteArray(InputStream in) throws IOException {
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024 * 4];
+        int n = 0;
+        while ((n = in.read(buffer)) != -1) {
+            out.write(buffer, 0, n);
+        }
+        return out.toByteArray();
     }
 
     public void deleteFile(String fileName){

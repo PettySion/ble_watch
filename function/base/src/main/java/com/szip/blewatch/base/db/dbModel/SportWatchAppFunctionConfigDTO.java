@@ -117,6 +117,8 @@ public class SportWatchAppFunctionConfigDTO extends BaseModel {
     @Column
     public String mac;
 
+    @Column
+    public String  productImg;
 
     private HealthyConfig healthMonitorConfig;
 

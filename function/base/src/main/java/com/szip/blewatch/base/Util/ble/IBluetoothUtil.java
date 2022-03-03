@@ -9,4 +9,6 @@ public interface IBluetoothUtil {
     void writeForFindWatch();
     void writeForUpdateUserInfo();
     void writeToSendNotify(String title,String label,int id);
+    void writeForSendDialFile(int type,byte clockId,int address,int num,byte[] data);
+    void writeForSendDialBackground(int type,int clockType,int clockIndex,int num,byte[] datas);
 }

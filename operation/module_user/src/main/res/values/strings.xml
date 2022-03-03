@@ -71,4 +71,36 @@
     <string name="user_feedback_success">Feedback Success</string>
     <string name="user_guide">User Guide</string>
     <string name="user_service">Keep app active</string>
+
+    <string name="user_search">Search Device</string>
+    <string name="user_searching">Searching for device....</string>
+    <string name="user_bind">binding...</string>
+    <string name="user_no_device">No device found</string>
+    <string name="user_pair_success">Pair success</string>
+    <string name="user_pair_tip">Your exercise and health data will be synchronized between the watch and the phone through the APP.</string>
+    <string name="user_finish">Finish</string>
+    <string name="user_understand">Understand</string>
+    <string name="user_wear_tip">Wear Tip</string>
+    <string name="user_wear_tip_content">In order to accurately measure data and not affect the normal use of APP, please try to wear the watch 1cm away from the wrist bone</string>
+    <string name="user_search_tip">Remove the device, charge it to activate, and hold it close to the phone</string>
+    <string name="user_search_much">Please select your watch by MAC address</string>
+    <string name="user_search_again">Search Again</string>
+    <string name="user_again_tip">You can perform the following operations and try again:</string>
+    <string name="user_again_advice">· Turn on the bluetooth of the phone again \n· Make sure that the watch is turned on and close to the phone \ N · Click on the device \" Restore factory Settings \"</string>
+    <string name="user_stop_bind">Later, it is not bound</string>
+    <string name="user_bind_help">Can\'t find the device to add? See the help</string>
+
+    <string name="user_dial_market">Dial Store</string>
+    <string name="user_dial_now">Preview</string>
+    <string name="user_dial_mine">My Dial</string>
+    <string name="user_dial_diy">DIY</string>
+    <string name="user_background">Upload Pictures</string>
+    <string name="user_crop_fail">Image capture failed, please select JPG image!</string>
+    <string name="user_crop_small">Image capture failed, captured picture is too small and the size of the dial does not match!</string>
+    <string name="user_send_background">Sending Background...</string>
+    <string name="user_send_dial">Sending Dial...</string>
+    <string name="user_send_success">Update dial success!</string>
+    <string name="user_send_fail">Update dial fail,please try again!</string>
+    <string name="user_no_background">Please upload the background first</string>
+    <string name="user_no_clock">Please select the dial first</string>
 </resources>

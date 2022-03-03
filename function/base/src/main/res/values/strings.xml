@@ -24,6 +24,6 @@
 
     <string name="save_success">Save Success</string>
     <string name="waiting">Waiting...</string>
-    <string name="http_error">Network reply timed out. Please check the network connection status</string>
+    <string name="http_error">Request Timeout</string>
     <string name="user_upload_data">Data Uploading...</string>
 </resources>

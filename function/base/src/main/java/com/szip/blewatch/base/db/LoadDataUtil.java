@@ -188,6 +188,7 @@ public class LoadDataUtil {
                 .from(HeartData.class)
                 .where(HeartData_Table.time.lessThan(time+24*60*60-1),
                         HeartData_Table.time.greaterThanOrEq(time))
+                .orderBy(OrderBy.fromString(HeartData_Table.time+OrderBy.ASCENDING))
                 .queryList();
 
         return sqlData;
@@ -300,6 +301,7 @@ public class LoadDataUtil {
                 .from(BloodPressureData.class)
                 .where(BloodPressureData_Table.time.lessThan(time+24*60*60-1),
                         BloodPressureData_Table.time.greaterThanOrEq(time))
+                .orderBy(OrderBy.fromString(AnimalHeatData_Table.time+OrderBy.DESCENDING))
                 .queryList();
 
         return list;

@@ -6,6 +6,7 @@ import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.http.TokenInterceptor;
 import com.szip.user.HttpModel.AvatarBean;
 import com.szip.user.HttpModel.DeviceConfigBean;
+import com.szip.user.HttpModel.DialBean;
 import com.szip.user.HttpModel.FaqBean;
 import com.szip.user.HttpModel.FaqListBean;
 import com.zhy.http.okhttp.BaseApi;
@@ -41,6 +42,7 @@ public class HttpMessageUtil {
     public void getDeviceConfig(GenericsCallback<DeviceConfigBean> callback){
         GetBuilder getBuilder = OkHttpUtils
                 .get()
+                .addParams("appName","newApp")
                 .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(getBuilder,"comm/getAppFunctionConfigs",callback);
     }
@@ -134,6 +136,16 @@ public class HttpMessageUtil {
                 .addParams("id",id)
                 .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(getBuilder,"comm/getQuestionAndAnswerDetail",callback);
+    }
+
+    public void getDialList(String id,GenericsCallback<DialBean> callback){
+        GetBuilder getBuilder = OkHttpUtils
+                .get()
+                .addParams("pageNum","1")
+                .addParams("pageSize","30")
+                .addParams("watchPlateGroupId",id)
+                .addInterceptor(new TokenInterceptor());
+        HttpClientUtils.newInstance().buildRequest(getBuilder,"device/watchPlate",callback);
     }
 
 }
