@@ -47,12 +47,12 @@ public class PostJsonRequest extends OkHttpRequest {
     protected RequestBody wrapRequestBody(RequestBody requestBody, final Callback callback)
     {
         if (callback == null) return requestBody;
-        CountingRequestBody countingRequestBody = new CountingRequestBody(requestBody, new CountingRequestBody.Listener()
+
+        final CountingRequestBody countingRequestBody = new CountingRequestBody(requestBody, new CountingRequestBody.Listener()
         {
             @Override
             public void onRequestProgress(final long bytesWritten, final long contentLength)
             {
-
                 OkHttpUtils.getInstance().getDelivery().execute(new Runnable()
                 {
                     @Override

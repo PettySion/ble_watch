@@ -6,7 +6,7 @@ public interface IBluetoothUtil {
     void sendCommand(byte []datas);
     void writeForSetUnit();
     void writeForSetWeather();
-    void writeForFindWatch();
+    void writeForFindWatch(int state);
     void writeForUpdateUserInfo();
     void writeToSendNotify(String title,String label,int id);
     void writeForSendDialFile(int type,byte clockId,int address,int num,byte[] data);

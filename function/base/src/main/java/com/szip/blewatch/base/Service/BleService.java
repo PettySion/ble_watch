@@ -328,7 +328,10 @@ public class BleService extends Service implements MyHandle {
                         iBluetoothUtil.writeForSetWeather();
                         break;
                     case "findWatch":
-                        iBluetoothUtil.writeForFindWatch();
+                        iBluetoothUtil.writeForFindWatch(1);
+                        break;
+                    case "stopFindWatch":
+                        iBluetoothUtil.writeForFindWatch(0);
                         break;
                     case "setInfo":
                         iBluetoothUtil.writeForUpdateUserInfo();
@@ -341,6 +344,10 @@ public class BleService extends Service implements MyHandle {
                         iBluetoothUtil.writeToSendNotify(title,label,id);
                     }
                         break;
+                    case "setStep":{
+                        iBluetoothUtil.writeForUpdateUserInfo();
+                    }
+                    break;
                 }
             }
                 break;

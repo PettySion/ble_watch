@@ -2,14 +2,17 @@ package com.szip.blewatch.base.View;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.R;
 
 
@@ -163,6 +166,31 @@ public class MyAlerDialog {
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         return alertDialog;
+    }
+
+    public void showFindWatchTag(final Context context){
+        final AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setCancelable(true)
+                .create();
+        alertDialog.show();
+        Window window = alertDialog.getWindow();
+        window.setContentView(R.layout.dialog_layout_find_watch);
+
+
+        Button confirm = window.findViewById(R.id.btn_cancel);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
+                intent.putExtra("command","stopFindWatch");
+                context.sendBroadcast(intent);
+                alertDialog.dismiss();
+            }
+        });//确定按钮
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
 
 

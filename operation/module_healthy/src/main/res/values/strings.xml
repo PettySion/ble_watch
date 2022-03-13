@@ -13,6 +13,7 @@
     <string name="healthy_last_sport">Last Sport</string>
     <string name="healthy_sport_list">Sport List</string>
     <string name="healthy_sport_last">To the bottom~</string>
+    <string name="healthy_no_sport">No sport records yet, so start sporting</string>
     <string name="healthy_card_visiable">Items displayed (hold down and drag on the right side to adjust the order)</string>
     <string name="healthy_card_gone">Hidden items</string>
     <string name="healthy_card_need_gone">Drag items that do not need to be displayed here</string>

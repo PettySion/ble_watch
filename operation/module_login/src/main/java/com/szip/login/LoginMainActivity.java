@@ -1,5 +1,10 @@
 package com.szip.login;
 
+import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -13,18 +18,23 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.szip.blewatch.base.Model.HealthyConfig;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.View.ProgressHudModel;
 import com.szip.blewatch.base.db.SaveDataUtil;
+import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
+import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.login.Forget.ForgetPasswordActivity;
+import com.szip.login.HttpModel.DeviceConfigBean;
 import com.szip.login.HttpModel.LoginBean;
 import com.szip.login.Register.RegisterActivity;
 import com.szip.login.Utils.HttpMessageUtil;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
+import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
@@ -49,6 +59,9 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     private String countryStr,codeStr;
 
     private SharedPreferences sharedPreferences;
+
+    private UserModel userModel;
+    private BluetoothDevice device;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +177,23 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     }
 
 
+    private void loadDeviceConfig(){
+        if (userModel.deviceCode==null||userModel.deviceCode.equals("")){//如果账户没绑定蓝牙，直接登陆成功回到主页
+            finish();
+        }else {
+            BluetoothManager bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
+            BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+            device = bluetoothAdapter.getRemoteDevice(userModel.deviceCode);
+            if (device==null){//如果账户绑定的蓝牙地址找不到蓝牙设备，直接解绑设备回到主页
+                HttpMessageUtil.newInstance().unBindDevice(unbindCallback);
+            }else {//如果账户绑定的蓝牙地址找到了蓝牙设备，直接去云端加载该设备的配置表
+                HttpMessageUtil.newInstance().getDeviceConfig(loadConfigCallback);
+            }
+        }
+
+    }
+
+
     private GenericsCallback<LoginBean> callback = new GenericsCallback<LoginBean>(new JsonGenericsSerializator()) {
         @Override
         public void onError(Call call, Exception e, int id) {
@@ -172,17 +202,63 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onResponse(LoginBean loginBean, int id) {
-            ProgressHudModel.newInstance().diss();
             if (loginBean.getCode()==200){
                 HttpClientUtils.newInstance().setToken(loginBean.getData().getToken());
                 MathUtil.newInstance().saveStringData(getApplicationContext(),"token",loginBean.getData().getToken());
                 MathUtil.newInstance().saveIntData(getApplicationContext(),"userId",loginBean.getData().getUserInfo().id);
                 SaveDataUtil.newInstance().saveUserInfo(loginBean.getData().getUserInfo());
-                finish();
+                userModel = loginBean.getData().getUserInfo();
+                loadDeviceConfig();
             }else {
                 showToast(loginBean.getMessage());
             }
         }
     };
 
+
+
+    private GenericsCallback unbindCallback = new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            ProgressHudModel.newInstance().diss();
+            showToast(e.getMessage());
+        }
+
+        @Override
+        public void onResponse(BaseApi response, int id) {
+            ProgressHudModel.newInstance().diss();
+            if (response.getCode()==200){
+                userModel.deviceCode=null;
+                userModel.update();
+                finish();
+            }
+        }
+    };
+
+
+    private GenericsCallback loadConfigCallback = new GenericsCallback<DeviceConfigBean>(new JsonGenericsSerializator()) {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            ProgressHudModel.newInstance().diss();
+            showToast(e.getMessage());
+        }
+
+        @SuppressLint("MissingPermission")
+        @Override
+        public void onResponse(DeviceConfigBean response, int id) {
+            ProgressHudModel.newInstance().diss();
+            if(response.getCode()==200){
+                for (SportWatchAppFunctionConfigDTO data:response.getData()){
+                    if (data.appName.equals(device.getName())){
+                        data.mac = device.getAddress();
+                        HealthyConfig healthyConfig = data.getHealthMonitorConfig();
+                        SaveDataUtil.newInstance().saveConfigData(data);
+                        SaveDataUtil.newInstance().saveHealthyConfigData(healthyConfig);
+                        break;
+                    }
+                }
+                finish();
+            }
+        }
+    };
 }

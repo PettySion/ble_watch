@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -17,6 +18,7 @@ import com.szip.healthy.R;
 import java.util.ArrayList;
 
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_REPORT_BP;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_USER_FAQ;
 
 @Route(path = PATH_ACTIVITY_REPORT_BP)
 public class BpReportActivity extends BaseActivity {
@@ -41,6 +43,16 @@ public class BpReportActivity extends BaseActivity {
         setTitle(getString(R.string.healthy_blood_pressure));
         mTab = findViewById(R.id.reportTl);
         mPager = findViewById(R.id.reportVp);
+
+        findViewById(R.id.rightIv).setVisibility(View.VISIBLE);
+        findViewById(R.id.rightIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)
+                        .withString("id","BlOOD_PRESSURE")
+                        .navigation();
+            }
+        });
     }
 
     private void initPage() {

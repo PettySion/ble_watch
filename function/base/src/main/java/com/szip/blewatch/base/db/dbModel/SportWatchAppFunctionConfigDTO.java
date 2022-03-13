@@ -120,6 +120,11 @@ public class SportWatchAppFunctionConfigDTO extends BaseModel {
     @Column
     public String  productImg;
 
+    @Column
+    public String  dialImg;
+    @Column
+    public boolean  cameraSwitch;
+
     private HealthyConfig healthMonitorConfig;
 
     public HealthyConfig getHealthMonitorConfig() {

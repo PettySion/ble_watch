@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        szp {
+            storeFile file('E:\\keyStore\\szip.keystore')
+            storePassword 'damibao123'
+            keyAlias 'key'
+            keyPassword 'damibao123'
+        }
+    }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
@@ -28,6 +36,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.szp
+        }
+        debug {
+            signingConfig signingConfigs.szp
         }
     }
 

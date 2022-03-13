@@ -3,9 +3,9 @@
 
     <string name="user_plan">我的目标</string>
     <string name="user_edit_plan">编辑目标</string>
-    <string name="user_step">步数</string>
-    <string name="user_sleep">睡眠</string>
-    <string name="user_calorie">消耗</string>
+    <string name="user_step">步数目标</string>
+    <string name="user_sleep">睡眠目标</string>
+    <string name="user_calorie">消耗目标</string>
 
     <string name="user_connect">已连接</string>
     <string name="user_disconnect">未连接</string>
@@ -104,4 +104,13 @@
     <string name="user_send_fail">发送失败，请重试。</string>
     <string name="user_no_background">请先上传背景</string>
     <string name="user_no_clock">请先选择表盘</string>
+
+    <string name="user_device_name">软件型号</string>
+    <string name="user_device_mac">Mac地址</string>
+    <string name="user_device_version">软件版本</string>
+    <string name="user_check_update">检查更新</string>
+
+    <string name="user_camera_tip">开启蓝牙拍照功能后，手表可控制手机相机应用，进行拍照</string>
+    <string name="user_camera_permission_tip">在使用过程中，本应用需要访问相机以及文件读写权限，用于远程拍照以及存储照片\n\n如果您不同意调用以上权限，将导致蓝牙拍照无法正常使用，担不影响您使用本应用的基本功能。您可随时前往“设置”>“权限管理”，选择关闭以上权限调用以撤回您的同意</string>
+    <string name="user_camera_permission_error">权限没有通过，打开失败</string>
 </resources>

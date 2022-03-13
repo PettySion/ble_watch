@@ -22,6 +22,8 @@
     <string name="ping">乒乓球</string>
     <string name="football">足球</string>
     <string name="climb">攀岩</string>
+    <string name="watch_ring">手表正在响铃,请注意。</string>
+    <string name="stop_find">停止查找</string>
 
     <string name="save_success">保存成功</string>
     <string name="waiting">请等待...</string>

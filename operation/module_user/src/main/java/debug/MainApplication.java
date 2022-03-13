@@ -22,9 +22,9 @@ public class MainApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
 
-        MathUtil.newInstance().saveStringData(getApplicationContext(),"token","0rfD8nYL)IM9i4&LbQx$");
-        MathUtil.newInstance().saveIntData(getApplicationContext(),"userId",136);
-        HttpClientUtils.newInstance().setToken("0rfD8nYL)IM9i4&LbQx$");
+        MathUtil.newInstance().saveStringData(getApplicationContext(),"token","TjFcXs~ORm3tsLEz!19x");
+        MathUtil.newInstance().saveIntData(getApplicationContext(),"userId",46);
+        HttpClientUtils.newInstance().setToken("TjFcXs~ORm3tsLEz!19x");
         startService(new Intent(this,BleService.class));
 
 

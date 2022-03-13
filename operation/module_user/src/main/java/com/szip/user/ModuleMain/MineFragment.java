@@ -1,6 +1,7 @@
 package com.szip.user.ModuleMain;
 
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
@@ -23,15 +25,20 @@ import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
 import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
+import com.szip.user.Activity.AboutActivity;
 import com.szip.user.Activity.NotificationActivity;
+import com.szip.user.Activity.TargetActivity;
 import com.szip.user.Activity.UserSetActivity;
+import com.szip.user.Activity.camera.CameraSetActivity;
 import com.szip.user.Activity.dial.DialSelectActivity;
 import com.szip.user.Activity.userInfo.UserInfoActivity;
 import com.szip.user.R;
 import com.szip.user.Activity.UnitSelectActivity;
 import com.szip.user.Adapter.DeviceManagementAdapter;
-import com.szip.user.Search.DeviceActivity;
+import com.szip.user.Activity.search.DeviceActivity;
 import com.szip.user.View.RoundProgressBar;
+
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_USER_FAQ;
 
 /**
  * Created by Administrator on 2019/12/1.
@@ -140,9 +147,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                             iMinePresenter.unbind();
                         }
                     }, getActivity());
-
         }else if (id == R.id.dialLl){
             startActivity(new Intent(getActivity(), DialSelectActivity.class));
+        }else if (id == R.id.editPlanTv){
+            if (!MathUtil.newInstance().needLogin(getActivity())) {
+                startActivity(new Intent(getActivity(), TargetActivity.class));
+            }
         }
     }
 
@@ -154,10 +164,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
                     intent.putExtra("command","findWatch");
                     getActivity().sendBroadcast(intent);
+                    MyAlerDialog.getSingle().showFindWatchTag(getActivity());
                     break;
                 case 1:
+                    ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)
+                            .withString("id","CALL")
+                            .navigation();
                     break;
                 case 2:
+                    startActivity(new Intent(getActivity(), CameraSetActivity.class));
                     break;
                 case 3:
                     startActivity(new Intent(getActivity(), UnitSelectActivity.class));
@@ -166,6 +181,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     startActivity(new Intent(getActivity(), NotificationActivity.class));
                     break;
                 case 5:
+                    startActivity(new Intent(getActivity(), AboutActivity.class));
                     break;
 
             }
@@ -217,15 +233,20 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         stepTv.setText(String.format("%d",stepPlan));
         sleepTv.setText(String.format("%dh",sleepPlan/60));
         calorieTv.setText(String.format("%d",caloriePlan));
+
         stepSb.setRatio(step>=stepPlan?1:step/(float)stepPlan);
         sleepSb.setRatio(sleep>=sleepPlan?1:sleep/(float)sleepPlan);
         calorieSb.setRatio(calorie>=caloriePlan?1:calorie/(float)caloriePlan);
+
         stepDataTv.setText(String.format("%d",step));
         sleepDataTv.setText(String.format("%dh%dmin",sleep/60,sleep%60));
         calorieDataTv.setText(String.format("%.1fkcal",((calorie+55)/100)/10f));
+
         stepRateTv.setText(String.format("%.1f%%",step>=stepPlan?100:step/(float)stepPlan*100));
         sleepRateTv.setText(String.format("%.1f%%",sleep>=sleepPlan?100:sleep/(float)sleepPlan*100));
         calorieRateTv.setText(String.format("%.1f%%",calorie>=caloriePlan?100:calorie/(float)caloriePlan*100));
+
         watchTv.setText(device.appName);
+        Glide.with(getActivity()).load(device.dialImg).into(dialIv);
     }
 }

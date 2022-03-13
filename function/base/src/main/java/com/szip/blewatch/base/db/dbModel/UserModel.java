@@ -49,18 +49,23 @@ public class UserModel extends BaseModel {
     @Column
     public int sleepPlan;
     @Column
+    public int caloriePlan;
+    @Column
     public int tempUnit;
 
 
     public UserModel() {
     }
 
-    public UserModel(String birthday, int height, int weight, int heightBritish, int weightBritish, String name) {
-        this.birthday = birthday;
+
+    public UserModel(int height, int weight, int unit, int heightBritish, int weightBritish, int stepsPlan, int tempUnit,int sex) {
         this.height = height;
         this.weight = weight;
+        this.unit = unit;
         this.heightBritish = heightBritish;
         this.weightBritish = weightBritish;
-        this.userName = name;
+        this.stepsPlan = stepsPlan;
+        this.tempUnit = tempUnit;
+        this.sex = sex;
     }
 }

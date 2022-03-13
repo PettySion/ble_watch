@@ -9,6 +9,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.location.AMapLocationClient;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.szip.blewatch.base.Util.FileUtil;
+import com.szip.blewatch.base.Util.MusicUtil;
 import com.szip.blewatch.base.Util.ble.ClientManager;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.LogUtil;
@@ -30,6 +31,7 @@ public class BaseApplication extends Application {
         HttpClientUtils.newInstance().init(this);
         FileUtil.getInstance().initFile(this);
         LogUtil.getInstance().init(this);
+        MusicUtil.getSingle().init(getApplicationContext());
     }
 
     @Override

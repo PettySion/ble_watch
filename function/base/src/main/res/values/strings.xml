@@ -8,6 +8,7 @@
     <string name="tip">Tip</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="login_tip">You need to log in to proceed with the next operation. Do you want to log in now?</string>
     <string name="outrun">Run</string>
     <string name="walk">Walk</string>
     <string name="treadmill">Run Indoor</string>
@@ -20,7 +21,8 @@
     <string name="ping">Ping Pong</string>
     <string name="football">Football</string>
     <string name="climb">Climb</string>
-    <string name="login_tip">You need to log in to proceed with the next operation. Do you want to log in now?</string>
+    <string name="watch_ring">The watch is ringing. Pay attention, please.</string>
+    <string name="stop_find">Stop Find</string>
 
     <string name="save_success">Save Success</string>
     <string name="waiting">Waiting...</string>

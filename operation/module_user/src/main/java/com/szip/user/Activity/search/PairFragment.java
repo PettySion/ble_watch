@@ -1,4 +1,4 @@
-package com.szip.user.Search;
+package com.szip.user.Activity.search;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.Broadcast.MyHandle;
@@ -47,6 +48,8 @@ import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 import java.util.ArrayList;
 
 import okhttp3.Call;
+
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_USER_FAQ;
 
 public class PairFragment extends DialogFragment implements MyHandle {
     private View mRootView;
@@ -163,7 +166,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
         stopTv.setOnClickListener(listener);
         researchRl.setOnClickListener(listener);
         mRootView.findViewById(R.id.backIv).setOnClickListener(listener);
-
+        mRootView.findViewById(R.id.searchHelpTv).setOnClickListener(listener);
 
     }
 
@@ -278,6 +281,10 @@ public class PairFragment extends DialogFragment implements MyHandle {
                 intent.putExtra("search",false);
                 getActivity().sendBroadcast(intent);
                 dismiss();
+            }else if (id == R.id.searchHelpTv){
+                ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)
+                        .withString("id","PAIR")
+                        .navigation();
             }
         }
     };

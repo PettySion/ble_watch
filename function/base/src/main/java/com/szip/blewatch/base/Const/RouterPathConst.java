@@ -7,6 +7,7 @@ public class RouterPathConst {
     public static final String PATH_ACTIVITY_SPORT_RESULT = "/sport/sportResult";
     public static final String PATH_ACTIVITY_LOGIN = "/login/main";
     public static final String PATH_ACTIVITY_USER = "/user/main";
+    public static final String PATH_ACTIVITY_USER_FAQ = "/user/faq";
     public static final String PATH_ACTIVITY_PRIVACY = "/app/privacy";
     public static final String PATH_ACTIVITY_REPORT = "/healthy/report/";
     public static final String PATH_ACTIVITY_REPORT_HEART = "/healthy/report/1";

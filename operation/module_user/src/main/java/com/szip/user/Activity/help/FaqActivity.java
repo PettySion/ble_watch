@@ -3,11 +3,13 @@ package com.szip.user.Activity.help;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.user.Adapter.FaqAdapter;
 import com.szip.user.HttpModel.FaqListBean;
@@ -20,6 +22,9 @@ import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 import java.util.ArrayList;
 
 import okhttp3.Call;
+
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_USER_FAQ;
 
 public class FaqActivity extends BaseActivity {
     private ListView faqList;
@@ -52,15 +57,9 @@ public class FaqActivity extends BaseActivity {
                 }else if (position==list.size()){
 //                    startActivity(new Intent(FaqActivity.this,GuideActivity.class));
                 }else {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    final Fragment prev = getSupportFragmentManager().findFragmentByTag("FAQ");
-                    if (prev != null){
-                        ft.remove(prev).commit();
-                        ft = getSupportFragmentManager().beginTransaction();
-                    }
-                    ft.addToBackStack(null);
-                    FaqFragment faqFragment = new FaqFragment(String.valueOf(list.get(position).getReqId()),list.get(position).getTitle());
-                    faqFragment.show(ft, "FAQ");
+                  ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)
+                          .withString("id",list.get(position).getReqId()+"")
+                          .navigation();
                 }
             }
         });

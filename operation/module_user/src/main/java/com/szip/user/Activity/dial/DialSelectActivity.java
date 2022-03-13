@@ -38,6 +38,7 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
     private String pictureUrl;
     private boolean isSendPic = false;
     private boolean isCircle = false;
+    private SportWatchAppFunctionConfigDTO data;
     private ArrayList<DialBean.Dial> dialArrayList = new ArrayList<>();
     private IDialSelectPresenter iSelectDialPresenter;
 
@@ -49,7 +50,7 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
         getSupportActionBar().hide();
         setContentView(R.layout.user_activity_dial_select);
         setAndroidNativeLightStatusBar(this,true);
-        SportWatchAppFunctionConfigDTO data = LoadDataUtil.newInstance().getSportConfig(MathUtil.newInstance().getUserId(getApplicationContext()));
+        data = LoadDataUtil.newInstance().getSportConfig(MathUtil.newInstance().getUserId(getApplicationContext()));
         if (data==null)
             return;
         isCircle = data.screenType==0;
@@ -75,9 +76,6 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
     }
 
     private void getDialList() {
-        SportWatchAppFunctionConfigDTO data = LoadDataUtil.newInstance().getSportConfig(MathUtil.newInstance().getUserId(getApplicationContext()));
-        if (data==null)
-            return;
         HttpMessageUtil.newInstance().getDialList(data.watchPlateGroupId+"",
                 new GenericsCallback<DialBean>(new JsonGenericsSerializator()) {
                     @Override
@@ -168,12 +166,14 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
     @Override
     public void setView(String id, String pictureId) {
         this.pictureUrl = pictureId;
+        data.dialImg = id;
         Glide.with(this).load(id).into(dialIv);
     }
 
     @Override
     public void setDialView(String dialId, String pictureId) {
         this.pictureUrl = pictureId;
+        data.dialImg = dialId;
         Glide.with(this).load(dialId).into(dialIv);
     }
 
@@ -219,6 +219,7 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
                     isSendPic = false;
                     ProgressHudModel.newInstance().diss();
                     showToast(getString(R.string.user_send_success));
+                    data.update();
                 }
             }
             break;
@@ -229,6 +230,7 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
                 }else if (command == SendFileConst.FINISH){
                     ProgressHudModel.newInstance().diss();
                     showToast(getString(R.string.user_send_success));
+                    data.update();
                 }else if (command == SendFileConst.ERROR){
                     ProgressHudModel.newInstance().diss();
                     showToast(getString(R.string.user_send_fail));

@@ -10,5 +10,4 @@ public interface IDialSelectPresenter {
     void getViewConfig(RecyclerView dialRv, ArrayList<DialBean.Dial> dialArrayList);
     void startToSendDial();
     void sendDial(String resultUri,int address);
-    void setViewDeStory();
 }

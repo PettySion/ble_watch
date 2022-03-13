@@ -26,6 +26,10 @@ import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.Util.MusicUtil;
+import com.szip.blewatch.base.Util.http.HttpClientUtils;
+import com.szip.blewatch.base.Util.http.TokenInterceptor;
+import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
@@ -34,6 +38,12 @@ import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.Model.BleStepModel;
+import com.szip.blewatch.base.db.dbModel.UserModel;
+import com.zhy.http.okhttp.BaseApi;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.builder.PostJsonBuilder;
+import com.zhy.http.okhttp.callback.GenericsCallback;
+import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +52,8 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+
+import okhttp3.Call;
 
 import static android.media.AudioManager.FLAG_PLAY_SOUND;
 import static android.media.AudioManager.STREAM_MUSIC;
@@ -191,13 +203,13 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
                         writeForUpdateUserInfo();
                         writeForSetUnit();
 //                        initPhoneStateListener(true);
-//                        MusicUtil.getSingle().registerNotify();
+                        MusicUtil.getSingle().registerNotify();
                     }
                 };
                 Timer timer = new Timer();
                 timer.schedule(timerTask,300);
             }else{
-//                MusicUtil.getSingle().unRegisterNotify();
+                MusicUtil.getSingle().unRegisterNotify();
 //                initPhoneStateListener(false);
                 connectState = 5;
                 isSync = false;
@@ -550,8 +562,18 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
     }
 
     @Override
-    public void writeForFindWatch() {
-        sendCommand( CommandUtil.getCommandbyteArray(context,0x38, 9, 1, true));
+    public void writeForFindWatch(int state) {
+        byte[] data = new byte[9];
+        data[0] = (byte) 0xAA;
+        data[1] = (byte) 0x38;
+        data[2] = (byte) 1;
+        data[3] = 0;
+        data[4] = (byte) (0xF0);
+        data[5] = (byte) (0xF0);
+        data[6] = (byte) (0xF0);
+        data[7] = (byte) (0xF0);
+        data[8] = (byte) state;
+        sendCommand(data);
     }
 
 
@@ -679,6 +701,7 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         public void findPhone(int flag) {
             final AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
             if (flag == 1){
+                LogUtil.getInstance().logd("data******","响铃");
                 MathUtil.newInstance().speaker(am);
                 starVibrate(new long[]{500,500,500});
                 volume  = am.getStreamVolume(STREAM_MUSIC);//保存手机原来的音量
@@ -698,6 +721,7 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
                     });
                 }
             }else{
+                LogUtil.getInstance().logd("data******","关闭");
                 if (mediaPlayer!=null){
                     mediaPlayer.stop();
                     stopVibrate();
@@ -709,24 +733,92 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         }
 
         @Override
-        public void updateUserInfo() {
-//            try {
-//                HttpMessgeUtil.getInstance().postForSetUserInfo1(MyApplication.getInstance().getUserInfo(),
-//                        new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
-//                            @Override
-//                            public void onError(Call call, Exception e, int id) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onResponse(BaseApi response, int id) {
-//
-//                            }
-//                        });
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+        public void updateUserInfo(final UserModel userModel) {
+
+            final UserModel userModelSql = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(context));
+            if (userModel.weightBritish!=userModelSql.weightBritish||userModel.weight!=userModelSql.weight||
+                    userModel.heightBritish!=userModelSql.heightBritish||userModel.height!=userModelSql.height||
+                    userModel.sex!=userModelSql.sex){
+
+                PostJsonBuilder builder = OkHttpUtils
+                        .jpost()
+                        .addParams("userName",userModel.userName)
+                        .addParams("lastName","")
+                        .addParams("firstName","")
+                        .addParams("sex",userModel.sex+"")
+                        .addParams("birthday",userModelSql.birthday)
+                        .addParams("nation","")
+                        .addParams("height",userModel.height+"")
+                        .addParams("weight",userModel.weight+"")
+                        .addParams("heightBritish",userModel.heightBritish+"")
+                        .addParams("weightBritish",userModel.weightBritish+"")
+                        .addParams("blood","")
+                        .addInterceptor(new TokenInterceptor());
+
+
+                HttpClientUtils.newInstance().buildRequest(builder, "v2/user/updateUserInfo", new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(BaseApi response, int id) {
+                        if (response.getCode() == 200){
+                            userModelSql.weight = userModel.weight;
+                            userModelSql.weightBritish = userModel.weightBritish;
+                            userModelSql.height = userModel.height;
+                            userModelSql.heightBritish = userModel.heightBritish;
+                            userModelSql.sex = userModel.sex;
+                            userModelSql.update();
+                        }
+                    }
+                });
+
+            }
+            if (userModel.unit!=userModelSql.unit||userModel.tempUnit!=userModelSql.tempUnit){
+                PostJsonBuilder builder = OkHttpUtils
+                        .jpost()
+                        .addParams("unit",userModel.unit+"")
+                        .addParams("tempUnit",userModel.tempUnit+"")
+                        .addInterceptor(new TokenInterceptor());
+                HttpClientUtils.newInstance().buildRequest(builder, "v2/user/setUnit", new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(BaseApi response, int id) {
+                        if (response.getCode() == 200){
+                            userModelSql.unit = userModel.unit;
+                            userModelSql.tempUnit = userModel.tempUnit;
+                            userModelSql.update();
+                        }
+                    }
+                });
+            }
+            if (userModel.stepsPlan!=userModelSql.stepsPlan){
+                PostJsonBuilder builder = OkHttpUtils
+                        .jpost()
+                        .addParams("stepsPlan",userModelSql.stepsPlan+"")
+                        .addInterceptor(new TokenInterceptor());
+                HttpClientUtils.newInstance().buildRequest(builder, "v2/user/updateStepsPlan", new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(BaseApi response, int id) {
+                        if (response.getCode() == 200){
+                            userModelSql.stepsPlan = userModel.stepsPlan;
+                            userModelSql.update();
+                        }
+                    }
+                });
+            }
+
         }
 
         @Override
@@ -747,17 +839,17 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
 
         @Override
         public void onMusicControl(int cmd, int voiceValue) {
-//            if (cmd == 0){//暂停
-//                MusicUtil.getSingle().controlMusic(127);
-//            }else if (cmd == 1){//开始
-//                MusicUtil.getSingle().controlMusic(126);
-//            }else if (cmd == 2){//上一曲
-//                MusicUtil.getSingle().controlMusic(88);
-//            }else if (cmd == 3){//下一曲
-//                MusicUtil.getSingle().controlMusic(87);
-//            }else if (cmd == 4){//音量
-//                MusicUtil.getSingle().setVoiceValue(voiceValue);
-//            }
+            if (cmd == 0){//暂停
+                MusicUtil.getSingle().controlMusic(127);
+            }else if (cmd == 1){//开始
+                MusicUtil.getSingle().controlMusic(126);
+            }else if (cmd == 2){//上一曲
+                MusicUtil.getSingle().controlMusic(88);
+            }else if (cmd == 3){//下一曲
+                MusicUtil.getSingle().controlMusic(87);
+            }else if (cmd == 4){//音量
+                MusicUtil.getSingle().setVoiceValue(voiceValue);
+            }
         }
 
         @Override

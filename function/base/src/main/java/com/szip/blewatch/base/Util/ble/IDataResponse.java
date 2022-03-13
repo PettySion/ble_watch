@@ -9,6 +9,7 @@ import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.Model.BleStepModel;
+import com.szip.blewatch.base.db.dbModel.UserModel;
 
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ public interface IDataResponse {
     /**
      * 更新个人信息
      * */
-    void updateUserInfo();
+    void updateUserInfo(UserModel userModel);
 
     void updateOtaProgress(int type, int state, int address);
     void onMusicControl(int cmd, int voiceValue);

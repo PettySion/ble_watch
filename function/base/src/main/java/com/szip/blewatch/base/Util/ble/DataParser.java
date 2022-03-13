@@ -5,6 +5,8 @@ package com.szip.blewatch.base.Util.ble;
 
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
+import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
 import com.szip.blewatch.base.db.dbModel.HeartData;
@@ -12,6 +14,7 @@ import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.Model.BleStepModel;
+import com.szip.blewatch.base.db.dbModel.UserModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,7 +65,8 @@ public class DataParser {
 //            if (mIDataResponse!=null)
 //                mIDataResponse.onCamera(data[8]);
         }else if (data[1] == 0x16){
-//            mIDataResponse.findPhone(data[8]);
+            if (mIDataResponse!=null)
+                mIDataResponse.findPhone(data[8]);
         }else if (data[1] == 0x46){
             if (mIDataResponse==null)
                 return;
@@ -1019,18 +1023,19 @@ public class DataParser {
             dataType = 0;
             LogUtil.getInstance().logd("DATA******","总计步接受结束 step= "+step+" ;distance = "+distence+" ;calorie = "+calorie);
         }else if (type == 0x20){//用户设置
-            //todo 同步手表端的用户设置
-//            UserInfo info = MyApplication.getInstance().getUserInfo();
-//            info.setHeight((data[0] & 0xff) + ((data[1] & 0xFF) << 8));
-//            info.setWeight((data[2] & 0xff) + ((data[3] & 0xFF) << 8));
-//            info.setStepsPlan((data[4] & 0xff) + ((data[5] & 0xFF) << 8));
-//            info.setSex((data[7] & 0xff));
-//            info.setHeightBritish((data[8] & 0xff) + ((data[9] & 0xFF) << 8));
-//            info.setWeightBritish((data[10] & 0xff) + ((data[11] & 0xFF) << 8));
-//            info.setUnit((data[12] & 0xff));
-//            info.setTempUnit((data[13] & 0xff));
-//            if (mIDataResponse!=null)
-//                mIDataResponse.updateUserInfo();
+            int height = ((data[0] & 0xff) + ((data[1] & 0xFF) << 8));
+            int weight = ((data[2] & 0xff) + ((data[3] & 0xFF) << 8));
+            int stepPlan = ((data[4] & 0xff) + ((data[5] & 0xFF) << 8));
+            int sex = ((data[7] & 0xff));
+            int heightBritish = ((data[8] & 0xff) + ((data[9] & 0xFF) << 8));
+            int weightBritish = ((data[10] & 0xff) + ((data[11] & 0xFF) << 8));
+            int unit = ((data[12] & 0xff));
+            int tempUnit = ((data[13] & 0xff));
+            UserModel userModel = new UserModel(height,weight,
+                    unit,heightBritish,weightBritish,
+                    stepPlan,tempUnit,sex);
+            if (mIDataResponse!=null)
+                mIDataResponse.updateUserInfo(userModel);
         }else if (type==0x21){//羽毛球
             if(sportDataArrayList==null)
                 sportDataArrayList = new ArrayList<>();

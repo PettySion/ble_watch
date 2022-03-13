@@ -1,4 +1,4 @@
-package com.szip.user.Search;
+package com.szip.user.Activity.search;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;

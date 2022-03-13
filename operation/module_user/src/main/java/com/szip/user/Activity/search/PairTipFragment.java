@@ -1,8 +1,7 @@
-package com.szip.user.Search;
+package com.szip.user.Activity.search;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -15,20 +14,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.szip.user.R;
 
-public class PairFinishFragment extends DialogFragment {
+public class PairTipFragment extends DialogFragment {
 
     private View mRootView;
     private ImageView deviceIv;
 
     private int screenType;
 
-    public PairFinishFragment(int screenType) {
+    public PairTipFragment(int screenType) {
         this.screenType = screenType;
     }
 
@@ -36,12 +32,12 @@ public class PairFinishFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if(mRootView == null){
-            mRootView = inflater.inflate(R.layout.user_fragment_pair_finish, container, false);
+            mRootView = inflater.inflate(R.layout.user_fragment_pair_tip, container, false);
         }
-        ((TextView)mRootView.findViewById(R.id.titleBigTv)).setText(getString(R.string.user_search));
+        ((TextView)mRootView.findViewById(R.id.titleBigTv)).setText(getString(R.string.user_wear_tip));
         deviceIv = mRootView.findViewById(R.id.deviceIv);
         if (screenType == 1){
-            deviceIv.setImageResource(R.mipmap.adddevice_suc_square);
+            deviceIv.setImageResource(R.mipmap.adddevice_wear_06);
         }
 
         mRootView.findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
@@ -54,18 +50,11 @@ public class PairFinishFragment extends DialogFragment {
         mRootView.findViewById(R.id.finishTv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                final Fragment prev = fragmentManager.findFragmentByTag("PAIR_TIP");
-                if (prev != null){
-                    ft.remove(prev).commit();
-                    ft = fragmentManager.beginTransaction();
-                }
-                ft.addToBackStack(null);
-                PairTipFragment finish = new PairTipFragment(screenType);
-                finish.show(ft, "PAIR_TIP");
+                getActivity().finish();
             }
         });
+
+
         return mRootView;
     }
 

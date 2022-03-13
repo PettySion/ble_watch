@@ -169,7 +169,4 @@ public class DiyPresenterImpl06 implements IDiyPresenter{
             e.printStackTrace();
         }
     }
-
-
-
 }

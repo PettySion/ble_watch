@@ -3,9 +3,11 @@ package com.szip.login.Utils;
 
 import com.szip.blewatch.base.Util.http.TokenInterceptor;
 import com.szip.login.HttpModel.CheckVerificationBean;
+import com.szip.login.HttpModel.DeviceConfigBean;
 import com.zhy.http.okhttp.BaseApi;
 import com.szip.login.HttpModel.LoginBean;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.builder.GetBuilder;
 import com.zhy.http.okhttp.builder.PostJsonBuilder;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
@@ -114,5 +116,21 @@ public class HttpMessageUtil {
                 .addParams("password",password)
                 .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(builder,"user/retrievePassword",callback);
+    }
+
+    public void unBindDevice(GenericsCallback<BaseApi> callback){
+        GetBuilder getBuilder = OkHttpUtils
+                .get()
+                .addInterceptor(new TokenInterceptor());
+        HttpClientUtils.newInstance().buildRequest(getBuilder,"device/unbindDevice",callback);
+
+    }
+
+    public void getDeviceConfig(GenericsCallback<DeviceConfigBean> callback){
+        GetBuilder getBuilder = OkHttpUtils
+                .get()
+                .addParams("appName","newApp")
+                .addInterceptor(new TokenInterceptor());
+        HttpClientUtils.newInstance().buildRequest(getBuilder,"comm/getAppFunctionConfigs",callback);
     }
 }

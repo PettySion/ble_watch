@@ -130,11 +130,18 @@ public class HttpMessageUtil {
         HttpClientUtils.newInstance().buildRequest(getBuilder,"comm/getQuestionAndAnswers",callback);
     }
 
-    public void getFaq(String id,GenericsCallback<FaqBean> callback){
-        GetBuilder getBuilder = OkHttpUtils
+    public void getFaq(String id,boolean isNumber,GenericsCallback<FaqBean> callback){
+        GetBuilder getBuilder;
+        if (isNumber)
+            getBuilder = OkHttpUtils
                 .get()
                 .addParams("id",id)
                 .addInterceptor(new TokenInterceptor());
+        else
+            getBuilder = OkHttpUtils
+                    .get()
+                    .addParams("questionType",id)
+                    .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(getBuilder,"comm/getQuestionAndAnswerDetail",callback);
     }
 
@@ -146,6 +153,36 @@ public class HttpMessageUtil {
                 .addParams("watchPlateGroupId",id)
                 .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(getBuilder,"device/watchPlate",callback);
+    }
+
+    public void postForSetStepsPlan(String step,int id,GenericsCallback<BaseApi> callback){
+        PostJsonBuilder postJsonBuilder = OkHttpUtils
+                .jpost()
+                .id(id)
+                .addParams("stepsPlan",step)
+                .addInterceptor(new TokenInterceptor());
+
+        HttpClientUtils.newInstance().buildRequest(postJsonBuilder,"user/updateStepsPlan",callback);
+    }
+
+    public void postForSetSleepPlan(String sleep,int id,GenericsCallback<BaseApi> callback){
+        PostJsonBuilder postJsonBuilder = OkHttpUtils
+                .jpost()
+                .id(id)
+                .addParams("sleepPlan",sleep)
+                .addInterceptor(new TokenInterceptor());
+
+        HttpClientUtils.newInstance().buildRequest(postJsonBuilder,"user/updateSleepPlan",callback);
+    }
+
+    public void postForSetCaloriePlan(String calorie,int id,GenericsCallback<BaseApi> callback){
+        PostJsonBuilder postJsonBuilder = OkHttpUtils
+                .jpost()
+                .id(id)
+                .addParams("caloriePlan",calorie)
+                .addInterceptor(new TokenInterceptor());
+
+        HttpClientUtils.newInstance().buildRequest(postJsonBuilder,"user/updateCaloriePlan",callback);
     }
 
 }

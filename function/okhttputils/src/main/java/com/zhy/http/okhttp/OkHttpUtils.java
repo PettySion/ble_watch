@@ -153,7 +153,6 @@ public class OkHttpUtils
                         sendFailResultCallback(call, new IOException("request failed , reponse's code is : " + response.code()), finalCallback, id);
                         return;
                     }
-
                     Object o = finalCallback.parseNetworkResponse(response, id);
                     sendSuccessResultCallback(o, finalCallback, id);
                 } catch (Exception e)

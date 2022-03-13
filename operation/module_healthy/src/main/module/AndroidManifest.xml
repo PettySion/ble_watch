@@ -9,6 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
+
         <activity android:name=".Activity.reportInfo.ReportInfoActivity"></activity>
         <activity android:name=".Activity.temp.TempReportActivity" />
         <activity android:name=".Activity.spo.BloodOxygenReportActivity" />
@@ -21,7 +23,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <activity android:name=".Activity.card.CardEditActivity"></activity>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

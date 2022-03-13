@@ -103,4 +103,13 @@
     <string name="user_send_fail">Update dial fail,please try again!</string>
     <string name="user_no_background">Please upload the background first</string>
     <string name="user_no_clock">Please select the dial first</string>
+
+    <string name="user_device_name">Device Model</string>
+    <string name="user_device_mac">Mac Address</string>
+    <string name="user_device_version">Device Version</string>
+    <string name="user_check_update">Check Update</string>
+
+    <string name="user_camera_tip">With Bluetooth enabled, the watch controls the phone\'s camera app to take photos.</string>
+    <string name="user_camera_permission_tip">In the process of using, this application requires access to the camera and file read and write permissions, used for remote photography and storage photos. You can go to Settings at any time; Permission Management, choose to close the above permission call to revoke your consent.</string>
+    <string name="user_camera_permission_error">Permission failed to open</string>
 </resources>

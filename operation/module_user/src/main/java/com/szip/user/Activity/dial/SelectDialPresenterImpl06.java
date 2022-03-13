@@ -90,9 +90,4 @@ public class SelectDialPresenterImpl06 implements IDialSelectPresenter{
     }
 
 
-    @Override
-    public void setViewDeStory() {
-        iDialSelectView = null;
-    }
-
 }

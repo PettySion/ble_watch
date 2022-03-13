@@ -176,7 +176,9 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
         int id = v.getId();
         if(id == R.id.moreTv){
             if (!MathUtil.newInstance().needLogin(getActivity())){
-                startActivity(new Intent(getActivity(),SportListActivity.class));
+                if (sportData!=null) {
+                    startActivity(new Intent(getActivity(), SportListActivity.class));
+                }
             }
         }else if (id == R.id.lastSportLl){
             if (!MathUtil.newInstance().needLogin(getActivity())){

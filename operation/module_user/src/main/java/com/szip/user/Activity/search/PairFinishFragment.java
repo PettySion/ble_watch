@@ -1,4 +1,4 @@
-package com.szip.user.Search;
+package com.szip.user.Activity.search;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,17 +14,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.szip.user.R;
 
-public class PairTipFragment extends DialogFragment {
+public class PairFinishFragment extends DialogFragment {
 
     private View mRootView;
     private ImageView deviceIv;
 
     private int screenType;
 
-    public PairTipFragment(int screenType) {
+    public PairFinishFragment(int screenType) {
         this.screenType = screenType;
     }
 
@@ -32,12 +35,12 @@ public class PairTipFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if(mRootView == null){
-            mRootView = inflater.inflate(R.layout.user_fragment_pair_tip, container, false);
+            mRootView = inflater.inflate(R.layout.user_fragment_pair_finish, container, false);
         }
-        ((TextView)mRootView.findViewById(R.id.titleBigTv)).setText(getString(R.string.user_wear_tip));
+        ((TextView)mRootView.findViewById(R.id.titleBigTv)).setText(getString(R.string.user_search));
         deviceIv = mRootView.findViewById(R.id.deviceIv);
         if (screenType == 1){
-            deviceIv.setImageResource(R.mipmap.adddevice_wear_06);
+            deviceIv.setImageResource(R.mipmap.adddevice_suc_square);
         }
 
         mRootView.findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
@@ -50,11 +53,18 @@ public class PairTipFragment extends DialogFragment {
         mRootView.findViewById(R.id.finishTv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                final Fragment prev = fragmentManager.findFragmentByTag("PAIR_TIP");
+                if (prev != null){
+                    ft.remove(prev).commit();
+                    ft = fragmentManager.beginTransaction();
+                }
+                ft.addToBackStack(null);
+                PairTipFragment finish = new PairTipFragment(screenType);
+                finish.show(ft, "PAIR_TIP");
             }
         });
-
-
         return mRootView;
     }
 

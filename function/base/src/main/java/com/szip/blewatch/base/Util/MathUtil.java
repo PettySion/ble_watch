@@ -512,6 +512,14 @@ public class MathUtil {
         return list;
     }
 
+    public ArrayList<String> getCaloriePlanList(){
+        ArrayList<String> list  = new ArrayList<>();
+        for (int i = 100;i<=600;i+=50){
+            list.add(String.format(Locale.ENGLISH,"%d",i));
+        }
+        return list;
+    }
+
 //    /**
 //     * 统计日计步数据,日详情计步格式
 //     * str = hour1:step,hour2:step,....
