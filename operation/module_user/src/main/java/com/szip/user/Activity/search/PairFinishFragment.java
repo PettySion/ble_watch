@@ -79,6 +79,7 @@ public class PairFinishFragment extends DialogFragment {
             window.getDecorView().setPadding(0, 0, 0, 0);
             window.setBackgroundDrawableResource(android.R.color.transparent);
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            window.setWindowAnimations(R.style.DefaultCityPickerAnimation);
         }
         dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override

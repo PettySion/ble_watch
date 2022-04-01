@@ -54,6 +54,13 @@ public class CameraSetActivity extends BaseActivity {
             cameraSw.setChecked(data.cameraSwitch);
         }
 
+        findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         cameraSw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

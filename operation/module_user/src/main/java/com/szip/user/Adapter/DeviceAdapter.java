@@ -29,8 +29,7 @@ public class DeviceAdapter extends BaseAdapter {
     }
 
     public void setDataList(List<String> datas) {
-        mDataList.clear();
-        mDataList.addAll(datas);
+        mDataList = datas;
         notifyDataSetChanged();
     }
 

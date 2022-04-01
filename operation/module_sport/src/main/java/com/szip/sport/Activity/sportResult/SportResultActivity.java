@@ -1,10 +1,15 @@
 package com.szip.sport.Activity.sportResult;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,6 +69,40 @@ public class SportResultActivity extends BaseActivity implements ISportResultVie
         iSportResultPresenter = new SportResultPresenterImpl(getApplicationContext(),this);
         initView();
         initData();
+        initEvent();
+    }
+
+    private void initEvent() {
+        findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        findViewById(R.id.shareIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkPermission();
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkPermission() {
+        /**
+         * 获取权限·
+         * */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        100);
+            }else {
+                shareShowLong((ScrollView)findViewById(R.id.sportScrollView));
+            }
+        }else {
+            shareShowLong((ScrollView) findViewById(R.id.sportScrollView));
+        }
     }
 
     @Override

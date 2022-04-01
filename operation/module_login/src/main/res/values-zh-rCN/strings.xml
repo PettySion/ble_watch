@@ -30,4 +30,9 @@
     <string name="login_find_password">找回密码</string>
     <string name="login_reset_Success">密码重置成功</string>
 
+    <string name="login_change_password">修改密码</string>
+    <string name="login_old_password">旧密码</string>
+    <string name="login_new_password">新密码</string>
+    <string name="login_confirm_new_password">确认新密码</string>
+    <string name="login_change_success">修改成功</string>
 </resources>

@@ -295,6 +295,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void setPhoto(String pictureUrl) {
         Glide.with(this).load(pictureUrl).into(headIv);
-        SaveDataUtil.newInstance().saveUserInfoAvatar(pictureUrl,userModel.id);
+        if (userModel!=null){
+            userModel.avatar = pictureUrl;
+            userModel.update();
+        }
     }
 }

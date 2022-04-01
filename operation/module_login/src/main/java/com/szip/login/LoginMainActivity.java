@@ -82,6 +82,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
         findViewById(R.id.forgetTv).setOnClickListener(this);
         findViewById(R.id.countryRl).setOnClickListener(this);
         findViewById(R.id.privacyTv).setOnClickListener(this);
+        findViewById(R.id.backIv).setOnClickListener(this);
         ((CheckBox)findViewById(R.id.lawsCb)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -173,6 +174,8 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
             ARouter.getInstance().build(PATH_ACTIVITY_PRIVACY).navigation();
         }else if (id == R.id.forgetTv){
             startActivity(new Intent(LoginMainActivity.this, ForgetPasswordActivity.class));
+        }else if (id == R.id.backIv){
+            finish();
         }
     }
 
@@ -190,7 +193,6 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 HttpMessageUtil.newInstance().getDeviceConfig(loadConfigCallback);
             }
         }
-
     }
 
 
@@ -202,6 +204,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onResponse(LoginBean loginBean, int id) {
+            ProgressHudModel.newInstance().diss();
             if (loginBean.getCode()==200){
                 HttpClientUtils.newInstance().setToken(loginBean.getData().getToken());
                 MathUtil.newInstance().saveStringData(getApplicationContext(),"token",loginBean.getData().getToken());

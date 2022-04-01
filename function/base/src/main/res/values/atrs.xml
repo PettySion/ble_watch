@@ -38,4 +38,9 @@
         <attr name="awv_initialPosition" format="integer" />
         <attr name="awv_scaleX" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="CalendarView">
+        <attr name="showWeek" format="boolean" />
+        <attr name="maxMonth" format="integer" />
+    </declare-styleable>
 </resources>

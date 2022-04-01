@@ -3,18 +3,24 @@ package com.szip.healthy.Activity.step;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.tabs.TabLayout;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Const.ReportConst;
+import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.healthy.Adapter.MyPagerAdapter;
 import com.szip.healthy.R;
+import com.szip.healthy.View.CalendarPicker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_REPORT_STEP;
 
@@ -25,6 +31,9 @@ public class StepReportActivity extends BaseActivity {
     private TabLayout mTab;
     private ViewPager mPager;
 
+    private long reportDate;
+    private TextView timeTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +42,7 @@ public class StepReportActivity extends BaseActivity {
         ARouter.getInstance().inject(this);
         setAndroidNativeLightStatusBar(this,true);
         tabs = new String[]{getString(R.string.healthy_day),getString(R.string.healthy_week),getString(R.string.healthy_month)};
+        reportDate = DateUtil.getTimeOfToday();
         initView();
         initPage();
     }
@@ -41,6 +51,43 @@ public class StepReportActivity extends BaseActivity {
         setTitle(getString(R.string.healthy_step));
         mTab = findViewById(R.id.reportTl);
         mPager = findViewById(R.id.reportVp);
+
+        timeTv = findViewById(R.id.timeTv);
+        setTimeText();
+
+        timeTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CalendarPicker.getInstance()
+                        .enableAnimation(true)
+                        .setFragmentManager(getSupportFragmentManager())
+                        .setAnimationStyle(R.style.CustomAnim)
+                        .setDate(DateUtil.getStringDateFromSecond(reportDate,"yyyy-MM-dd"))
+                        .setFlag(0)
+                        .setCalendarListener(new CalendarPicker.CalendarListener() {
+                            @Override
+                            public void onClickDate(String date) {
+                                if (DateUtil.getTimeScopeForDay(date,"yyyy-MM-dd")>DateUtil.getTimeOfToday()){
+                                    showToast(getString(R.string.healthy_tomorrow));
+                                }else {
+                                    reportDate = DateUtil.getTimeScopeForDay(date,"yyyy-MM-dd");
+                                    setTimeText();
+                                    Intent intent = new Intent(BroadcastConst.UPDATE_REPORT_TIME);
+                                    sendBroadcast(intent);
+                                }
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void initPage() {
@@ -93,4 +140,21 @@ public class StepReportActivity extends BaseActivity {
         });
     }
 
+    private void setTimeText(){
+        if (mTab.getSelectedTabPosition()==2){
+            timeTv.setText(DateUtil.getStringDateFromSecond(reportDate,"yyyy/MM"));
+        }else if (mTab.getSelectedTabPosition() == 1){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(reportDate*1000);
+            calendar.set(Calendar.DAY_OF_WEEK,1);
+            timeTv.setText(DateUtil.getStringDateFromSecond(calendar.getTimeInMillis()/1000,"yyyy/MM/dd")
+                    +"~"+DateUtil.getStringDateFromSecond(calendar.getTimeInMillis()/1000+7*24*60*60,"yyyy/MM/dd"));
+        }else {
+            timeTv.setText(DateUtil.getStringDateFromSecond(reportDate,"yyyy/MM/dd"));
+        }
+    }
+
+    public long getReportDate() {
+        return reportDate;
+    }
 }

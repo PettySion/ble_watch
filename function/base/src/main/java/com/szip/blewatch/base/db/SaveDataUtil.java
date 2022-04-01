@@ -88,18 +88,6 @@ public class SaveDataUtil {
         }
     }
 
-    public void saveUserInfoAvatar(String avatar,long id){
-        UserModel sqlData =  SQLite.select()
-                .from(UserModel.class)
-                .where(UserModel_Table.id.is(id))
-                .querySingle();
-        if (sqlData==null)
-            return;
-        sqlData.avatar = avatar;
-        sqlData.update();
-    }
-
-
     /**
      * 批量保存设备配置
      * */

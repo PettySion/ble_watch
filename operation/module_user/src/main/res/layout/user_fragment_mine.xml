@@ -404,7 +404,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="我的表盘"
+                            android:text="@string/user_dial_mine"
                             android:textColor="@android:color/black"
                             android:textSize="30sp"
                             android:textStyle="bold"/>
@@ -425,11 +425,13 @@
 
                     </LinearLayout>
 
+
                     <com.szip.blewatch.base.View.CircularImageView
                         android:id="@+id/dialIv"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:layout_marginStart="30dp" />
+                        android:layout_marginStart="30dp"/>
+
 
                 </LinearLayout>
 
@@ -455,11 +457,18 @@
 
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/menuList"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/menuList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </RelativeLayout>
+
+
 
             </LinearLayout>
 

@@ -1,14 +1,19 @@
 package com.szip.user.Activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+
+import androidx.annotation.NonNull;
 
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.LoadDataUtil;
@@ -107,6 +112,37 @@ public class NotificationActivity extends BaseActivity {
             }
         });
     }
+
+//    private void checkPermission() {
+//        /**
+//         * 获取权限·
+//         * */
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//            if (checkSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED){
+//                requestPermissions(new String[]{Manifest.permission.READ_SMS},
+//                        100);
+//            }else {
+//                MainService.getInstance().startSmsService();
+//            }
+//        }else {
+//            MainService.getInstance().startSmsService();
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == 100){
+//            int code = grantResults[0];
+//            if (code == PackageManager.PERMISSION_GRANTED){
+//                MainService.getInstance().startSmsService();
+//            }else {
+//                showToast(getString(R.string.user_camera_permission_error));
+////                mPersonalAppAdapter.notifyDataSetChanged();
+//            }
+//        }
+//    }
+
 
     private boolean isNotificationListenerActived() {
         String packageName = getPackageName();

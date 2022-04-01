@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
 import com.szip.blewatch.base.View.BaseActivity;
@@ -71,6 +74,13 @@ public class DeviceActivity extends BaseActivity {
         productAdapter = new ProductAdapter(getApplicationContext());
         deviceList.setAdapter(productAdapter);
 
+        findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         productAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -89,6 +99,13 @@ public class DeviceActivity extends BaseActivity {
     }
 
     private void checkPermission() {
+
+        BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!blueAdapter.isEnabled()) {
+            Intent bleIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(bleIntent);
+        }
+
         /**
          * 获取权限·
          * */

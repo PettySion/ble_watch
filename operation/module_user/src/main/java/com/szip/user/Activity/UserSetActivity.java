@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.Util.ble.ClientManager;
+import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.View.CircularImageView;
 import com.szip.blewatch.base.View.MyAlerDialog;
@@ -69,6 +71,7 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.helpRl).setOnClickListener(this);
         findViewById(R.id.privacyRl).setOnClickListener(this);
         findViewById(R.id.logoutTv).setOnClickListener(this);
+        findViewById(R.id.backIv).setOnClickListener(this);
     }
 
     @Override
@@ -76,6 +79,8 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
         int id = v.getId();
         if (id == R.id.userInfoRl){
             startActivity(new Intent(UserSetActivity.this, UserInfoActivity.class));
+        }else if (id == R.id.backIv){
+            finish();
         }else if (id == R.id.securityRl){
             startActivity(new Intent(UserSetActivity.this, SecurityActivity.class));
         }else if (id == R.id.helpRl){
@@ -104,9 +109,7 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
                                         public void onResponse(BaseApi response, int id) {
                                             if(response.getCode()==200){
                                                 ProgressHudModel.newInstance().diss();
-                                                MathUtil.newInstance().saveStringData(getApplicationContext(),"token",null);
-                                                MathUtil.newInstance().saveIntData(getApplicationContext(),"userId",-1);
-                                                SaveDataUtil.newInstance().clearDB();
+                                                HttpClientUtils.newInstance().setToken("");
                                                 finish();
                                             }
                                         }

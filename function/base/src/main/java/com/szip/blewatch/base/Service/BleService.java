@@ -4,12 +4,14 @@ import android.app.DownloadManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -18,6 +20,8 @@ import com.inuker.bluetooth.library.search.SearchResult;
 import com.inuker.bluetooth.library.search.response.SearchResponse;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Const.SendFileConst;
+import com.szip.blewatch.base.Notification.SmsService;
+import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.Util.FileUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
@@ -29,6 +33,7 @@ import com.szip.blewatch.base.Broadcast.MyHandle;
 import com.szip.blewatch.base.Broadcast.ToServiceBroadcast;
 import com.szip.blewatch.base.View.ProgressHudModel;
 import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.UserModel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -45,15 +50,13 @@ public class BleService extends Service implements MyHandle {
     // Global instance
     private static BleService mSevice = null;
 
-    public static BleService getInstance() {
-        return mSevice;
-    }
-
     private int bluetoothState;
 
     private IBluetoothUtil iBluetoothUtil;
 
     private ToServiceBroadcast broadcast;
+
+    private SmsService mSmsService = null;
 
     @Override
     public void onCreate() {
@@ -80,14 +83,9 @@ public class BleService extends Service implements MyHandle {
         if (broadcast!=null)
         broadcast.unregister(this);
         mSevice = null;
-        Intent intent = new Intent();
-        intent.setClass(this,BleService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
-        }else {
-            startService(intent);
-        }
     }
+
+
 
     private void registerService() {
         // register battery low
@@ -95,14 +93,44 @@ public class BleService extends Service implements MyHandle {
             broadcast = new ToServiceBroadcast();
             broadcast.registerReceive(this,this);
         }
+        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(this));
+        if (userModel!=null)
+            mac = userModel.deviceCode;
     }
+
+    /**
+     * Start SMS service to push new SMS.
+     */
+    public void startSmsService() {
+
+        // Start SMS service
+        if (mSmsService == null) {
+            mSmsService = new SmsService();
+        }
+        IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        registerReceiver(mSmsService, filter);
+    }
+
+    /**
+     * Stop SMS service.
+     */
+    public void stopSmsService() {
+        // Stop SMS service
+        if (mSmsService != null) {
+            unregisterReceiver(mSmsService);
+            mSmsService = null;
+        }
+    }
+
 
     /**
      * 连接蓝牙
      * */
     private String mac;
-    private void connect(){
-        iBluetoothUtil.connect(mac,iBluetoothState);
+    private synchronized void connect(){
+        LogUtil.getInstance().logd("data******","开始连接，mac = "+mac);
+        if (mac!=null)
+            iBluetoothUtil.connect(mac,iBluetoothState);
     }
     private void disConnect(){
         iBluetoothUtil.disconnect();
@@ -115,6 +143,9 @@ public class BleService extends Service implements MyHandle {
             intent.putExtra("state",bluetoothState);
             sendBroadcast(intent);
             Log.i("data******","state = "+bluetoothState);
+            if(bluetoothState==5){
+                connect();
+            }
         }
     };
 
@@ -149,7 +180,7 @@ public class BleService extends Service implements MyHandle {
 
         @Override
         public void onDeviceFounded(SearchResult device) {
-            if (!mDevices.contains(device)&&device.getName()!=null&&deviceName.equals(device.getName())){
+            if (!mDevices.contains(device.getAddress())&&device.getName()!=null&&deviceName.equals(device.getName())){
                 mDevices.add(device.getAddress());
             }
         }
@@ -287,13 +318,13 @@ public class BleService extends Service implements MyHandle {
         timer.schedule(timerTask,delay,20);
     }
 
-    private void removeTimeTask(){
+    private synchronized void removeTimeTask(){
         timer.cancel();
         timer = null;
         ackPakage = 0;
     }
 
-    private void sendByte(){
+    private synchronized void sendByte(){
         byte[] newDatas;
         int len = (fileDatas.length-index- page >175)?175:(fileDatas.length-index- page);
         if (len<0)
@@ -319,6 +350,16 @@ public class BleService extends Service implements MyHandle {
     public void onReceive(Intent intent) {
         switch (intent.getAction()){
             case BroadcastConst.SEND_BLE_DATA:{
+                if (bluetoothState != 3){
+                    ProgressHudModel.newInstance().diss();
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(BleService.this,getString(R.string.ble_error),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
                 String command = intent.getStringExtra("command");
                 switch (command){
                     case "setUnit":
@@ -340,12 +381,22 @@ public class BleService extends Service implements MyHandle {
                         String title = intent.getStringExtra("title");
                         String label = intent.getStringExtra("label");
                         int id = intent.getIntExtra("id",0);
-                        Log.i("notify******","title = "+title+" ;label = "+label+" ;id ="+id);
+                        Log.i("data******","title = "+title+" ;label = "+label+" ;id ="+id);
                         iBluetoothUtil.writeToSendNotify(title,label,id);
                     }
                         break;
                     case "setStep":{
                         iBluetoothUtil.writeForUpdateUserInfo();
+                    }
+                    break;
+                    case "update_data":{
+                        new Handler(getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(BleService.this,getString(R.string.updating),Toast.LENGTH_SHORT);
+                            }
+                        });
+                        iBluetoothUtil.writeForUpdate();
                     }
                     break;
                 }
@@ -354,8 +405,10 @@ public class BleService extends Service implements MyHandle {
             case BroadcastConst.START_CONNECT_DEVICE:
                 int state = intent.getIntExtra("isConnect",0);
                 switch (state){
-                    case 0:
+                    case 0:{
+                        mac = null;
                         disConnect();
+                    }
                         break;
                     case 1:{
                         if (bluetoothState==3||bluetoothState==2){//如果是已经连接的状态，直接把状态用广播丢出去
@@ -385,6 +438,16 @@ public class BleService extends Service implements MyHandle {
             }
             break;
             case BroadcastConst.UPDATE_DIAL_STATE:{
+                if (bluetoothState != 3){
+                    ProgressHudModel.newInstance().diss();
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(BleService.this,getString(R.string.ble_error),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
                 int command = intent.getIntExtra("command", SendFileConst.ERROR);
                 if (command == SendFileConst.PROGRESS){//收到进度加1的广播，再发送100包数据
                     LogUtil.getInstance().logd("data******","发送数据包 page = "+page);
@@ -413,6 +476,16 @@ public class BleService extends Service implements MyHandle {
             }
             break;
             case BroadcastConst.UPDATE_BACKGROUND_STATE:{
+                if (bluetoothState != 3){
+                    ProgressHudModel.newInstance().diss();
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(BleService.this,getString(R.string.ble_error),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
                 int command = intent.getIntExtra("command",255);
                 if (command == SendFileConst.FINISH){
                     i = 0;
@@ -426,6 +499,16 @@ public class BleService extends Service implements MyHandle {
             }
             break;
             case BroadcastConst.SEND_BLE_BACKGROUND:{
+                if (bluetoothState != 3){
+                    ProgressHudModel.newInstance().diss();
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(BleService.this,getString(R.string.ble_error),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
                 if (iBluetoothUtil==null)
                     return;
                 int command = intent.getIntExtra("command",0);
@@ -452,6 +535,16 @@ public class BleService extends Service implements MyHandle {
             }
             break;
             case BroadcastConst.SEND_BLE_FILE:{
+                if (bluetoothState != 3){
+                    ProgressHudModel.newInstance().diss();
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(BleService.this,getString(R.string.ble_error),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
                 if (iBluetoothUtil==null)
                     return;
                 int command = intent.getIntExtra("command",0);

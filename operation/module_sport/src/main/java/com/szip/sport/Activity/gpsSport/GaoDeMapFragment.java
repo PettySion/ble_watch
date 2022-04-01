@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,7 +125,7 @@ public class GaoDeMapFragment extends DialogFragment implements LocationSource {
     @Override
     public void onResume() {
         super.onResume();
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 mapView.onCreate(getArguments());
@@ -135,14 +136,6 @@ public class GaoDeMapFragment extends DialogFragment implements LocationSource {
         },10);
     }
 
-    @Override
-    public void onPause() {
-        if (mapView!=null){
-            Log.d("LOCATION******","onPause");
-            mapView.onDestroy();
-        }
-        super.onPause();
-    }
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {

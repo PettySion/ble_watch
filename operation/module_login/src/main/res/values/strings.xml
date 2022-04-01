@@ -27,4 +27,10 @@
     <string name="login_finish">complete</string>
     <string name="login_find_password">Retrieve password</string>
     <string name="login_reset_Success">Password Reset Succeeded</string>
+
+    <string name="login_change_password">Change Password</string>
+    <string name="login_old_password">Old Password</string>
+    <string name="login_new_password">New Password</string>
+    <string name="login_confirm_new_password">Confirm New Password</string>
+    <string name="login_change_success">Change Success</string>
 </resources>

@@ -1,16 +1,21 @@
 package com.szip.healthy.Activity.spo;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.szip.blewatch.base.Broadcast.MyHandle;
+import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.Const.ReportConst;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.View.BaseLazyLoadingFragment;
+import com.szip.healthy.Activity.heart.HeartReportActivity;
 import com.szip.healthy.Activity.reportInfo.ReportInfoActivity;
 import com.szip.healthy.Adapter.ReportInfoAdapter;
 import com.szip.healthy.Model.ReportData;
@@ -20,7 +25,7 @@ import com.szip.healthy.View.ReportTableView;
 
 import java.util.List;
 
-public class BloodOxygenFragment extends BaseLazyLoadingFragment implements IBloodOxygenView{
+public class BloodOxygenFragment extends BaseLazyLoadingFragment implements IBloodOxygenView, MyHandle {
 
     private int type;
     private ReportTableView tableView;
@@ -28,6 +33,7 @@ public class BloodOxygenFragment extends BaseLazyLoadingFragment implements IBlo
     private RecyclerView infoList;
 
     private IBloodOxygenPresenter iBloodOxygenPresenter;
+    private ToActivityBroadcast toActivityBroadcast;
 
     public BloodOxygenFragment(int type) {
         this.type = type;
@@ -52,6 +58,7 @@ public class BloodOxygenFragment extends BaseLazyLoadingFragment implements IBlo
         smallTv = root.findViewById(R.id.smallTv);
         measureTv = root.findViewById(R.id.measureTv);
         infoList = root.findViewById(R.id.infoList);
+        toActivityBroadcast = new ToActivityBroadcast();
 
         root.findViewById(R.id.listLl).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,19 +79,23 @@ public class BloodOxygenFragment extends BaseLazyLoadingFragment implements IBlo
             iBloodOxygenPresenter = new BloodOxygenWeekPresenterImpl(getActivity().getApplicationContext(),this);
         else
             iBloodOxygenPresenter = new BloodOxygenMonthPresenterImpl(getActivity().getApplicationContext(),this);
-        iBloodOxygenPresenter.loadData(DateUtil.getTimeOfToday());
+
     }
 
     @Override
     protected void onFragmentResume() {
         super.onFragmentResume();
         iBloodOxygenPresenter.register(this);
+        IntentFilter intentFilter = new IntentFilter(BroadcastConst.UPDATE_REPORT_TIME);
+        toActivityBroadcast.registerReceive(this,getActivity().getApplicationContext(),intentFilter);
+        iBloodOxygenPresenter.loadData(((BloodOxygenReportActivity)getActivity()).getReportDate());
     }
 
     @Override
     protected void onFragmentPause() {
         super.onFragmentPause();
         iBloodOxygenPresenter.unRegister();
+        toActivityBroadcast.unregister(getActivity().getApplicationContext());
     }
 
     @Override
@@ -122,5 +133,15 @@ public class BloodOxygenFragment extends BaseLazyLoadingFragment implements IBlo
         infoList.setNestedScrollingEnabled(false);
         ReportInfoAdapter reportInfoAdapter = new ReportInfoAdapter(bloodOxygenDataList);
         infoList.setAdapter(reportInfoAdapter);
+    }
+
+    @Override
+    public void onReceive(Intent intent) {
+        switch (intent.getAction()){
+            case BroadcastConst.UPDATE_REPORT_TIME:{
+                iBloodOxygenPresenter.loadData(((BloodOxygenReportActivity)getActivity()).getReportDate());
+            }
+            break;
+        }
     }
 }

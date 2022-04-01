@@ -147,6 +147,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                             iMinePresenter.unbind();
                         }
                     }, getActivity());
+        }else if (id == R.id.updateIv){
+            Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
+            intent.putExtra("command","update_data");
+            getActivity().sendBroadcast(intent);
         }else if (id == R.id.dialLl){
             startActivity(new Intent(getActivity(), DialSelectActivity.class));
         }else if (id == R.id.editPlanTv){
@@ -194,11 +198,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             case BroadcastConst.UPDATE_BLE_STATE:
                 int state = intent.getIntExtra("state",0);
                 if (state==3){
-                    stateTv.setText("已连接");
+                    stateTv.setText(getString(R.string.user_connect));
                 }else if (state == 2){
-                    stateTv.setText("连接中...");
+                    stateTv.setText(getString(R.string.user_connecting));
                 }else {
-                    stateTv.setText("未连接");
+                    stateTv.setText(getString(R.string.user_disconnect));
                 }
                 break;
             case BroadcastConst.UPDATE_UI_VIEW:
@@ -220,19 +224,24 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void updateUserView(UserModel userModel) {
-        nameTv.setText(userModel.userName);
-        Glide.with(getActivity()).load(userModel.avatar)
-                .fallback(R.mipmap.my_head_58)
-                .error(R.mipmap.my_head_58)
-                .into(iconIv);
+        if (userModel!=null){
+            nameTv.setText(userModel.userName);
+            Glide.with(getActivity()).load(userModel.avatar)
+                    .fallback(R.mipmap.my_head_58)
+                    .error(R.mipmap.my_head_58)
+                    .into(iconIv);
+        }else {
+            nameTv.setText(getString(R.string.user_name));
+            iconIv.setImageResource(R.mipmap.my_head_58);
+        }
 
     }
 
     @Override
     public void updateDeviceView(int step, int sleep, int calorie,int stepPlan,int sleepPlan,int caloriePlan, SportWatchAppFunctionConfigDTO device) {
         stepTv.setText(String.format("%d",stepPlan));
-        sleepTv.setText(String.format("%dh",sleepPlan/60));
-        calorieTv.setText(String.format("%d",caloriePlan));
+        sleepTv.setText(String.format("%.1f h",sleepPlan/60f));
+        calorieTv.setText(String.format("%d kcal",caloriePlan));
 
         stepSb.setRatio(step>=stepPlan?1:step/(float)stepPlan);
         sleepSb.setRatio(sleep>=sleepPlan?1:sleep/(float)sleepPlan);

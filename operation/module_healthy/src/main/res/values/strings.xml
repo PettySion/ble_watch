@@ -65,4 +65,6 @@
     <string name="healthy_dbp_average">Average Dbp Data</string>
     <string name="healthy_bp_abnormal">Abnormal Number</string>
     <string name="healthy_unit">%dtimes</string>
+
+    <string name="healthy_tomorrow">Available in the future</string>
 </resources>

@@ -6,6 +6,7 @@ package com.szip.blewatch.base.Const;
 public class RouterPathConst {
     public static final String PATH_ACTIVITY_SPORT_RESULT = "/sport/sportResult";
     public static final String PATH_ACTIVITY_LOGIN = "/login/main";
+    public static final String PATH_ACTIVITY_CHANGE_PASSWORD = "/login/change_password";
     public static final String PATH_ACTIVITY_USER = "/user/main";
     public static final String PATH_ACTIVITY_USER_FAQ = "/user/faq";
     public static final String PATH_ACTIVITY_PRIVACY = "/app/privacy";

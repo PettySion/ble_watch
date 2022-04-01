@@ -117,6 +117,7 @@ public class HelpActivity extends BaseActivity {
             ProgressHudModel.newInstance().diss();
             if (response.getCode()==200){
                 showToast(getString(R.string.user_feedback_success));
+                finish();
             }
         }
     };

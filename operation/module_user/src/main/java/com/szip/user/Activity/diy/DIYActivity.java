@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -53,6 +54,7 @@ public class DIYActivity extends BaseActivity implements IDiyView, MyHandle {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.user_activity_diy);
         setAndroidNativeLightStatusBar(this,true);
         iDiyPresenter = new DiyPresenterImpl06(getApplicationContext(),this);

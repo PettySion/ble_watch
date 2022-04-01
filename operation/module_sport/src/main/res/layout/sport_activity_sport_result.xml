@@ -30,6 +30,7 @@
         android:layout_marginTop="27dp">
 
         <ImageView
+            android:id="@+id/backIv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -45,6 +46,7 @@
             android:background="@drawable/sport_bg_color_circle"/>
 
         <ImageView
+            android:id="@+id/shareIv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

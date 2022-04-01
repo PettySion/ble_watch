@@ -102,7 +102,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
         Window window = dialog.getWindow();
         if(window != null) {
             window.getDecorView().setPadding(0, 0, 0, 0);
-            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setBackgroundDrawableResource(R.color.bgColor);
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         }
 
@@ -157,6 +157,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mDevices!=null){
                     stateTv.setText(getString(R.string.user_bind));
+                    deviceAdapter.setDataList(new ArrayList<>());
                     bindDevice(mDevices.get(position));
                 }
             }

@@ -135,7 +135,8 @@ public class SetPasswordFragment extends DialogFragment implements View.OnClickL
                 }
 
             }
-
+        }else if (id == R.id.backIv){
+            dismiss();
         }
     }
 

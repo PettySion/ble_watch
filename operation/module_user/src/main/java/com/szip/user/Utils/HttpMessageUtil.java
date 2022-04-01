@@ -185,4 +185,11 @@ public class HttpMessageUtil {
         HttpClientUtils.newInstance().buildRequest(postJsonBuilder,"user/updateCaloriePlan",callback);
     }
 
+    public void deleteAccount(GenericsCallback<BaseApi> callback){
+        GetBuilder builder = OkHttpUtils
+                .get()
+                .addInterceptor(new TokenInterceptor());
+        HttpClientUtils.newInstance().buildRequest(builder,"user/unregister",callback);
+    }
+
 }

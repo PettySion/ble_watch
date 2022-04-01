@@ -28,4 +28,14 @@
     <string name="waiting">Waiting...</string>
     <string name="http_error">Request Timeout</string>
     <string name="user_upload_data">Data Uploading...</string>
+    <string name="ble_error">Bluetooth is not connected. Please connect and try again.</string>
+    <string name="updating">Data is being updated...</string>
+
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tues">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thus">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sta">Sat</string>
 </resources>

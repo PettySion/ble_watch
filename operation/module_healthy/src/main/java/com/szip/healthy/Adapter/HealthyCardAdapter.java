@@ -81,7 +81,7 @@ public class HealthyCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_sleep);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_sleep));
                 ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%02d</big>h<big>%02d</big>min",
-                        (healthyData.getData()+healthyData.getData1())/60,(healthyData.getData()+healthyData.getData1())%60)));
+             (healthyData.getData()+healthyData.getData1())/60,(healthyData.getData()+healthyData.getData1())%60)));
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.BLOOD_OXYGEN){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_spo2);
@@ -122,17 +122,6 @@ public class HealthyCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             dataTv = itemView.findViewById(R.id.dataTv);
             timeTv = itemView.findViewById(R.id.timeTv);
             healthyTableView = itemView.findViewById(R.id.healthyTableView);
-        }
-    }
-
-    class EditHolder extends RecyclerView.ViewHolder {
-
-        private View fruitView;  //表示我们自定义的控件的视图
-        private TextView editTv;
-        public EditHolder(View itemView) {
-            super(itemView);
-            fruitView = itemView;
-            editTv = itemView.findViewById(R.id.editTv);
         }
     }
 

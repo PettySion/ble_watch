@@ -112,4 +112,8 @@
     <string name="user_camera_tip">With Bluetooth enabled, the watch controls the phone\'s camera app to take photos.</string>
     <string name="user_camera_permission_tip">In the process of using, this application requires access to the camera and file read and write permissions, used for remote photography and storage photos. You can go to Settings at any time; Permission Management, choose to close the above permission call to revoke your consent.</string>
     <string name="user_camera_permission_error">Permission failed to open</string>
+
+    <string name="user_deleteTip">Confirm to cancel your account, the account will be successfully cancelled within three days after the confirmation, the account data will be completely deleted and cannot be restored! Perform this operation with caution.</string>
+    <string name="user_deleteSuccess">The request is successful.</string>
+    <string name="user_deleteNow">The current account is awaiting destruction.</string>
 </resources>

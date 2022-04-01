@@ -69,6 +69,7 @@ public class TargetActivity extends BaseActivity implements View.OnClickListener
         findViewById(R.id.stepRl).setOnClickListener(this);
         findViewById(R.id.sleepRl).setOnClickListener(this);
         findViewById(R.id.calorieRl).setOnClickListener(this);
+        findViewById(R.id.backIv).setOnClickListener(this);
     }
 
     private void initWindow() {
@@ -152,6 +153,8 @@ public class TargetActivity extends BaseActivity implements View.OnClickListener
             window1.showAtLocation(v, Gravity.BOTTOM, 0, 0);
         }else if (id == R.id.calorieRl){
             window2.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+        }else if (id == R.id.backIv){
+            finish();
         }
     }
 

@@ -55,6 +55,8 @@ public class HttpMessageUtil {
         HttpClientUtils.newInstance().buildRequest(postJsonBuilder,"user/sendVerifyCode",callback);
     }
 
+
+
     /**
      * 验证验证码接口
      * @param type                  验证码类型1：手机 2：邮箱
@@ -77,6 +79,14 @@ public class HttpMessageUtil {
         HttpClientUtils.newInstance().buildRequest(builder,"user/checkVerifyCode",callback);
     }
 
+    public void postChangePassword(String oldPsw,String newPsw,GenericsCallback<BaseApi> callback){
+        PostJsonBuilder postJsonBuilder = OkHttpUtils
+                .jpost()
+                .addParams("currentPassword",oldPsw)
+                .addParams("newPassword",newPsw)
+                .addInterceptor(new TokenInterceptor());
+        HttpClientUtils.newInstance().buildRequest(postJsonBuilder,"user/changePassword",callback);
+    }
 
     public void postRegister(String type,String areaCode,String phoneNumber,String email,String verifyCode,String password,
                                String phoneId,String phoneSystem,GenericsCallback<BaseApi> callback){

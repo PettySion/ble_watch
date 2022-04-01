@@ -1,11 +1,17 @@
 package com.szip.healthy.Activity.step;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.View;
 import android.widget.TextView;
 
+import com.szip.blewatch.base.Broadcast.MyHandle;
+import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Const.ReportConst;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.View.BaseLazyLoadingFragment;
+import com.szip.healthy.Activity.heart.HeartReportActivity;
 import com.szip.healthy.Model.ReportData;
 import com.szip.healthy.R;
 import com.szip.healthy.View.RectProgressBar;
@@ -13,11 +19,12 @@ import com.szip.healthy.View.ReportTableView;
 
 import java.util.List;
 
-public class StepFragment extends BaseLazyLoadingFragment implements IStepReportView{
+public class StepFragment extends BaseLazyLoadingFragment implements IStepReportView, MyHandle {
     private ReportTableView reportTableView;
     private IStepReportPresenter iStepReportPresenter;
     private TextView stepTv,caloriesTv,distanceTv,goalTv,reportTypeTv,stepTypeTv,calorieTypeTv,distanceTypeTv,goalTypeTv;
     private RectProgressBar rectProgressBar;
+    private ToActivityBroadcast toActivityBroadcast;
 
     private int type;
 
@@ -43,6 +50,7 @@ public class StepFragment extends BaseLazyLoadingFragment implements IStepReport
         distanceTypeTv = root.findViewById(R.id.distanceTypeTv);
         goalTypeTv = root.findViewById(R.id.goalTypeTv);
         rectProgressBar = root.findViewById(R.id.rectProgressBar);
+        toActivityBroadcast = new ToActivityBroadcast();
     }
 
     @Override
@@ -56,19 +64,23 @@ public class StepFragment extends BaseLazyLoadingFragment implements IStepReport
             iStepReportPresenter = new StepMonthPresenterImpl(getActivity().getApplicationContext(),this);
         }
 
-        iStepReportPresenter.loadData(DateUtil.getTimeOfToday());
+
     }
 
     @Override
     protected void onFragmentResume() {
         super.onFragmentResume();
         iStepReportPresenter.register(this);
+        IntentFilter intentFilter = new IntentFilter(BroadcastConst.UPDATE_REPORT_TIME);
+        toActivityBroadcast.registerReceive(this,getActivity().getApplicationContext(),intentFilter);
+        iStepReportPresenter.loadData(((StepReportActivity)getActivity()).getReportDate());
     }
 
     @Override
     protected void onFragmentPause() {
         super.onFragmentPause();
         iStepReportPresenter.unregister();
+        toActivityBroadcast.unregister(getActivity().getApplicationContext());
     }
 
     @Override
@@ -112,5 +124,15 @@ public class StepFragment extends BaseLazyLoadingFragment implements IStepReport
         caloriesTv.setText(calorie);
         distanceTv.setText(distance);
         goalTv.setText(plan);
+    }
+
+    @Override
+    public void onReceive(Intent intent) {
+        switch (intent.getAction()){
+            case BroadcastConst.UPDATE_REPORT_TIME:{
+                iStepReportPresenter.loadData(((StepReportActivity)getActivity()).getReportDate());
+            }
+            break;
+        }
     }
 }

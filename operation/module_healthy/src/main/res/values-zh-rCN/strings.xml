@@ -66,4 +66,6 @@
     <string name="healthy_dbp_average">平均舒张压</string>
     <string name="healthy_bp_abnormal">血压异常次数</string>
     <string name="healthy_unit">%d次</string>
+
+    <string name="healthy_tomorrow">不能选择未来的日期</string>
 </resources>

@@ -1,9 +1,14 @@
 package com.szip.healthy.Activity.heart;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.szip.blewatch.base.Broadcast.MyHandle;
+import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Const.ReportConst;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.View.BaseLazyLoadingFragment;
@@ -15,7 +20,7 @@ import com.szip.healthy.View.ReportTableView;
 import java.util.List;
 import java.util.Locale;
 
-public class HeartFragment extends BaseLazyLoadingFragment implements IHeartView{
+public class HeartFragment extends BaseLazyLoadingFragment implements IHeartView, MyHandle {
 
     private int type;
     private IHeartPresenter iHeartPresenter;
@@ -23,6 +28,8 @@ public class HeartFragment extends BaseLazyLoadingFragment implements IHeartView
     private HeartLevelView heartView;
     private TextView reportTypeTv,level1TimeTv,level2TimeTv,level3TimeTv,level4TimeTv,level5TimeTv,level6TimeTv,averageTv,maxTv,minTv;
     private LinearLayout heartLl;
+
+    private ToActivityBroadcast toActivityBroadcast;
 
     public HeartFragment(int type) {
         this.type = type;
@@ -48,6 +55,7 @@ public class HeartFragment extends BaseLazyLoadingFragment implements IHeartView
         averageTv = root.findViewById(R.id.averageDataTv);
         maxTv = root.findViewById(R.id.maxDataTv);
         minTv = root.findViewById(R.id.minDataTv);
+        toActivityBroadcast = new ToActivityBroadcast();
     }
 
     @Override
@@ -59,19 +67,23 @@ public class HeartFragment extends BaseLazyLoadingFragment implements IHeartView
             iHeartPresenter = new HeartWeekPresenterImpl(getActivity().getApplicationContext(),this);
         else
             iHeartPresenter = new HeartMonthPresenterImpl(getActivity().getApplicationContext(),this);
-        iHeartPresenter.loadData(DateUtil.getTimeOfToday());
+
     }
 
     @Override
     protected void onFragmentResume() {
         super.onFragmentResume();
         iHeartPresenter.register(this);
+        IntentFilter intentFilter = new IntentFilter(BroadcastConst.UPDATE_REPORT_TIME);
+        toActivityBroadcast.registerReceive(this,getActivity().getApplicationContext(),intentFilter);
+        iHeartPresenter.loadData(((HeartReportActivity)getActivity()).getReportDate());
     }
 
     @Override
     protected void onFragmentPause() {
         super.onFragmentPause();
         iHeartPresenter.unRegister();
+        toActivityBroadcast.unregister(getActivity().getApplicationContext());
     }
 
     @Override
@@ -107,5 +119,15 @@ public class HeartFragment extends BaseLazyLoadingFragment implements IHeartView
         level4TimeTv.setText(String.format(Locale.ENGLISH,"%.1f%%",date[3]/(float)size*100));
         level5TimeTv.setText(String.format(Locale.ENGLISH,"%.1f%%",date[4]/(float)size*100));
         level6TimeTv.setText(String.format(Locale.ENGLISH,"%.1f%%",date[5]/(float)size*100));
+    }
+
+    @Override
+    public void onReceive(Intent intent) {
+        switch (intent.getAction()){
+            case BroadcastConst.UPDATE_REPORT_TIME:{
+                iHeartPresenter.loadData(((HeartReportActivity)getActivity()).getReportDate());
+            }
+            break;
+        }
     }
 }

@@ -2,9 +2,12 @@ package com.szip.blewatch.base.Util.http;
 
 import android.content.Context;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.szip.blewatch.base.BuildConfig;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.db.SaveDataUtil;
+import com.szip.blewatch.base.db.dbModel.HealthyCardData;
 import com.zhy.http.okhttp.builder.GetBuilder;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.builder.PostJsonBuilder;
@@ -32,6 +35,10 @@ public class HttpClientUtils {
         if (token.equals("")){//如果token = ""说明登陆过期了，把之前缓存的token换成""
             MathUtil.newInstance().saveStringData(mContext,"token",null);
             MathUtil.newInstance().saveIntData(mContext,"userId",-1);
+            SaveDataUtil.newInstance().clearDB();
+            SQLite.delete()
+                    .from(HealthyCardData.class)
+                    .execute();
         }
     }
 

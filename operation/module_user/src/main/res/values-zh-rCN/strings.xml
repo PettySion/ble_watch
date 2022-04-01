@@ -10,6 +10,7 @@
     <string name="user_connect">已连接</string>
     <string name="user_disconnect">未连接</string>
     <string name="user_connecting">正在连接...</string>
+
     <string name="user_dial">我的表盘</string>
     <string name="user_dial_tip">更多表盘，随心换></string>
     <string name="user_device_config">设备管理</string>
@@ -41,7 +42,7 @@
     <string name="user_privacy">用户协议与隐私条款</string>
     <string name="user_logout">退出登录</string>
     <string name="user_unbind_tip">解除绑定</string>
-    <string name="user_unbind_message">确定接触当前设备的绑定吗？</string>
+    <string name="user_unbind_message">确定解除当前设备的绑定吗？</string>
 
     <string name="user_info">个人信息</string>
     <string name="user_set">账号信息</string>
@@ -113,4 +114,8 @@
     <string name="user_camera_tip">开启蓝牙拍照功能后，手表可控制手机相机应用，进行拍照</string>
     <string name="user_camera_permission_tip">在使用过程中，本应用需要访问相机以及文件读写权限，用于远程拍照以及存储照片\n\n如果您不同意调用以上权限，将导致蓝牙拍照无法正常使用，担不影响您使用本应用的基本功能。您可随时前往“设置”>“权限管理”，选择关闭以上权限调用以撤回您的同意</string>
     <string name="user_camera_permission_error">权限没有通过，打开失败</string>
+
+    <string name="user_deleteTip">是否确认注销您的账号，确认后账号将会在三天内注销成功，注销成功后账号数据将被完全删除，不可恢复！请谨慎操作。</string>
+    <string name="user_deleteSuccess">申请账号注销成功。</string>
+    <string name="user_deleteNow">当前账号正在等待注销阶段。</string>
 </resources>

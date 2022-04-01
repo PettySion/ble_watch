@@ -29,7 +29,7 @@ public class LogUtil {
 
     public void init(Context context){
         this.context = context;
-//        Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(context));
+        Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(context));
     }
 
     public void logd(String tag,String msg){

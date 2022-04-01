@@ -1,11 +1,18 @@
 package com.szip.healthy.Activity.sleep;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
+import com.szip.blewatch.base.Broadcast.MyHandle;
+import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.View.BaseLazyLoadingFragment;
+import com.szip.healthy.Activity.heart.HeartReportActivity;
+import com.szip.healthy.Activity.step.StepReportActivity;
 import com.szip.healthy.Model.ReportData;
 import com.szip.healthy.R;
 import com.szip.healthy.View.ReportTableView;
@@ -14,12 +21,13 @@ import com.szip.healthy.View.SleepArcProgressBar;
 import java.util.List;
 import java.util.Locale;
 
-public class SleepDayFragment extends BaseLazyLoadingFragment implements ISleepReportView{
+public class SleepDayFragment extends BaseLazyLoadingFragment implements ISleepReportView, MyHandle {
 
     private TextView deepTv,lightTv,bedTv,wakeTv,allSleepTv;
     private ReportTableView tableView;
     private SleepArcProgressBar sleepPb;
     private ISleepReportPresenter iSleepReportPresenter;
+    private ToActivityBroadcast toActivityBroadcast;
 
     @Override
     protected int getLayoutId() {
@@ -35,25 +43,29 @@ public class SleepDayFragment extends BaseLazyLoadingFragment implements ISleepR
         allSleepTv = root.findViewById(R.id.allSleepTv);
         tableView = root.findViewById(R.id.tableView);
         sleepPb = root.findViewById(R.id.sleepPb);
+        toActivityBroadcast = new ToActivityBroadcast();
     }
 
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
         iSleepReportPresenter = new SleepDayPresenterImpl(getActivity().getApplicationContext(),this);
-        iSleepReportPresenter.loadData(DateUtil.getTimeOfToday());
     }
 
     @Override
     protected void onFragmentResume() {
         super.onFragmentResume();
         iSleepReportPresenter.register(this);
+        IntentFilter intentFilter = new IntentFilter(BroadcastConst.UPDATE_REPORT_TIME);
+        toActivityBroadcast.registerReceive(this,getActivity().getApplicationContext(),intentFilter);
+        iSleepReportPresenter.loadData(((SleepReportActivity)getActivity()).getReportDate());
     }
 
     @Override
     protected void onFragmentPause() {
         super.onFragmentPause();
         iSleepReportPresenter.unRegister();
+        toActivityBroadcast.unregister(getActivity().getApplicationContext());
     }
 
     @Override
@@ -77,5 +89,15 @@ public class SleepDayFragment extends BaseLazyLoadingFragment implements ISleepR
     @Override
     public void updateView(String allTime, String deepTime, String lightTime, String plan) {
 
+    }
+
+    @Override
+    public void onReceive(Intent intent) {
+        switch (intent.getAction()){
+            case BroadcastConst.UPDATE_REPORT_TIME:{
+                iSleepReportPresenter.loadData(((SleepReportActivity)getActivity()).getReportDate());
+            }
+            break;
+        }
     }
 }

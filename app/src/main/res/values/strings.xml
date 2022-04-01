@@ -8,4 +8,6 @@
     <string name="checkGPS">It has been detected that the position switch of your mobile phone is not turned on. To ensure the normal operation of the application, please turn on the position switch.</string>
     <string name="confirm">confirm</string>
     <string name="cancel">cancel</string>
+
+    <string name="touchAgain">Press Again To Exit The Program</string>
 </resources>

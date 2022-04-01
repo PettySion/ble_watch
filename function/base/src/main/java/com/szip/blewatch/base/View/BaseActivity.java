@@ -1,11 +1,14 @@
 package com.szip.blewatch.base.View;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.szip.blewatch.base.Interfere.OnScrollListener;
 import com.szip.blewatch.base.R;
+import com.szip.blewatch.base.Util.ScreenCapture;
 
 
 /**
@@ -47,6 +51,20 @@ public class BaseActivity extends AppCompatActivity {
             return;
 
         myScrollView.setOnScrollListener(listener);
+    }
+
+    /**
+     * 分享长图
+     * */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    protected void shareShowLong(ScrollView view){
+        Uri str = ScreenCapture.getScollerBitmap
+                (this, view);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/jpeg");
+        intent.putExtra(Intent.EXTRA_STREAM, str);
+        startActivityForResult(Intent.createChooser(intent,getString(R.string.app_name)),101);
+
     }
 
 

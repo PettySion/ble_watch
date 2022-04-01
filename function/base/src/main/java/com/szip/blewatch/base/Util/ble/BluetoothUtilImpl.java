@@ -537,6 +537,10 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
             ClientManager.getClient().write(mMac,serviceUUID,UUID.fromString(Config.char1),datas,bleWriteResponse);
     }
 
+    @Override
+    public void writeForUpdate() {
+        sendCommand( CommandUtil.getCommandbyteArray(context,0x32, 8, 0, true));
+    }
 
     private void writeForSyncTime(){
         sendCommand(CommandUtil.getCommandbyteArray(context,0x30, 21, 13, true));
@@ -618,6 +622,8 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
                     CommandUtil.getCommandbytePicture(10,2,type,clockType,clockType,num,datas),bleWriteResponse);
         }
     }
+
+
 
     private IDataResponse iDataResponse = new IDataResponse() {
 

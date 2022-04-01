@@ -60,6 +60,13 @@ public class SportListActivity extends BaseActivity implements ISportListView {
                 }
             }
         });
+
+        findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
