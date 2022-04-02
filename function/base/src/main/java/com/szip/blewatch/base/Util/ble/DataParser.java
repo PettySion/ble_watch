@@ -999,6 +999,7 @@ public class DataParser {
             if (mIDataResponse!=null)
                 mIDataResponse.onSaveHeartDatas(heartDataArrayList);
             heartDataArrayList = null;
+            dataType = 0;
             LogUtil.getInstance().logd("DATA******","实时心率数据接受结束 = "+heart);
         }else if (type == 0x18){//实时体温
             if (animalHeatDataArrayList==null)
@@ -1008,6 +1009,7 @@ public class DataParser {
             if (mIDataResponse!=null)
                 mIDataResponse.onSaveTempDatas(animalHeatDataArrayList);
             animalHeatDataArrayList = null;
+            dataType = 0;
             LogUtil.getInstance().logd("DATA******","实时体温数据接受结束 = "+temp);
         }else if (type == 0x19){//总计步
             if (stepOnDayDataArrayList==null)

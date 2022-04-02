@@ -166,7 +166,8 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
                     iHealthyPresenter.initStepData();
                 break;
             case BroadcastConst.UPDATE_HEALTHY_VIEW:
-
+                if (iHealthyPresenter!=null)
+                    iHealthyPresenter.initHealthyCard();
                 break;
         }
     }

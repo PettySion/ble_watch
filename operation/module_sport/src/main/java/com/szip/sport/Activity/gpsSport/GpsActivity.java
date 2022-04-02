@@ -2,10 +2,12 @@ package com.szip.sport.Activity.gpsSport;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
@@ -17,6 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.amap.api.maps.LocationSource;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.szip.blewatch.base.Const.SportConst;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
@@ -25,16 +34,20 @@ import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.View.PulldownUpdateView;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.SportData;
+import com.szip.sport.Activity.sportResult.IMapUtil;
+import com.szip.sport.Activity.sportResult.MapUtilGaodeImp;
+import com.szip.sport.Activity.sportResult.MapUtilGoogleImp;
+import com.szip.sport.Activity.sportResult.SportResultActivity;
 import com.szip.sport.R;
 
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
 
 
-public class GpsActivity extends BaseActivity implements IGpsView{
+public class GpsActivity extends BaseActivity implements IGpsView, OnMapReadyCallback {
 
-    private TextView distanceTv,speedTv,timeTv,calorieTv,countDownTv,sportTypeTv,sportStateTv,gpsTv;
-    private ImageView gpsIv;
-    private RelativeLayout updateRl;
+    private TextView distanceTv,speedTv,timeTv,calorieTv,countDownTv,sportTypeTv,sportStateTv,gpsTv,distanceMapTv,speedMapTv,calorieMapTv;
+    private ImageView gpsIv,gpsMapIv;
+    private RelativeLayout updateRl,mapRl;
     private LinearLayout speedLl,runLl,indoorLl,pauseLl;
     private FrameLayout lockFl,startTimeFl;
     private PulldownUpdateView updateView;
@@ -42,11 +55,19 @@ public class GpsActivity extends BaseActivity implements IGpsView{
     private long countDownTime = 3;
     private int sportType = 0;
 
+    private MapView mapView;
+    private com.amap.api.maps.MapView gaodeView;
+    private IMapUtil iMapUtil;
+    private Bundle bundle;
+
+
     private ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 1f, 1f,
             1f, 50f, 50f);
     private ScaleAnimation touchAnimation = new ScaleAnimation(1f, 0.9f, 1f,
             0.9f, 50f, 50f);
 
+    private AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
+    private AlphaAnimation alphaAnimation1 = new AlphaAnimation(1,0);
     private long firstime = 0;
     private boolean started = false;
 
@@ -59,6 +80,7 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         getSupportActionBar().hide();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.sport_activity_gps);
+        bundle = savedInstanceState;
         sportType = getIntent().getIntExtra("sportType",2);
         stepCounter = ((SensorManager)getSystemService(SENSOR_SERVICE)).getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if(sportType==-1){
@@ -75,17 +97,38 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         iSportPresenter.startLocationService();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (iMapUtil!=null)
+            iMapUtil.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (iMapUtil!=null)
+            iMapUtil.onDestroy();
+        iSportPresenter.finishLocationService(false);
+        iSportPresenter.setViewDestory();
+    }
+
     private void initView() {
         updateView = findViewById(R.id.updateView);
         distanceTv = findViewById(R.id.distanceTv);
         speedTv = findViewById(R.id.speedTv);
-        timeTv = findViewById(R.id.timeTv);
         calorieTv = findViewById(R.id.calorieTv);
+        distanceMapTv = findViewById(R.id.distanceMapTv);
+        speedMapTv = findViewById(R.id.speedMapTv);
+        calorieMapTv = findViewById(R.id.calorieMapTv);
+        timeTv = findViewById(R.id.timeTv);
         updateRl = findViewById(R.id.updateRl);
+        mapRl = findViewById(R.id.mapRl);
         lockFl = findViewById(R.id.lockFl);
         startTimeFl = findViewById(R.id.startTimeFl);
         countDownTv = findViewById(R.id.countDownTv);
         gpsIv = findViewById(R.id.gpsIv);
+        gpsMapIv = findViewById(R.id.gpsMapIv);
         gpsTv = findViewById(R.id.gpsTv);
         sportTypeTv = findViewById(R.id.sportTypeTv);
         sportStateTv = findViewById(R.id.sportStateTv);
@@ -94,6 +137,34 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         pauseLl = findViewById(R.id.pauseLl);
         speedLl = findViewById(R.id.speedLl);
         sportTypeTv.setText(MathUtil.newInstance().getSportType(sportType,getApplicationContext()).getSportStr());
+
+        mapView = findViewById(R.id.googleMap);
+        gaodeView = findViewById(R.id.gaodeMap);
+
+        if (getResources().getConfiguration().locale.getCountry().equals("CN")) {
+            gaodeView.setVisibility(View.VISIBLE);
+            iMapUtil = new MapUtilGaodeImp(gaodeView);
+            iMapUtil.onCreate(bundle);
+            iMapUtil.setUpMap();
+        } else {
+            mapView.setVisibility(View.VISIBLE);
+            mapView.onCreate(bundle);
+            mapView.onResume();
+
+            try {
+                MapsInitializer.initialize(getApplicationContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            int errorCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+            if (ConnectionResult.SUCCESS != errorCode) {
+                GooglePlayServicesUtil.getErrorDialog(errorCode, GpsActivity.this, 0).show();
+            } else {
+                mapView.getMapAsync(this);
+            }
+        }
+
         if (sportType == SportConst.RUN_INDOOR){
             speedLl.setVisibility(View.GONE);
             runLl.setVisibility(View.GONE);
@@ -101,12 +172,7 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        iSportPresenter.finishLocationService(false);
-        iSportPresenter.setViewDestory();
-    }
+
 
 
 
@@ -115,6 +181,7 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         findViewById(R.id.lockIv).setOnClickListener(onClickListener);
         findViewById(R.id.pauseIv).setOnClickListener(onClickListener);
         findViewById(R.id.mapIv).setOnClickListener(onClickListener);
+        findViewById(R.id.backIv).setOnClickListener(onClickListener);
         findViewById(R.id.lockBigIv).setOnClickListener(onClickListener);
         findViewById(R.id.indoorPauseIv).setOnClickListener(onClickListener);
         findViewById(R.id.startIv).setOnClickListener(onClickListener);
@@ -128,6 +195,10 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         touchAnimation.setDuration(50);//设置动画持续时间
         touchAnimation.setRepeatCount(0);//设置重复次数
         touchAnimation.setInterpolator(new LinearInterpolator());
+        alphaAnimation.setDuration(200);
+        alphaAnimation.setRepeatCount(0);
+        alphaAnimation1.setDuration(200);
+        alphaAnimation1.setRepeatCount(0);
         scaleAnimation.setDuration(1000);//设置动画持续时间
         scaleAnimation.setRepeatCount(3);//设置重复次数
         scaleAnimation.setInterpolator(new LinearInterpolator());
@@ -172,10 +243,19 @@ public class GpsActivity extends BaseActivity implements IGpsView{
                 updateRl.setVisibility(View.VISIBLE);
                 lockFl.setVisibility(View.VISIBLE);
             } else if (id == R.id.mapIv) {
-                if (iSportPresenter != null && started)
-                    iSportPresenter.openMap(getSupportFragmentManager());
-                else
-                    showToast(getString(R.string.sport_start_sport));
+                mapRl.startAnimation(alphaAnimation);
+                mapRl.setVisibility(View.VISIBLE);
+//                if (iSportPresenter != null && started)
+//                    iSportPresenter.openMap(getSupportFragmentManager());
+//                else
+//                    showToast(getString(R.string.sport_start_sport));
+            }  else if (id == R.id.backIv) {
+                mapRl.startAnimation(alphaAnimation1);
+                mapRl.setVisibility(View.GONE);
+//                if (iSportPresenter != null && started)
+//                    iSportPresenter.openMap(getSupportFragmentManager());
+//                else
+//                    showToast(getString(R.string.sport_start_sport));
             } else if (id == R.id.startIv) {
                 if (iSportPresenter != null)
                     iSportPresenter.startLocationService();
@@ -262,19 +342,37 @@ public class GpsActivity extends BaseActivity implements IGpsView{
         speedTv.setText(String.format("%d'%d''",speed/60,speed%60));
         distanceTv.setText(String.format("%.2f",distance/1000));
         calorieTv.setText(String.format("%.1f",calorie));
+        speedMapTv.setText(String.format("%d'%d''",speed/60,speed%60));
+        distanceMapTv.setText(String.format("%.2f",distance/1000));
+        calorieMapTv.setText(String.format("%.1f",calorie));
         if (acc == 0){
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_0);
+            gpsMapIv.setImageResource(R.mipmap.sport_icon_gps_0);
             gpsTv.setText(getString(R.string.sport_gps_low));
         }else if (acc>=29){
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_1);
+            gpsMapIv.setImageResource(R.mipmap.sport_icon_gps_0);
             gpsTv.setText(getString(R.string.sport_gps_low));
         }else if (acc>=15){
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_2);
+            gpsMapIv.setImageResource(R.mipmap.sport_icon_gps_0);
             gpsTv.setText(getString(R.string.sport_gps_middle));
         }else {
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_3);
+            gpsMapIv.setImageResource(R.mipmap.sport_icon_gps_0);
             gpsTv.setText(getString(R.string.sport_gps_high));
         }
+    }
+
+    @Override
+    public void updateLocation(Location location) {
+        iMapUtil.setLocation(location);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        iMapUtil = new MapUtilGoogleImp(googleMap);
+        iMapUtil.setUpMap();
     }
 
     /**
@@ -284,17 +382,23 @@ public class GpsActivity extends BaseActivity implements IGpsView{
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            long secondtime = System.currentTimeMillis();
-            if (secondtime - firstime > 3000) {
-                Toast.makeText(this, getString(R.string.sport_destroy),
-                        Toast.LENGTH_SHORT).show();
-                firstime = System.currentTimeMillis();
+            if(mapRl.getVisibility()==View.VISIBLE){
+                mapRl.startAnimation(alphaAnimation1);
+                mapRl.setVisibility(View.GONE);
                 return true;
-            } else {
-                //todo 发送数据结束到手表端
+            }else {
+                long secondtime = System.currentTimeMillis();
+                if (secondtime - firstime > 3000) {
+                    Toast.makeText(this, getString(R.string.sport_destroy),
+                            Toast.LENGTH_SHORT).show();
+                    firstime = System.currentTimeMillis();
+                    return true;
+                } else {
+                    //todo 发送数据结束到手表端
 //                if(MyApplication.getInstance().isMtk()&& MainService.getInstance().getState()==3)
 //                    EXCDController.getInstance().writeForControlSport(3);
-                finish();
+                    finish();
+                }
             }
         }
         return super.onKeyDown(keyCode, event);

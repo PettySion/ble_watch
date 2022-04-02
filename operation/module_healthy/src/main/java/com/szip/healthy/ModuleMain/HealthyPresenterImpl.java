@@ -151,8 +151,8 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
             case 1:{
                 List<HeartData> heartDatas = LoadDataUtil.newInstance().getHeartWithDay(DateUtil.getTimeOfToday());
                 if (heartDatas!=null&&heartDatas.size()!=0){
-                    healthyData.setTime(heartDatas.get(heartDatas.size()-1).time);
-                    healthyData.setData(heartDatas.get(heartDatas.size()-1).averageHeart);
+                    healthyData.setTime(heartDatas.get(0).time);
+                    healthyData.setData(heartDatas.get(0).averageHeart);
                     healthyData.setHeartDataList(heartDatas);
                 }else
                     healthyData.setTime(DateUtil.getTimeOfToday());
@@ -184,8 +184,8 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
             case 5:{
                 List<BloodOxygenData> bloodOxygenDatas = LoadDataUtil.newInstance().getBloodOxygenWithDay(DateUtil.getTimeOfToday());
                 if (bloodOxygenDatas!=null&&bloodOxygenDatas.size()!=0){
-                    healthyData.setTime(bloodOxygenDatas.get(bloodOxygenDatas.size()-1).time);
-                    healthyData.setData(bloodOxygenDatas.get(bloodOxygenDatas.size()-1).bloodOxygenData);
+                    healthyData.setTime(bloodOxygenDatas.get(0).time);
+                    healthyData.setData(bloodOxygenDatas.get(0).bloodOxygenData);
                     healthyData.setBloodOxygenDataList(bloodOxygenDatas);
                 }else
                     healthyData.setTime(DateUtil.getTimeOfToday());
@@ -194,9 +194,9 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
             case 6:{
                 List<BloodPressureData> bloodPressureData = LoadDataUtil.newInstance().getBloodPressureWithDay(DateUtil.getTimeOfToday());
                 if (bloodPressureData!=null&&bloodPressureData.size()!=0){
-                    healthyData.setTime(bloodPressureData.get(bloodPressureData.size()-1).time);
-                    healthyData.setData(bloodPressureData.get(bloodPressureData.size()-1).dbpDate);
-                    healthyData.setData1(bloodPressureData.get(bloodPressureData.size()-1).sbpDate);
+                    healthyData.setTime(bloodPressureData.get(0).time);
+                    healthyData.setData(bloodPressureData.get(0).dbpDate);
+                    healthyData.setData1(bloodPressureData.get(0).sbpDate);
                     healthyData.setBloodPressureDataList(bloodPressureData);
                 }else
                     healthyData.setTime(DateUtil.getTimeOfToday());
@@ -205,8 +205,8 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
             case 7:{
                 List<AnimalHeatData> animalHeatData = LoadDataUtil.newInstance().getAnimalHeatWithDay(DateUtil.getTimeOfToday());
                 if (animalHeatData!=null&&animalHeatData.size()!=0){
-                    healthyData.setTime(animalHeatData.get(animalHeatData.size()-1).time);
-                    healthyData.setData(animalHeatData.get(animalHeatData.size()-1).tempData);
+                    healthyData.setTime(animalHeatData.get(0).time);
+                    healthyData.setData(animalHeatData.get(0).tempData);
                     healthyData.setAnimalHeatDataList(animalHeatData);
                 }else
                     healthyData.setTime(DateUtil.getTimeOfToday());

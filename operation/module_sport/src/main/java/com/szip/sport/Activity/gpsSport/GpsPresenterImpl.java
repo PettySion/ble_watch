@@ -50,8 +50,6 @@ public class GpsPresenterImpl implements IGpsPresenter {
     private double lat;
     private double lng;
 
-    private DialogFragment mapFragment;
-
     private Timer timer;
     private TimerTask timerTask;
 
@@ -114,23 +112,23 @@ public class GpsPresenterImpl implements IGpsPresenter {
         }
     }
 
-    @Override
-    public void openMap(FragmentManager fragmentManager) {
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        final Fragment prev = fragmentManager.findFragmentByTag("MAP");
-        if (prev != null){
-            ft.remove(prev).commit();
-            ft = fragmentManager.beginTransaction();
-        }
-        ft.addToBackStack(null);
-        if (context.getResources().getConfiguration().locale.getCountry().equals("CN")){
-            mapFragment = new GaoDeMapFragment(speed,distance,calorie,preLocation);
-            mapFragment.show(ft, "MAP");
-        }else {
-            mapFragment = new GoogleMapFragment(speed,distance,calorie,preLocation);
-            mapFragment.show(ft, "MAP");
-        }
-    }
+//    @Override
+//    public void openMap(FragmentManager fragmentManager) {
+//        FragmentTransaction ft = fragmentManager.beginTransaction();
+//        final Fragment prev = fragmentManager.findFragmentByTag("MAP");
+//        if (prev != null){
+//            ft.remove(prev).commit();
+//            ft = fragmentManager.beginTransaction();
+//        }
+//        ft.addToBackStack(null);
+//        if (context.getResources().getConfiguration().locale.getCountry().equals("CN")){
+//            mapFragment = new GaoDeMapFragment(speed,distance,calorie,preLocation);
+//            mapFragment.show(ft, "MAP");
+//        }else {
+//            mapFragment = new GoogleMapFragment(speed,distance,calorie,preLocation);
+//            mapFragment.show(ft, "MAP");
+//        }
+//    }
 
     @Override
     public void setViewDestory() {
@@ -205,12 +203,12 @@ public class GpsPresenterImpl implements IGpsPresenter {
                     calorie+=getCalorie(d);
                     if (iGpsView!=null)
                         iGpsView.upDateRunData(speed,distance,calorie,acc);
-                    if (mapFragment !=null&&!mapFragment.isHidden()){
-                        if (context.getResources().getConfiguration().locale.getCountry().equals("CN"))
-                            ((GaoDeMapFragment)mapFragment).setData(speed,distance,calorie,acc);
-                        else
-                            ((GoogleMapFragment)mapFragment).setData(speed,distance,calorie,acc);
-                    }
+//                    if (mapFragment !=null&&!mapFragment.isHidden()){
+//                        if (context.getResources().getConfiguration().locale.getCountry().equals("CN"))
+//                            ((GaoDeMapFragment)mapFragment).setData(speed,distance,calorie,acc);
+//                        else
+//                            ((GoogleMapFragment)mapFragment).setData(speed,distance,calorie,acc);
+//                    }
                     if (distance-preDistance1>1000){
                         speedStr.append(String.format(",%d",time- speedTime));
                         preDistance1+=1000;
@@ -228,12 +226,14 @@ public class GpsPresenterImpl implements IGpsPresenter {
                 preLocation=location;
                 preTime =System.currentTimeMillis();
             }
-            if (mapFragment !=null&&!mapFragment.isHidden()){
-                if (context.getResources().getConfiguration().locale.getCountry().equals("CN"))
-                    ((GaoDeMapFragment)mapFragment).setLocation(location);
-                else
-                    ((GoogleMapFragment)mapFragment).setLocation(location);
-            }
+            if (iGpsView!=null)
+                iGpsView.updateLocation(location);
+//            if (mapFragment !=null&&!mapFragment.isHidden()){
+//                if (context.getResources().getConfiguration().locale.getCountry().equals("CN"))
+//                    ((GaoDeMapFragment)mapFragment).setLocation(location);
+//                else
+//                    ((GoogleMapFragment)mapFragment).setLocation(location);
+//            }
         }
     }
 
