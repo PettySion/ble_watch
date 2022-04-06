@@ -91,7 +91,7 @@ public class DIYActivity extends BaseActivity implements IDiyView, MyHandle {
     }
 
     private void initEvent() {
-        findViewById(R.id.diyIv).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.clockIv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);

@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.szip.blewatch.base.Util.LocationUtil;
+import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.SportData;

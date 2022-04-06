@@ -2,6 +2,7 @@ package com.szip.blewatch.base.Service;
 
 import android.app.DownloadManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -128,8 +129,7 @@ public class BleService extends Service implements MyHandle {
      * */
     private String mac;
     private synchronized void connect(){
-        LogUtil.getInstance().logd("data******","开始连接，mac = "+mac);
-        if (mac!=null)
+        if (mac!=null&& BluetoothAdapter.getDefaultAdapter().isEnabled())
             iBluetoothUtil.connect(mac,iBluetoothState);
     }
     private void disConnect(){
@@ -142,7 +142,6 @@ public class BleService extends Service implements MyHandle {
             Intent intent = new Intent(BroadcastConst.UPDATE_BLE_STATE);
             intent.putExtra("state",bluetoothState);
             sendBroadcast(intent);
-            Log.i("data******","state = "+bluetoothState);
             if(bluetoothState==5){
                 connect();
             }
