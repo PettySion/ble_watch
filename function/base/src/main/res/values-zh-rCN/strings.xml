@@ -31,6 +31,9 @@
     <string name="ble_error">蓝牙未连接，请连接后重试</string>
     <string name="updating">数据正在同步...</string>
 
+    <string name="connected">已连接</string>
+    <string name="disConnect">未连接</string>
+
     <string name="sun">日</string>
     <string name="mon">一</string>
     <string name="tues">二</string>

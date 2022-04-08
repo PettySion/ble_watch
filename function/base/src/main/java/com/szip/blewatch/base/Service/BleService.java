@@ -32,6 +32,7 @@ import com.szip.blewatch.base.Util.ble.IBluetoothState;
 import com.szip.blewatch.base.Util.ble.IBluetoothUtil;
 import com.szip.blewatch.base.Broadcast.MyHandle;
 import com.szip.blewatch.base.Broadcast.ToServiceBroadcast;
+import com.szip.blewatch.base.View.NotificationView;
 import com.szip.blewatch.base.View.ProgressHudModel;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.UserModel;
@@ -138,6 +139,12 @@ public class BleService extends Service implements MyHandle {
     private final IBluetoothState iBluetoothState = new IBluetoothState() {
         @Override
         public void updateState(int state) {
+            if (state == 3) {
+                mSevice.startForeground(0103, NotificationView.getInstance().getNotify(true));
+            }else if (bluetoothState == 3&&state == 5){
+                mSevice.startForeground(0103,NotificationView.getInstance().getNotify(false));
+            }
+            LogUtil.getInstance().logd("data******","state = "+state);
             bluetoothState = state;
             Intent intent = new Intent(BroadcastConst.UPDATE_BLE_STATE);
             intent.putExtra("state",bluetoothState);
@@ -179,7 +186,11 @@ public class BleService extends Service implements MyHandle {
 
         @Override
         public void onDeviceFounded(SearchResult device) {
-            if (!mDevices.contains(device.getAddress())&&device.getName()!=null&&deviceName.equals(device.getName())){
+            if (deviceName==null){
+                if (!mac.equals(device.getAddress())){
+                    connect();
+                }
+            }else if (!mDevices.contains(device.getAddress())&&device.getName()!=null&&deviceName.equals(device.getName())){
                 mDevices.add(device.getAddress());
             }
         }
@@ -187,10 +198,14 @@ public class BleService extends Service implements MyHandle {
         @Override
         public void onSearchStopped() {
             LogUtil.getInstance().logd("data******","搜索结束");
-            Intent intent = new Intent(BroadcastConst.UPDATE_UI_VIEW);
-            intent.putStringArrayListExtra("deviceList",mDevices);
-            sendBroadcast(intent);
-            mDevices = null;
+            if (mac==null){
+                Intent intent = new Intent(BroadcastConst.UPDATE_UI_VIEW);
+                intent.putStringArrayListExtra("deviceList",mDevices);
+                sendBroadcast(intent);
+                mDevices = null;
+                deviceName = null;
+            }
+
         }
 
         @Override

@@ -13,6 +13,7 @@ import com.szip.blewatch.base.Util.MusicUtil;
 import com.szip.blewatch.base.Util.ble.ClientManager;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.LogUtil;
+import com.szip.blewatch.base.View.NotificationView;
 
 /**
  * @author ddnosh
@@ -31,6 +32,7 @@ public class BaseApplication extends Application {
         HttpClientUtils.newInstance().init(this);
         FileUtil.getInstance().initFile(this);
         LogUtil.getInstance().init(this);
+        NotificationView.getInstance().init(this);
         MusicUtil.getSingle().init(getApplicationContext());
     }
 

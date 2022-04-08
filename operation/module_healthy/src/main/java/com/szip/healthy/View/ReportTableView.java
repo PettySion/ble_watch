@@ -290,7 +290,7 @@ public class ReportTableView extends View {
                 if (userModel.tempUnit==0)
                     yMsg[i] = String.format(Locale.ENGLISH,"%d",(interval*i+340)/10);
                 else
-                    yMsg[i] = String.format(Locale.ENGLISH,"%d",MathUtil.newInstance().c2f(interval*i+340)/10);
+                    yMsg[i] = String.format(Locale.ENGLISH,"%.1f",MathUtil.newInstance().c2f(interval*i+340)/10);
             }else {
                 if (interval*i>1000)
                     yMsg[i] = String.format(Locale.ENGLISH,"%.1fk",interval*i/1000f);

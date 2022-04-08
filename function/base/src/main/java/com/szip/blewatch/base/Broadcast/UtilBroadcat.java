@@ -33,8 +33,8 @@ public class UtilBroadcat extends BroadcastReceiver {
                     BluetoothAdapter.ERROR);
             switch (state) {
                 case BluetoothAdapter.STATE_ON:
-                    Intent connectIntent = new Intent(BroadcastConst.START_CONNECT_DEVICE);
-                    connectIntent.putExtra("isConnect",1);
+                    Intent connectIntent = new Intent(BroadcastConst.START_SEARCH_DEVICE);
+                    connectIntent.putExtra("search",true);
                     context.sendBroadcast(connectIntent);
                     break;
             }

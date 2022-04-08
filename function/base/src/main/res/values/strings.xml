@@ -31,6 +31,9 @@
     <string name="ble_error">Bluetooth is not connected. Please connect and try again.</string>
     <string name="updating">Data is being updated...</string>
 
+    <string name="connected">Connected</string>
+    <string name="disConnect">Disconnect</string>
+
     <string name="sun">Sun</string>
     <string name="mon">Mon</string>
     <string name="tues">Tue</string>

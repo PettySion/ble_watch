@@ -60,8 +60,8 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         if (toActivityBroadcast == null)
             toActivityBroadcast = new ToActivityBroadcast();
         IntentFilter intentFilter = new IntentFilter();
@@ -72,8 +72,8 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         toActivityBroadcast.unregister(getApplicationContext());
     }
 

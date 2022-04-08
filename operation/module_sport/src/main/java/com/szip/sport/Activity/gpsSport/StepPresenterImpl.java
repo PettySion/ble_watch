@@ -129,24 +129,6 @@ public class StepPresenterImpl implements IGpsPresenter{
         }
     }
 
-//    @Override
-//    public void openMap(FragmentManager fragmentManager) {
-//        FragmentTransaction ft = fragmentManager.beginTransaction();
-//        final Fragment prev = fragmentManager.findFragmentByTag("MAP");
-//        if (prev != null){
-//            ft.remove(prev).commit();
-//            ft = fragmentManager.beginTransaction();
-//        }
-//        ft.addToBackStack(null);
-//        if (context.getResources().getConfiguration().locale.getCountry().equals("CN")){
-//            mapFragment = new GaoDeMapFragment(speed,distance,calorie,preLocation);
-//            mapFragment.show(ft, "MAP");
-//        }else {
-//            mapFragment = new GoogleMapFragment(speed,distance,calorie,preLocation);
-//            mapFragment.show(ft, "MAP");
-//        }
-//    }
-
     @Override
     public void setViewDestory() {
         iGpsView = null;
@@ -227,7 +209,7 @@ public class StepPresenterImpl implements IGpsPresenter{
 
 
     private void updateWithNewLocation(Location location) {
-        Log.d("LOCATION******",location.toString());
+        LogUtil.getInstance().logd("data******","location = "+location.toString());
         if (location != null) {
             acc = location.getAccuracy();
             if (preLocation!=null){//非第一次获取经纬度

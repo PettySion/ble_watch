@@ -65,8 +65,8 @@ public class DIYActivity extends BaseActivity implements IDiyView, MyHandle {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         if (toActivityBroadcast == null)
             toActivityBroadcast = new ToActivityBroadcast();
         IntentFilter intentFilter = new IntentFilter();
@@ -77,8 +77,8 @@ public class DIYActivity extends BaseActivity implements IDiyView, MyHandle {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         toActivityBroadcast.unregister(getApplicationContext());
     }
 
