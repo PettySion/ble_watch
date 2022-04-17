@@ -11,10 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.szip.blewatch.base.Model.ReportInfoData;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
 import com.szip.blewatch.base.Util.LogUtil;
+import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.healthy.R;
 import com.szip.healthy.Model.HealthyData;
 import com.szip.healthy.View.HealthyTableView;
@@ -96,7 +100,15 @@ public class HealthyCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }else if (healthyData.getType() == HealthyConst.TEMPERATURE){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_temperature);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_temp));
-                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%.1f</big> ℃",healthyData.getData()/10f)));
+                UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(mContext));
+                if (userModel==null)
+                    return;
+                if (userModel.tempUnit==0){
+                    ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%.1f</big> ℃",healthyData.getData()/10f)));
+                }else {
+                    ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%.1f</big> ℉",MathUtil.newInstance().c2f(healthyData.getData())/10f)));
+                }
+
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }
 

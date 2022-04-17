@@ -10,7 +10,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.os.Vibrator;
+import android.util.Log;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
 import com.inuker.bluetooth.library.connect.response.BleConnectResponse;
 import com.inuker.bluetooth.library.connect.response.BleMtuResponse;
@@ -20,6 +22,7 @@ import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.inuker.bluetooth.library.model.BleGattCharacter;
 import com.inuker.bluetooth.library.model.BleGattProfile;
 import com.inuker.bluetooth.library.model.BleGattService;
+import com.szip.blewatch.base.Const.RouterPathConst;
 import com.szip.blewatch.base.Const.SendFileConst;
 import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.Const.BroadcastConst;
@@ -29,6 +32,7 @@ import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.Util.MusicUtil;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.http.TokenInterceptor;
+import com.szip.blewatch.base.View.ProgressHudModel;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
@@ -36,6 +40,7 @@ import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
 import com.szip.blewatch.base.db.dbModel.HeartData;
 import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
+import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.Model.BleStepModel;
 import com.szip.blewatch.base.db.dbModel.UserModel;
@@ -689,18 +694,27 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
 
         @Override
         public void onCamera(int flag) {
-//            if (MyApplication.getInstance().isCamerable()&& !ProgressHudModel.newInstance().isShow())
-//                if (flag == 1){//打开相机
-//                    Intent intent1=new Intent(MyApplication.getInstance().getApplicationContext(), CameraActivity.class);
-//                    intent1.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    MyApplication.getInstance().getApplicationContext().startActivity(intent1);
-//                }else if (flag == 0){//关闭相机
-//                    if (onCameraListener!=null)
-//                        onCameraListener.onCamera(0);
-//                }else {//拍照
-//                    if (onCameraListener!=null)
-//                        onCameraListener.onCamera(1);
-//                }
+            LogUtil.getInstance().logd("data******","收到相机数据");
+            SportWatchAppFunctionConfigDTO data =
+                    LoadDataUtil.newInstance().getSportConfig(MathUtil.newInstance().getUserId(context));
+            if (data==null)
+                return;
+            LogUtil.getInstance().logd("data******","cameraSwitch = "+data.cameraSwitch+" ;flag = "+flag);
+            if (data.cameraSwitch&& !ProgressHudModel.newInstance().isShow())
+                if (flag == 1){//打开相机
+                    ARouter.getInstance().build(RouterPathConst.PATH_ACTIVITY_USER_CAMERA)
+                            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .navigation(context.getApplicationContext());
+
+                }else if (flag == 0){//关闭相机
+                    Intent intent = new Intent(BroadcastConst.UPDATE_UI_VIEW);
+                    intent.putExtra("state",false);
+                    context.sendBroadcast(intent);
+                }else {//拍照
+                    Intent intent = new Intent(BroadcastConst.UPDATE_UI_VIEW);
+                    intent.putExtra("state",true);
+                    context.sendBroadcast(intent);
+                }
         }
 
         @Override

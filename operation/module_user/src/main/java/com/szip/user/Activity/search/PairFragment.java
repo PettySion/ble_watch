@@ -182,6 +182,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
         revolveIv.startAnimation(rotateRight);
         Intent intent = new Intent(BroadcastConst.START_SEARCH_DEVICE);
         intent.putExtra("search",true);
+        intent.putExtra("searchTime",5000);
         intent.putExtra("deviceName",sportWatchAppFunctionConfigDTO.appName);
         getActivity().sendBroadcast(intent);
         stateTv.setText(getString(R.string.user_searching));

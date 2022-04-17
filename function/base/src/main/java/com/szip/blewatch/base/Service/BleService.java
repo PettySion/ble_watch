@@ -60,6 +60,8 @@ public class BleService extends Service implements MyHandle {
 
     private SmsService mSmsService = null;
 
+    private boolean isResearch = false;//是不是已经重新搜索过了
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -162,50 +164,88 @@ public class BleService extends Service implements MyHandle {
     private ArrayList<String> mDevices;
     private String deviceName;
 
-    private void searchDevice(boolean search){
+    private void searchDevice(boolean search,int time){
         if (search){
             final SearchRequest request = new SearchRequest.Builder()
-                    .searchBluetoothLeDevice(9000, 1).build();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ClientManager.getClient().search(request, mSearchResponse);
-                }
-            },1000);
+                    .searchBluetoothLeDevice(time, 1).build();
+            if (time == 5000){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ClientManager.getClient().search(request, mSearchResponse);
+                    }
+                },1000);
+            }else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ClientManager.getClient().search(request, mSearchResponseDevice);
+                    }
+                },1000);
+            }
+
         }else {
             ClientManager.getClient().stopSearch();
         }
     }
 
+    //搜索列表
     private final SearchResponse mSearchResponse = new SearchResponse() {
         @Override
         public void onSearchStarted() {
-            LogUtil.getInstance().logd("data******","正在搜索");
             mDevices = new ArrayList<>();
         }
 
         @Override
         public void onDeviceFounded(SearchResult device) {
-            if (deviceName==null){
-                if (!mac.equals(device.getAddress())){
-                    connect();
-                }
-            }else if (!mDevices.contains(device.getAddress())&&device.getName()!=null&&deviceName.equals(device.getName())){
+            if (!mDevices.contains(device.getAddress())&&device.getName()!=null&&deviceName.equals(device.getName())) {
                 mDevices.add(device.getAddress());
             }
         }
 
         @Override
         public void onSearchStopped() {
-            LogUtil.getInstance().logd("data******","搜索结束");
-            if (mac==null){
-                Intent intent = new Intent(BroadcastConst.UPDATE_UI_VIEW);
-                intent.putStringArrayListExtra("deviceList",mDevices);
-                sendBroadcast(intent);
-                mDevices = null;
-                deviceName = null;
-            }
+            Intent intent = new Intent(BroadcastConst.UPDATE_UI_VIEW);
+            intent.putStringArrayListExtra("deviceList",mDevices);
+            sendBroadcast(intent);
+            mDevices = null;
+            deviceName = null;
+        }
 
+        @Override
+        public void onSearchCanceled() {
+
+        }
+    };
+
+    //搜索设备
+    private final SearchResponse mSearchResponseDevice = new SearchResponse() {
+        @Override
+        public void onSearchStarted() {
+            mDevices = new ArrayList<>();
+        }
+
+        @Override
+        public void onDeviceFounded(SearchResult device) {
+            if (mac.equals(device.getAddress())){
+                isResearch = false;
+                connect();
+            }
+        }
+
+        @Override
+        public void onSearchStopped() {
+            if (!isResearch){
+                final SearchRequest request = new SearchRequest.Builder()
+                        .searchBluetoothLeDevice(3000, 1).build();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ClientManager.getClient().search(request, mSearchResponseDevice);
+                    }
+                },1000);
+                isResearch = true;
+            }
         }
 
         @Override
@@ -407,7 +447,7 @@ public class BleService extends Service implements MyHandle {
                         new Handler(getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(BleService.this,getString(R.string.updating),Toast.LENGTH_SHORT);
+                                Toast.makeText(BleService.this,getString(R.string.updating),Toast.LENGTH_SHORT).show();
                             }
                         });
                         iBluetoothUtil.writeForUpdate();
@@ -420,7 +460,6 @@ public class BleService extends Service implements MyHandle {
                 int state = intent.getIntExtra("isConnect",0);
                 switch (state){
                     case 0:{
-                        mac = null;
                         disConnect();
                     }
                         break;
@@ -440,7 +479,8 @@ public class BleService extends Service implements MyHandle {
                 break;
             case BroadcastConst.START_SEARCH_DEVICE:
                 deviceName = intent.getStringExtra("deviceName");
-                searchDevice(intent.getBooleanExtra("search",false));
+                int searchTime = intent.getIntExtra("searchTime",5000);
+                searchDevice(intent.getBooleanExtra("search",false),searchTime);
                 break;
             case BroadcastConst.DOWNLOAD_FILE:{
                 String fileUrl = intent.getStringExtra("fileUrl");

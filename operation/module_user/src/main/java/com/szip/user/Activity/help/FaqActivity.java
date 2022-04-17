@@ -53,7 +53,7 @@ public class FaqActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
               if (position==list.size()+1){
-//                    startActivity(new Intent(FaqActivity.this,ServicePrivacyActivity.class));
+                    startActivity(new Intent(FaqActivity.this,ServicePrivacyActivity.class));
                 }else if (position==list.size()){
 //                    startActivity(new Intent(FaqActivity.this,GuideActivity.class));
                 }else {

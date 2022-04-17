@@ -62,8 +62,8 @@ public class DataParser {
     public void parseNotifyData(byte[] data){
 
         if (data[1] == 0x15){
-//            if (mIDataResponse!=null)
-//                mIDataResponse.onCamera(data[8]);
+            if (mIDataResponse!=null)
+                mIDataResponse.onCamera(data[8]);
         }else if (data[1] == 0x16){
             if (mIDataResponse!=null)
                 mIDataResponse.findPhone(data[8]);

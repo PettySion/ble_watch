@@ -193,6 +193,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == UCrop.RESULT_ERROR) {
             showToast(getString(R.string.user_crop_pic_failed));
+            return;
         }
         switch (requestCode) {
             case IMAGE_CAPTURE: {// 相机

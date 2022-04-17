@@ -46,7 +46,9 @@
             app:tabPaddingStart="0dp"
             app:tabPaddingEnd="0dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"></com.google.android.material.tabs.TabLayout>
+            android:layout_alignParentBottom="true"
+            app:tabBackground="@null"
+            app:tabRippleColor="@null"></com.google.android.material.tabs.TabLayout>
 
 
     </RelativeLayout>

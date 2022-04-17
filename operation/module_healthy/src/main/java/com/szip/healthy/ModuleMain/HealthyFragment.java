@@ -64,6 +64,7 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
     private List<HealthyData> healthyDataList;
 
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.healthy_fragment_healthy;
@@ -80,23 +81,25 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
 
     private void initView() {
         setTitle(getString(R.string.healthy_my_state));
-        colorArcProgressBar = getView().findViewById(R.id.healthyStateView);
-        stepTv = getView().findViewById(R.id.stepTv);
-        caloriesTv = getView().findViewById(R.id.caloriesTv);
-        distanceTv = getView().findViewById(R.id.distanceTv);
-        sportDataTv = getView().findViewById(R.id.sportDataTv);
-        sportTypeTv = getView().findViewById(R.id.sportTypeTv);
-        editTv = getView().findViewById(R.id.editTv);
-        cardRecyclerView = getView().findViewById(R.id.cardRecyclerView);
-        cardRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        cardRecyclerView.setHasFixedSize(true);
-        cardRecyclerView.setNestedScrollingEnabled(false);
-        healthyCardAdapter = new HealthyCardAdapter(getActivity().getApplicationContext());
-        cardRecyclerView.setAdapter(healthyCardAdapter);
+        if (stepTv==null){
+            colorArcProgressBar = getView().findViewById(R.id.healthyStateView);
+            stepTv = getView().findViewById(R.id.stepTv);
+            caloriesTv = getView().findViewById(R.id.caloriesTv);
+            distanceTv = getView().findViewById(R.id.distanceTv);
+            sportDataTv = getView().findViewById(R.id.sportDataTv);
+            sportTypeTv = getView().findViewById(R.id.sportTypeTv);
+            editTv = getView().findViewById(R.id.editTv);
+            cardRecyclerView = getView().findViewById(R.id.cardRecyclerView);
+            cardRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            cardRecyclerView.setHasFixedSize(true);
+            cardRecyclerView.setNestedScrollingEnabled(false);
+            healthyCardAdapter = new HealthyCardAdapter(getActivity().getApplicationContext());
+            cardRecyclerView.setAdapter(healthyCardAdapter);
 
-        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity().getApplicationContext()));
-        if (userModel!=null)
-            colorArcProgressBar.setMaxValues(userModel.stepsPlan);
+            UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity().getApplicationContext()));
+            if (userModel!=null)
+                colorArcProgressBar.setMaxValues(userModel.stepsPlan);
+        }
     }
 
     private void initEvent() {

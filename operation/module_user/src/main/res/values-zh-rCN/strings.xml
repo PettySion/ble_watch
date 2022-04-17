@@ -73,6 +73,19 @@
     <string name="user_feedback_success">反馈成功</string>
     <string name="user_guide">连接指引</string>
     <string name="user_service">保持后台运行</string>
+    <string name="user_huawei">华为</string>
+    <string name="user_oppo">oppo</string>
+    <string name="user_vivo">vivo</string>
+    <string name="user_lenovo">联想</string>
+    <string name="user_oneplus">一加</string>
+    <string name="user_samsun">三星</string>
+    <string name="user_mi">小米</string>
+    <string name="user_meizu">魅族</string>
+    <string name="user_serviceTip">为了提升手表连接的稳定性，建议您进行如下设置：</string>
+    <string name="user_saverBattery">请勿开启（省电模式）：</string>
+    <string name="user_batteryContent">如果开启了省电模式，将可能导致蓝牙连接不稳定、运动轨迹异常、运功距离减少等问题。建议在使用中关闭省电模式。</string>
+    <string name="user_protect">各大厂商后台保护设置方法：</string>
+
 
     <string name="user_search">搜索设备</string>
     <string name="user_searching">正在搜索设备...</string>

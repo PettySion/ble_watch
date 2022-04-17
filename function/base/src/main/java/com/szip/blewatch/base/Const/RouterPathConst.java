@@ -9,6 +9,7 @@ public class RouterPathConst {
     public static final String PATH_ACTIVITY_CHANGE_PASSWORD = "/login/change_password";
     public static final String PATH_ACTIVITY_USER = "/user/main";
     public static final String PATH_ACTIVITY_USER_FAQ = "/user/faq";
+    public static final String PATH_ACTIVITY_USER_CAMERA = "/user/camera";
     public static final String PATH_ACTIVITY_PRIVACY = "/app/privacy";
     public static final String PATH_ACTIVITY_REPORT = "/healthy/report/";
     public static final String PATH_ACTIVITY_REPORT_HEART = "/healthy/report/1";

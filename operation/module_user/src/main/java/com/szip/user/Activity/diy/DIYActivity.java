@@ -135,7 +135,6 @@ public class DIYActivity extends BaseActivity implements IDiyView, MyHandle {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == UCrop.RESULT_ERROR) {
-            Log.d("DATA******", "URI = " + data.getData());
             showToast(getString(R.string.user_crop_fail));
             return;
         }

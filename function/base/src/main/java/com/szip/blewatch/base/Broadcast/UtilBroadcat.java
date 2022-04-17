@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.szip.blewatch.base.Const.BroadcastConst;
+import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.UserModel;
@@ -33,8 +34,10 @@ public class UtilBroadcat extends BroadcastReceiver {
                     BluetoothAdapter.ERROR);
             switch (state) {
                 case BluetoothAdapter.STATE_ON:
+                    LogUtil.getInstance().logd("data******","蓝牙打开");
                     Intent connectIntent = new Intent(BroadcastConst.START_SEARCH_DEVICE);
                     connectIntent.putExtra("search",true);
+                    connectIntent.putExtra("searchTime",3000);
                     context.sendBroadcast(connectIntent);
                     break;
             }

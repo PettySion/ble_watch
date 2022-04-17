@@ -3,6 +3,8 @@
     package="com.szip.user">
 
     <application>
+        <activity android:name=".Activity.camera.CameraActivity"></activity>
+        <activity android:name=".Activity.help.ServicePrivacyActivity" />
         <activity android:name=".Activity.help.FaqContentActivity" />
         <activity android:name=".Activity.camera.CameraSetActivity" />
         <activity android:name=".Activity.TargetActivity" />

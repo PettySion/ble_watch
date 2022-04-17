@@ -40,7 +40,7 @@ public class RectProgressBar extends View {
         paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(32f);
-        paint.setColor(Color.parseColor("#f4f4f6"));
+
         dpValue = MathUtil.newInstance().dip2Px(1,getContext());
     }
 
@@ -54,6 +54,7 @@ public class RectProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        paint.setColor(Color.parseColor("#f4f4f6"));
         canvas.drawLine(0,mHeight/2,mWidth,mHeight/2,paint);
         paint.setColor(Color.parseColor("#a1e510"));
         canvas.drawLine(0,mHeight/2,mWidth*ratio,mHeight/2,paint);

@@ -71,6 +71,18 @@
     <string name="user_feedback_success">Feedback Success</string>
     <string name="user_guide">User Guide</string>
     <string name="user_service">Keep app active</string>
+    <string name="user_huawei">HUAWEI</string>
+    <string name="user_oppo">oppo</string>
+    <string name="user_vivo">vivo</string>
+    <string name="user_lenovo">Lenovo</string>
+    <string name="user_oneplus">onePlus</string>
+    <string name="user_samsun">Samsun</string>
+    <string name="user_mi">MI</string>
+    <string name="user_meizu">MEIZU</string>
+    <string name="user_serviceTip">In order to improve the stability of the watch connection, it is recommended that you make the following Settings:</string>
+    <string name="user_saverBattery">Do not open (power saving mode) :</string>
+    <string name="user_batteryContent">If the power-saving mode is turned on, it may cause problems such as unstable Bluetooth connection, abnormal movement trajectory and reduced power distance. It is recommended to turn off the power-saving mode while in use.</string>
+    <string name="user_protect">Set the method of background protection::</string>
 
     <string name="user_search">Search Device</string>
     <string name="user_searching">Searching for device....</string>

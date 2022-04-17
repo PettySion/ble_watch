@@ -26,6 +26,7 @@ public abstract class BaseFragment extends Fragment {
 
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +76,7 @@ public abstract class BaseFragment extends Fragment {
     private OnScrollListener listener = new OnScrollListener() {
         @Override
         public void onScroll(int scrollY) {
+            LogUtil.getInstance().logd("data******","scrollY = "+scrollY);
             if (titleTv!=null){
                 if (scrollY>120)
                     titleTv.setVisibility(View.VISIBLE);
@@ -87,5 +89,6 @@ public abstract class BaseFragment extends Fragment {
         public void onLoadMost() {
 
         }
+
     };
 }
