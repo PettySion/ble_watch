@@ -74,7 +74,10 @@ public class HealthyCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (healthyData.getType() == HealthyConst.HEART){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_hr);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_heart));
-                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d</big> Bpm",healthyData.getData())));
+                if (healthyData.getHeartDataList()!=null)
+                    ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d</big> Bpm",healthyData.getData())));
+                else
+                    ((Holder) holder).dataTv.setText("--");
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.STEP){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_steps_32);
@@ -90,12 +93,18 @@ public class HealthyCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }else if (healthyData.getType() == HealthyConst.BLOOD_OXYGEN){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_spo2);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_blood_oxygen));
-                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d</big>%%",healthyData.getData())));
+                if (healthyData.getBloodOxygenDataList()!=null)
+                    ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d</big>%%",healthyData.getData())));
+                else
+                    ((Holder) holder).dataTv.setText("--");
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.BLOOD_PRESSURE){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_bp);
                 ((Holder) holder).typeTv.setText(mContext.getString(R.string.healthy_blood_pressure));
-                ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d/%d</big>mmhg",healthyData.getData(),healthyData.getData1())));
+                if (healthyData.getBloodPressureDataList()!=null)
+                    ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%d/%d</big>mmhg",healthyData.getData(),healthyData.getData1())));
+                else
+                    ((Holder) holder).dataTv.setText("--");
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }else if (healthyData.getType() == HealthyConst.TEMPERATURE){
                 ((Holder) holder).typeIv.setImageResource(R.mipmap.state_temperature);
@@ -103,11 +112,16 @@ public class HealthyCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(mContext));
                 if (userModel==null)
                     return;
-                if (userModel.tempUnit==0){
-                    ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%.1f</big> ℃",healthyData.getData()/10f)));
+                if (healthyData.getAnimalHeatDataList()!=null){
+                    if (userModel.tempUnit==0){
+                        ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%.1f</big> ℃",healthyData.getData()/10f)));
+                    }else {
+                        ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%.1f</big> ℉",MathUtil.newInstance().c2f(healthyData.getData()/10f))));
+                    }
                 }else {
-                    ((Holder) holder).dataTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,"<big>%.1f</big> ℉",MathUtil.newInstance().c2f(healthyData.getData())/10f)));
+                    ((Holder) holder).dataTv.setText("--");
                 }
+
 
                 ((Holder) holder).timeTv.setText(DateUtil.getStringDateFromSecond(healthyData.getTime(),"yyyy/MM/dd"));
             }

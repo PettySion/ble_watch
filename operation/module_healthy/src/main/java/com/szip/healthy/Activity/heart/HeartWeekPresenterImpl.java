@@ -64,7 +64,7 @@ public class HeartWeekPresenterImpl implements IHeartPresenter{
         if (iHeartView!=null){
             iHeartView.updateTable(reportDataList,allMax);
             String maxStr = String.format(Locale.ENGLISH,"%d Bpm",allMax);
-            String minStr = String.format(Locale.ENGLISH,"%d Bpm",allMin);
+            String minStr = String.format(Locale.ENGLISH,"%d Bpm",allMin==1000?0:allMin);
             String averageStr = String.format(Locale.ENGLISH,"%d Bpm",allSum==0?0:allHeart/allSum);
             iHeartView.updateView(averageStr,maxStr,minStr);
         }

@@ -24,6 +24,7 @@ public class ToServiceBroadcast extends BroadcastReceiver {
         intentFilter.addAction(BroadcastConst.DOWNLOAD_FILE);
         intentFilter.addAction(BroadcastConst.START_SEARCH_DEVICE);
         intentFilter.addAction(BroadcastConst.START_CONNECT_DEVICE);
+        intentFilter.addAction(BroadcastConst.CHECK_BLE_STATE);
         intentFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         context.registerReceiver(this,intentFilter);
     }

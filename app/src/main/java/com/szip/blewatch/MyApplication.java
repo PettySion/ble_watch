@@ -12,6 +12,8 @@ import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.Constant;
 import com.szip.blewatch.base.Notification.MyNotificationReceiver;
 import com.szip.blewatch.base.Service.BleService;
+import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
@@ -20,6 +22,7 @@ import com.szip.blewatch.base.db.dbModel.HealthyCardData;
 import com.szip.blewatch.base.db.dbModel.HealthyCardData_Table;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.SportData_Table;
+import com.szip.blewatch.base.db.dbModel.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,9 @@ public class MyApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        startService(new Intent(this, BleService.class));
+        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(this));
+        if (userModel!=null)
+            startService(new Intent(this, BleService.class));
 
         /**
          * 注册广播

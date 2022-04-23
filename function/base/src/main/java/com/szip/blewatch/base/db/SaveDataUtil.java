@@ -687,6 +687,11 @@ public class SaveDataUtil {
     }
 
     public void saveNotificationList(final List<NotificationData> notificationDataList){
+        List<NotificationData> saveList = SQLite.select()
+                .from(NotificationData.class)
+                .queryList();
+        if (saveList!=null&&saveList.size()!=0)
+            return;
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<NotificationData>() {

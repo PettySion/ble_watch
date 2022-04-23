@@ -37,9 +37,6 @@ public class MinePresenterImpl implements IMinePresenter{
                 iMineView.updateUserInfo(false);
             }else {
                 iMineView.updateUserInfo(true);
-                Intent intent = new Intent(BroadcastConst.START_CONNECT_DEVICE);
-                intent.putExtra("isConnect",1);
-                context.sendBroadcast(intent);
                 getDeviceData();
             }
         }else {

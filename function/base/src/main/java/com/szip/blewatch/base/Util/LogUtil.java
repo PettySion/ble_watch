@@ -57,17 +57,17 @@ public class LogUtil {
 
     public void writeEvent(String tag,String msg){
 
-//        FileUtil.getInstance().writeLog(MyApplication.getInstance().getPrivatePath()+
-//                DateUtil.getStringDateFromSecond(Calendar.getInstance().getTimeInMillis()/1000,"yyyy-MM-dd") + ".txt",
-//                (DateUtil.getStringDateFromSecond(Calendar.getInstance().getTimeInMillis()/1000,"yyyy-MM-dd HH:mm:ss")+"|"+tag+
-//                        "|"+msg+"\r").getBytes());
+        FileUtil.getInstance().writeLog(context.getApplicationContext().getExternalFilesDir(null).getPath()+"/"+
+                DateUtil.getStringDateFromSecond(Calendar.getInstance().getTimeInMillis()/1000,"yyyy-MM-dd") + ".txt",
+                (DateUtil.getStringDateFromSecond(Calendar.getInstance().getTimeInMillis()/1000,"yyyy-MM-dd HH:mm:ss")+"|"+tag+
+                        "|"+msg+"\r").getBytes());
     }
     public void writeEventForHttp(String tag,String msg){
 
-//        FileUtil.getInstance().writeLog(MyApplication.getInstance().getPrivatePath()+
-//                        DateUtil.getStringDateFromSecond(Calendar.getInstance().getTimeInMillis()/1000,"yyyy-MM-dd") + "http.txt",
-//                (DateUtil.getStringDateFromSecond(Calendar.getInstance().getTimeInMillis()/1000,"yyyy-MM-dd HH:mm:ss")+"|"+tag+
-//                        "|"+msg+"\r").getBytes());
+        FileUtil.getInstance().writeLog(context.getApplicationContext().getExternalFilesDir(null).getPath()+"/"+
+                        DateUtil.getStringDateFromSecond(Calendar.getInstance().getTimeInMillis()/1000,"yyyy-MM-dd") + "http.txt",
+                (DateUtil.getStringDateFromSecond(Calendar.getInstance().getTimeInMillis()/1000,"yyyy-MM-dd HH:mm:ss")+"|"+tag+
+                        "|"+msg+"\r").getBytes());
     }
 
 }

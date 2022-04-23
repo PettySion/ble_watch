@@ -90,7 +90,7 @@ public class TempDayPresenterImpl implements ITempPresenter{
             }
         }else {
             for (AnimalHeatData animalHeatData:animalHeatDataList){
-                list.add(new ReportInfoData(String.format("%.1f℉",MathUtil.newInstance().c2f(animalHeatData.tempData)/10f),animalHeatData.time));
+                list.add(new ReportInfoData(String.format("%.1f℉",MathUtil.newInstance().c2f(animalHeatData.tempData/10f)),animalHeatData.time));
             }
         }
 
@@ -106,9 +106,9 @@ public class TempDayPresenterImpl implements ITempPresenter{
                 minStr = String.format(Locale.ENGLISH,"%.1f ℃",min/10f);
                 averageStr = String.format(Locale.ENGLISH,"%.1f ℃",allAnimalHeat/sum/10f);
             }else {
-                maxStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(max)/10f);
-                minStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(min)/10f);
-                averageStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(allAnimalHeat/sum)/10f);
+                maxStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(max/10f));
+                minStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(min/10f));
+                averageStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(allAnimalHeat/sum/10f));
             }
 
             String abnormalStr = String.format(Locale.ENGLISH,mContext.getString(R.string.healthy_unit),abnormal);

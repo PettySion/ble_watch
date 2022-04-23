@@ -414,6 +414,8 @@ public class MathUtil {
     }
 
     public float c2f(float temp){
+        if (temp==-1000)
+            return 0;
         int data;
         data = (int)((temp * 1.8+32)*10);
         return data/10f;
@@ -857,6 +859,11 @@ public class MathUtil {
     public String getToken(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(FILE,MODE_PRIVATE);
         return sharedPreferences.getString("token",null);
+    }
+
+    public String getString(Context context,String key){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FILE,MODE_PRIVATE);
+        return sharedPreferences.getString("key",null);
     }
 
     public long getUserId(Context context){

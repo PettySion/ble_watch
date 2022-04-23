@@ -1,11 +1,13 @@
 package com.szip.blewatch.base.Service;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.inuker.bluetooth.library.search.SearchRequest;
 import com.inuker.bluetooth.library.search.SearchResult;
@@ -52,7 +55,7 @@ public class BleService extends Service implements MyHandle {
     // Global instance
     private static BleService mSevice = null;
 
-    private int bluetoothState;
+    private int bluetoothState = 5;
 
     private IBluetoothUtil iBluetoothUtil;
 
@@ -60,18 +63,19 @@ public class BleService extends Service implements MyHandle {
 
     private SmsService mSmsService = null;
 
-    private boolean isResearch = false;//是不是已经重新搜索过了
+    private String mac;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mSevice = this;
-        iBluetoothUtil = new BluetoothUtilImpl(getApplicationContext());
-        registerService();
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        iBluetoothUtil = new BluetoothUtilImpl(getApplicationContext());
+        registerService();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -97,9 +101,8 @@ public class BleService extends Service implements MyHandle {
             broadcast = new ToServiceBroadcast();
             broadcast.registerReceive(this,this);
         }
-        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(this));
-        if (userModel!=null)
-            mac = userModel.deviceCode;
+        mac = LoadDataUtil.newInstance().getMacAddress(MathUtil.newInstance().getUserId(this));
+        connect();
     }
 
     /**
@@ -130,12 +133,21 @@ public class BleService extends Service implements MyHandle {
     /**
      * 连接蓝牙
      * */
-    private String mac;
     private synchronized void connect(){
-        if (mac!=null&& BluetoothAdapter.getDefaultAdapter().isEnabled())
-            iBluetoothUtil.connect(mac,iBluetoothState);
+        if (mac!=null&& BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            final SearchRequest request = new SearchRequest.Builder()
+                    .searchBluetoothLeDevice(3000, 1).build();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ClientManager.getClient().search(request, mSearchResponseDevice);
+                }
+            },1000);
+        }
+
     }
     private void disConnect(){
+        mac = null;
         iBluetoothUtil.disconnect();
     }
     private final IBluetoothState iBluetoothState = new IBluetoothState() {
@@ -164,26 +176,16 @@ public class BleService extends Service implements MyHandle {
     private ArrayList<String> mDevices;
     private String deviceName;
 
-    private void searchDevice(boolean search,int time){
+    private void searchDevice(boolean search){
         if (search){
             final SearchRequest request = new SearchRequest.Builder()
-                    .searchBluetoothLeDevice(time, 1).build();
-            if (time == 5000){
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ClientManager.getClient().search(request, mSearchResponse);
-                    }
-                },1000);
-            }else {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ClientManager.getClient().search(request, mSearchResponseDevice);
-                    }
-                },1000);
-            }
-
+                    .searchBluetoothLeDevice(5000, 1).build();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ClientManager.getClient().search(request, mSearchResponse);
+                }
+            },1000);
         }else {
             ClientManager.getClient().stopSearch();
         }
@@ -222,30 +224,20 @@ public class BleService extends Service implements MyHandle {
     private final SearchResponse mSearchResponseDevice = new SearchResponse() {
         @Override
         public void onSearchStarted() {
-            mDevices = new ArrayList<>();
         }
 
         @Override
         public void onDeviceFounded(SearchResult device) {
-            if (mac.equals(device.getAddress())){
-                isResearch = false;
-                connect();
+            if (mac!=null&&mac.equals(device.getAddress())){
+                iBluetoothUtil.connect(mac,iBluetoothState);
             }
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onSearchStopped() {
-            if (!isResearch){
-                final SearchRequest request = new SearchRequest.Builder()
-                        .searchBluetoothLeDevice(3000, 1).build();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ClientManager.getClient().search(request, mSearchResponseDevice);
-                    }
-                },1000);
-                isResearch = true;
-            }
+            if(bluetoothState==5)
+                connect();
         }
 
         @Override
@@ -373,9 +365,12 @@ public class BleService extends Service implements MyHandle {
     }
 
     private synchronized void removeTimeTask(){
-        timer.cancel();
-        timer = null;
-        ackPakage = 0;
+        if (timer!=null){
+            timer.cancel();
+            timer = null;
+            ackPakage = 0;
+        }
+
     }
 
     private synchronized void sendByte(){
@@ -463,7 +458,7 @@ public class BleService extends Service implements MyHandle {
                         disConnect();
                     }
                         break;
-                    case 1:{
+                    case 1:{//搜索后再连接(用于回连)
                         if (bluetoothState==3||bluetoothState==2){//如果是已经连接的状态，直接把状态用广播丢出去
                             Intent stateIntent = new Intent(BroadcastConst.UPDATE_BLE_STATE);
                             stateIntent.putExtra("state",bluetoothState);
@@ -474,13 +469,23 @@ public class BleService extends Service implements MyHandle {
                         }
                     }
                     break;
+                    case 2:{//直接连接(用于第一次配对)
+                        mac = LoadDataUtil.newInstance().getMacAddress(MathUtil.newInstance().getUserId(mSevice));
+                        iBluetoothUtil.connect(mac,iBluetoothState);
+                    }
                 }
 
                 break;
+            case BroadcastConst.CHECK_BLE_STATE:
+                Intent stateIntent = new Intent(BroadcastConst.UPDATE_BLE_STATE);
+                stateIntent.putExtra("state",bluetoothState);
+                sendBroadcast(stateIntent);
+                if (bluetoothState==5)
+                    connect();
+                break;
             case BroadcastConst.START_SEARCH_DEVICE:
                 deviceName = intent.getStringExtra("deviceName");
-                int searchTime = intent.getIntExtra("searchTime",5000);
-                searchDevice(intent.getBooleanExtra("search",false),searchTime);
+                searchDevice(intent.getBooleanExtra("search",false));
                 break;
             case BroadcastConst.DOWNLOAD_FILE:{
                 String fileUrl = intent.getStringExtra("fileUrl");

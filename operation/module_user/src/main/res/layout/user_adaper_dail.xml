@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/dailRl"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
@@ -15,16 +15,18 @@
 
         <com.szip.blewatch.base.View.CircularImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="99dp"
+            android:layout_height="99dp"
             app:is_allRadius="true"
-            app:radius="8dp"/>
+            app:radius="8dp"
+            android:layout_centerHorizontal="true"/>
 
         <View
             android:id="@+id/selectView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@drawable/user_bg_dial_circle"/>
+            android:background="@drawable/user_bg_dial_circle"
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
 

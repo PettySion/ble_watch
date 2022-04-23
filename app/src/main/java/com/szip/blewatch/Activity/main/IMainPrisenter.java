@@ -10,7 +10,6 @@ public interface IMainPrisenter {
     void checkGPSState();
     //初始化工具栏
     void initHost(FragmentTabHost fragmentTabHost);
-    //蓝牙重连
-    void initBle();
+
     void setViewDestory();
 }

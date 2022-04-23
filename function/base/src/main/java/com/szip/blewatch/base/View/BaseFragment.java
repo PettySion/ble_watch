@@ -76,7 +76,6 @@ public abstract class BaseFragment extends Fragment {
     private OnScrollListener listener = new OnScrollListener() {
         @Override
         public void onScroll(int scrollY) {
-            LogUtil.getInstance().logd("data******","scrollY = "+scrollY);
             if (titleTv!=null){
                 if (scrollY>120)
                     titleTv.setVisibility(View.VISIBLE);

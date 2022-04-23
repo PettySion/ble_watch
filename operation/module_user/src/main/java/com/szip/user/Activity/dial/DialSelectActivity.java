@@ -108,7 +108,8 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
             changeIv.setImageResource(R.mipmap.my_watchstyle_square);
             dialIv = findViewById(R.id.dialIv_r06);
         }
-        iSelectDialPresenter.getViewConfig(dialRv,dialArrayList);
+        if(iSelectDialPresenter!=null)
+            iSelectDialPresenter.getViewConfig(dialRv,dialArrayList);
     }
 
     public void initList(boolean initSuccess) {
@@ -121,6 +122,8 @@ public class DialSelectActivity extends BaseActivity implements IDialSelectView,
                 iSelectDialPresenter = new SelectDialPresenterWithFileImpl(getApplicationContext(),this);
             else
                 iSelectDialPresenter = new SelectDialPresenterImpl06(getApplicationContext(),this);
+        }else {
+            iSelectDialPresenter = new SelectDialPresenterImpl06(getApplicationContext(),this);
         }
 
         initView();

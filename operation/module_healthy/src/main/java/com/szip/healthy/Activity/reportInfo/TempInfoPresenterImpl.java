@@ -57,7 +57,7 @@ public class TempInfoPresenterImpl implements IReportInfoPresenter{
             if (userModel.tempUnit==0){
                 reportInfoData = new ReportInfoData(String.format("%.1f ℃",animalHeatData.tempData/10f), animalHeatData.time);
             }else {
-                reportInfoData = new ReportInfoData(String.format("%.1f ℉",MathUtil.newInstance().c2f(animalHeatData.tempData)/10f),  animalHeatData.time);
+                reportInfoData = new ReportInfoData(String.format("%.1f ℉",MathUtil.newInstance().c2f(animalHeatData.tempData/10f)),  animalHeatData.time);
             }
             childList.add(reportInfoData);
         }
@@ -88,7 +88,7 @@ public class TempInfoPresenterImpl implements IReportInfoPresenter{
             if (userModel.tempUnit==0){
                 reportInfoData = new ReportInfoData(String.format("%.1f ℃",animalHeatData.tempData/10f), animalHeatData.time);
             }else {
-                reportInfoData = new ReportInfoData(String.format("%.1f ℉",MathUtil.newInstance().c2f(animalHeatData.tempData)/10f),  animalHeatData.time);
+                reportInfoData = new ReportInfoData(String.format("%.1f ℉",MathUtil.newInstance().c2f(animalHeatData.tempData/10f)),  animalHeatData.time);
             }
             childList.add(reportInfoData);
         }

@@ -1,14 +1,25 @@
 package com.szip.blewatch.Activity.main;
 
+import android.Manifest;
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTabHost;
 import com.szip.blewatch.R;
 import com.szip.blewatch.View.HostTabView;
+import com.szip.blewatch.base.Broadcast.MyHandle;
+import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.View.BaseActivity;
+import com.szip.user.Activity.userInfo.UserInfoActivity;
 
 import java.util.ArrayList;
 
@@ -25,6 +36,8 @@ public class MainActivity extends BaseActivity implements IMainView{
 
     private long firstTime = 0;
 
+    private ToActivityBroadcast toActivityBroadcast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +48,20 @@ public class MainActivity extends BaseActivity implements IMainView{
         iMainPrisenter.checkBluetoochState();
         initView();
         initHost();
+        /**
+         * 获取权限·
+         * */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        100);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void initView() {

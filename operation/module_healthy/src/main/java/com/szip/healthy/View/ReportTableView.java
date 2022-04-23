@@ -290,7 +290,7 @@ public class ReportTableView extends View {
                 if (userModel.tempUnit==0)
                     yMsg[i] = String.format(Locale.ENGLISH,"%d",(interval*i+340)/10);
                 else
-                    yMsg[i] = String.format(Locale.ENGLISH,"%.1f",MathUtil.newInstance().c2f(interval*i+340)/10);
+                    yMsg[i] = String.format(Locale.ENGLISH,"%.1f",MathUtil.newInstance().c2f((interval*i+340)/10));
             }else {
                 if (interval*i>1000)
                     yMsg[i] = String.format(Locale.ENGLISH,"%.1fk",interval*i/1000f);
@@ -917,7 +917,7 @@ public class ReportTableView extends View {
             if (userModel.tempUnit==0)
                 dataStr = String.format("%.1f ℃", touchDataList.get(index).getAverageData()/10f);
             else
-                dataStr = String.format("%.1f ℉", MathUtil.newInstance().c2f(touchDataList.get(index).getAverageData()/60)/10f);
+                dataStr = String.format("%.1f ℉", MathUtil.newInstance().c2f(touchDataList.get(index).getAverageData()/600f));
         }else if (pressureDayList!=null||pressureWeekList!=null||pressureMonthList!=null){
             dataStr = String.format("%d/%d", touchDataList.get(index).getAverageData(),touchDataList.get(index).getAverageDbpData());
         }else

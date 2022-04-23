@@ -70,7 +70,7 @@ public class BloodOxygenMonthPresenterImpl implements IBloodOxygenPresenter{
         if (iBloodOxygenView!=null){
             iBloodOxygenView.updateTable(reportDataList);
             String maxStr = String.format(Locale.ENGLISH,"%d%%",allMax);
-            String minStr = String.format(Locale.ENGLISH,"%d%%",allMin);
+            String minStr = String.format(Locale.ENGLISH,"%d%%",allMin==1000?0:allMin);
             String averageStr = String.format(Locale.ENGLISH,"%d%%",allSum==0?0:allBloodOxygen/allSum);
             String smallStr = String.format(Locale.ENGLISH,mContext.getString(R.string.healthy_unit),abnormal);
             iBloodOxygenView.updateView(averageStr,maxStr,minStr,smallStr);

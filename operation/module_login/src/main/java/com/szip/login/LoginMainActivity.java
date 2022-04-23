@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.Model.HealthyConfig;
+import com.szip.blewatch.base.Service.BleService;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
@@ -212,6 +213,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 SaveDataUtil.newInstance().saveUserInfo(loginBean.getData().getUserInfo());
                 userModel = loginBean.getData().getUserInfo();
                 loadDeviceConfig();
+                startService(new Intent(LoginMainActivity.this, BleService.class));
             }else {
                 showToast(loginBean.getMessage());
             }

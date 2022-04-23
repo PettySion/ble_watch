@@ -77,6 +77,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         intentFilter.addAction(BroadcastConst.UPDATE_UI_VIEW);
         intentFilter.addAction(BroadcastConst.UPDATE_BLE_STATE);
         toActivityBroadcast.registerReceive(this,getActivity().getApplicationContext(),intentFilter);
+        getActivity().sendBroadcast(new Intent(BroadcastConst.CHECK_BLE_STATE));
+
     }
 
     @Override

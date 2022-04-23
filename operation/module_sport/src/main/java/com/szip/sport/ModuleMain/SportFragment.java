@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Const.SportConst;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
+import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseFragment;
 import com.szip.blewatch.base.View.CircularImageView;
@@ -61,22 +63,24 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     protected void afterOnCreated(Bundle savedInstanceState) {
+        LogUtil.getInstance().logd("data******","afterOnCreated");
         checkPermission();
         initView();
         initEvent();
         iLastSportPresenter = new LastSportImpl(this,getActivity());
-        iLastSportPresenter.initLastSport();
         iLastSportPresenter.initLocation((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE));
     }
 
     @Override
     public void onResume() {
+        LogUtil.getInstance().logd("data******","onResume");
         super.onResume();
         if(toActivityBroadcast==null)
             toActivityBroadcast = new ToActivityBroadcast();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BroadcastConst.UPDATE_SPORT_VIEW);
         toActivityBroadcast.registerReceive(this,getActivity(),intentFilter);
+        iLastSportPresenter.initLastSport();
     }
 
     @Override
@@ -156,7 +160,9 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
         lastSportListView.setNestedScrollingEnabled(false);
         lastSportAdapter = new LastSportAdapter(getActivity().getApplicationContext());
         lastSportListView.setAdapter(lastSportAdapter);
-
+        String url = MathUtil.newInstance().getString(getActivity().getApplicationContext(),"mapUrl");
+        if (url!=null)
+            Glide.with(getActivity()).load(url).into(mapIv);
     }
 
     @Override
@@ -215,6 +221,7 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
         }
 
         Glide.with(getActivity()).load(url).into(mapIv);
+        MathUtil.newInstance().saveStringData(getActivity().getApplicationContext(),"mapUrl",url);
     }
 
     @Override

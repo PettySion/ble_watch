@@ -71,6 +71,8 @@ public class TempWeekPresenterImpl implements ITempPresenter{
             reportDataList.add(new ReportData(temp/sum,max,min,time+i*24*60*60));
         }
         if (iTempView!=null){
+            if (allMin==1000)
+                allMin = -1000;
             iTempView.updateTable(reportDataList);
             String maxStr,minStr,averageStr;
             if (userModel.tempUnit==0){
@@ -78,9 +80,9 @@ public class TempWeekPresenterImpl implements ITempPresenter{
                 minStr = String.format(Locale.ENGLISH,"%.1f ℃",allMin/10f);
                 averageStr = String.format(Locale.ENGLISH,"%.1f ℃",allSum==0?0:allTemp/allSum/10f);
             }else {
-                maxStr = String.format(Locale.ENGLISH,"%.1f ℉", MathUtil.newInstance().c2f(allMax)/10f);
-                minStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(allMin)/10f);
-                averageStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(allSum==0?0:allTemp/allSum)/10f);
+                maxStr = String.format(Locale.ENGLISH,"%.1f ℉", MathUtil.newInstance().c2f(allMax/10f));
+                minStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(allMin/10f));
+                averageStr = String.format(Locale.ENGLISH,"%.1f ℉",MathUtil.newInstance().c2f(allSum==0?0:allTemp/allSum/10f));
             }
             String abnormalStr = String.format(Locale.ENGLISH,mContext.getString(R.string.healthy_unit),abnormal);
             iTempView.updateView(averageStr,maxStr,minStr,abnormalStr);

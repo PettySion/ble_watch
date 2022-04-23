@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -54,23 +55,29 @@ public class NotificationActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (openService){
-            if (isNotificationListenerActived()){
-                List<NotificationData> list = new ArrayList<>();
-                list.add(new NotificationData("massage", R.mipmap.cp_icon_empty, "短信", true));
-                list.add(new NotificationData("com.tencent.mm", R.mipmap.cp_icon_empty, "微信", true));
-                list.add(new NotificationData("com.tencent.mobileqq", R.mipmap.cp_icon_empty, "QQ", true));
-                list.add(new NotificationData("com.facebook.katana", R.mipmap.cp_icon_empty, "facebook", true));
-                list.add(new NotificationData("com.facebook.orca", R.mipmap.cp_icon_empty, "facebook massage", true));
-                list.add(new NotificationData("com.twitter.android", R.mipmap.cp_icon_empty, "twitter", true));
-                list.add(new NotificationData("com.whatsapp", R.mipmap.cp_icon_empty, "WhatsApp", true));
-                list.add(new NotificationData("com.instagram.android", R.mipmap.cp_icon_empty, "instagram", true));
-                SaveDataUtil.newInstance().saveNotificationList(list);
-                notificationState = true;
-                initData();
-            }else {
-                allSw.setChecked(false);
-            }
-            openService = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (isNotificationListenerActived()){
+                        List<NotificationData> list = new ArrayList<>();
+                        list.add(new NotificationData("massage", R.mipmap.cp_icon_empty, "短信", true));
+                        list.add(new NotificationData("com.tencent.mm", R.mipmap.cp_icon_empty, "微信", true));
+                        list.add(new NotificationData("com.tencent.mobileqq", R.mipmap.cp_icon_empty, "QQ", true));
+                        list.add(new NotificationData("com.facebook.katana", R.mipmap.cp_icon_empty, "facebook", true));
+                        list.add(new NotificationData("com.facebook.orca", R.mipmap.cp_icon_empty, "facebook massage", true));
+                        list.add(new NotificationData("com.twitter.android", R.mipmap.cp_icon_empty, "twitter", true));
+                        list.add(new NotificationData("com.whatsapp", R.mipmap.cp_icon_empty, "WhatsApp", true));
+                        list.add(new NotificationData("com.instagram.android", R.mipmap.cp_icon_empty, "instagram", true));
+                        SaveDataUtil.newInstance().saveNotificationList(list);
+                        notificationState = true;
+                        initData();
+                    }else {
+                        allSw.setChecked(false);
+                    }
+                    openService = false;
+                }
+            },500);
+
         }
     }
 

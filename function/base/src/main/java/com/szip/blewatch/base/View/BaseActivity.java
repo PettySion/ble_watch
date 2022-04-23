@@ -19,6 +19,8 @@ import com.szip.blewatch.base.Interfere.OnScrollListener;
 import com.szip.blewatch.base.R;
 import com.szip.blewatch.base.Util.ScreenCapture;
 
+import java.util.Calendar;
+
 
 /**
  * Created by Administrator on 2019/11/28.
@@ -29,8 +31,14 @@ public class BaseActivity extends AppCompatActivity {
     private TextView titleTv,titleBigTv;
     private MyScrollView myScrollView;
 
+    private long delayTime = 0;
+
     protected void showToast(String str){
-        Toast.makeText(this,str,Toast.LENGTH_SHORT).show();
+        if (Calendar.getInstance().getTimeInMillis()-delayTime>2000) {
+            delayTime = Calendar.getInstance().getTimeInMillis();
+            Toast.makeText(this,str,Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

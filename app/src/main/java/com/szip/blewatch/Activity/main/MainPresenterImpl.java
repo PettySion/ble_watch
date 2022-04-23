@@ -92,24 +92,8 @@ public class MainPresenterImpl implements IMainPrisenter{
                         }
                     },context);
         }
-        if (BluetoothAdapter.getDefaultAdapter().isEnabled())
-            initBle();
+    }
 
-    }
-    //todo 02手表连接前需要做的初始化操作
-//                    BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
-//                    BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-//                    BluetoothDevice device = bluetoothAdapter.getRemoteDevice(MyApplication.getInstance().getUserInfo().getDeviceCode());
-//                    WearableManager.getInstance().setRemoteDevice(device);
-    @Override
-    public void initBle() {
-        String mac = LoadDataUtil.newInstance().getMacAddress(MathUtil.newInstance().getUserId(context));
-        if (mac!=null){//已绑定
-           Intent intent = new Intent(BroadcastConst.START_CONNECT_DEVICE);
-           intent.putExtra("isConnect",1);
-           context.sendBroadcast(intent);
-        }
-    }
 
     @Override
     public void setViewDestory() {

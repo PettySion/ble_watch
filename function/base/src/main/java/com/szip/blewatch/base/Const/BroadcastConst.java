@@ -18,4 +18,7 @@ public class BroadcastConst {
     public final static String UPDATE_BACKGROUND_STATE = "update.background.state";
     public final static String SEND_BLE_FILE = "send.ble.file";
     public final static String SEND_BLE_BACKGROUND = "send.ble.background";
+
+    public final static String CHECK_BLE_STATE = "check.ble.state";
+    public final static String REGISTER_PERMISSION = "register.permission";
 }

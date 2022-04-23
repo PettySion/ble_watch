@@ -182,7 +182,6 @@ public class PairFragment extends DialogFragment implements MyHandle {
         revolveIv.startAnimation(rotateRight);
         Intent intent = new Intent(BroadcastConst.START_SEARCH_DEVICE);
         intent.putExtra("search",true);
-        intent.putExtra("searchTime",5000);
         intent.putExtra("deviceName",sportWatchAppFunctionConfigDTO.appName);
         getActivity().sendBroadcast(intent);
         stateTv.setText(getString(R.string.user_searching));
@@ -205,7 +204,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
                     userModel.deviceCode = mac;
                     userModel.update();
                     Intent intent = new Intent(BroadcastConst.START_CONNECT_DEVICE);
-                    intent.putExtra("isConnect",1);
+                    intent.putExtra("isConnect",2);
                     getActivity().sendBroadcast(intent);
                 }
             }
