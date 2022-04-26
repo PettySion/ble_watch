@@ -69,7 +69,7 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
     private UUID serviceUUID;
     private String mMac = null;
     /**
-     * 蓝牙连接状态 0:未连接 2：正在连接 3：已经连接 5：连接失败
+     * 蓝牙连接状态 0:未连接 2：正在连接 3：已经连接 4:正在搜索 5：连接失败
      * */
     private int connectState = 5;
     /**
@@ -545,6 +545,12 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
     @Override
     public void writeForUpdate() {
         sendCommand( CommandUtil.getCommandbyteArray(context,0x32, 8, 0, true));
+    }
+
+    @Override
+    public void onDestroy() {
+        iBluetoothState = null;
+        ClientManager.getClient().disconnect(mMac);
     }
 
     private void writeForSyncTime(){

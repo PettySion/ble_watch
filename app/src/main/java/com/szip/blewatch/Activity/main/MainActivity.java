@@ -2,11 +2,16 @@ package com.szip.blewatch.Activity.main;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -18,7 +23,12 @@ import com.szip.blewatch.View.HostTabView;
 import com.szip.blewatch.base.Broadcast.MyHandle;
 import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
 import com.szip.blewatch.base.Const.BroadcastConst;
+import com.szip.blewatch.base.Service.BleService;
+import com.szip.blewatch.base.Util.LogUtil;
+import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
+import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.user.Activity.userInfo.UserInfoActivity;
 
 import java.util.ArrayList;
@@ -27,7 +37,7 @@ import java.util.ArrayList;
  * @author ddnosh
  * @website http://blog.csdn.net/ddnosh
  */
-public class MainActivity extends BaseActivity implements IMainView{
+public class MainActivity extends BaseActivity implements IMainView,MyHandle{
 
     private ArrayList<HostTabView> mTableItemList;
     private RelativeLayout layout;
@@ -35,6 +45,9 @@ public class MainActivity extends BaseActivity implements IMainView{
     private IMainPrisenter iMainPrisenter;
 
     private long firstTime = 0;
+
+
+    private Binder binder;
 
     private ToActivityBroadcast toActivityBroadcast;
 
@@ -57,7 +70,38 @@ public class MainActivity extends BaseActivity implements IMainView{
                         100);
             }
         }
+
+        toActivityBroadcast = new ToActivityBroadcast();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BroadcastConst.UNBIND_SERVICE);
+        intentFilter.addAction(BroadcastConst.BIND_SERVICE);
+        toActivityBroadcast.registerReceive(this,this,intentFilter);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String mac = LoadDataUtil.newInstance().getMacAddress(MathUtil.newInstance().getUserId(getApplicationContext()));
+        if (null!=mac){
+            if (binder==null){//后台还没启动
+                LogUtil.getInstance().logd("data******","启动后台mac = "+mac);
+                bindService(new Intent(this, BleService.class),connection,BIND_AUTO_CREATE);
+            }
+        }
+    }
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder = (Binder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            LogUtil.getInstance().logd("data******","onServiceDisconnected = "+name.getClassName());
+            binder = null;
+        }
+    };
 
     @Override
     protected void onDestroy() {
@@ -102,5 +146,18 @@ public class MainActivity extends BaseActivity implements IMainView{
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onReceive(Intent intent) {
+        if (intent.getAction().equals(BroadcastConst.UNBIND_SERVICE)){
+            if (binder!=null){
+                binder = null;
+                unbindService(connection);
+                stopService(new Intent(MainActivity.this,BleService.class));
+            }
+        }else if (intent.getAction().equals(BroadcastConst.BIND_SERVICE)){
+            bindService(new Intent(this, BleService.class),connection,BIND_AUTO_CREATE);
+        }
     }
 }

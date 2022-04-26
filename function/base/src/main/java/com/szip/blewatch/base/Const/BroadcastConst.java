@@ -21,4 +21,7 @@ public class BroadcastConst {
 
     public final static String CHECK_BLE_STATE = "check.ble.state";
     public final static String REGISTER_PERMISSION = "register.permission";
+
+    public final static String UNBIND_SERVICE = "unbind.service";
+    public final static String BIND_SERVICE = "bind.service";
 }

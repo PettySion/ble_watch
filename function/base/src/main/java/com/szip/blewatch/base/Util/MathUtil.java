@@ -414,7 +414,7 @@ public class MathUtil {
     }
 
     public float c2f(float temp){
-        if (temp==-1000)
+        if (temp==0)
             return 0;
         int data;
         data = (int)((temp * 1.8+32)*10);

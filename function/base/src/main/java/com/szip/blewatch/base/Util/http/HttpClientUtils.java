@@ -32,7 +32,7 @@ public class HttpClientUtils {
 
     public void setToken(String token) {
         this.token = token;
-        if (token.equals("")){//如果token = ""说明登陆过期了，把之前缓存的token换成""
+        if (token.equals("")){//如果token = ""说明登录过期了，把之前缓存的token换成""
             MathUtil.newInstance().saveStringData(mContext,"token",null);
             MathUtil.newInstance().saveIntData(mContext,"userId",-1);
             SaveDataUtil.newInstance().clearDB();

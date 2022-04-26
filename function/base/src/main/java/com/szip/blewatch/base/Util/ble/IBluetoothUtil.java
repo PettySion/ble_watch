@@ -12,4 +12,5 @@ public interface IBluetoothUtil {
     void writeForSendDialFile(int type,byte clockId,int address,int num,byte[] data);
     void writeForSendDialBackground(int type,int clockType,int clockIndex,int num,byte[] datas);
     void writeForUpdate();
+    void onDestroy();
 }

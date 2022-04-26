@@ -35,9 +35,7 @@ public class UtilBroadcat extends BroadcastReceiver {
             switch (state) {
                 case BluetoothAdapter.STATE_ON:
                     LogUtil.getInstance().logd("data******","蓝牙打开");
-                    Intent connectIntent = new Intent(BroadcastConst.START_CONNECT_DEVICE);
-                    connectIntent.putExtra("isConnect",1);
-                    context.sendBroadcast(connectIntent);
+                    context.sendBroadcast(new Intent(BroadcastConst.START_CONNECT_DEVICE));
                     break;
             }
         }

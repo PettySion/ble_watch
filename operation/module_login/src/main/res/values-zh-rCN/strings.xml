@@ -3,8 +3,8 @@
     <string name="login_name">login module</string>
     <string name="login_location">地区</string>
     <string name="login_chose_location">请选择地区</string>
-    <string name="login_login_account">登陆账户</string>
-    <string name="login_login">登陆</string>
+    <string name="login_login_account">登录账户</string>
+    <string name="login_login">登录</string>
     <string name="login_account">账户</string>
     <string name="login_input_account">输入您的账户</string>
     <string name="login_right_email">请输入正确的邮箱地址</string>

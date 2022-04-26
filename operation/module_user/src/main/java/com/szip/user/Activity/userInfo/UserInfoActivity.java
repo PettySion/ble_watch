@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.szip.blewatch.base.Const.BroadcastConst;
-import com.szip.blewatch.base.Service.BleService;
 import com.szip.blewatch.base.Util.FileUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;

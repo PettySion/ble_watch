@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.Model.HealthyConfig;
-import com.szip.blewatch.base.Service.BleService;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
@@ -182,7 +181,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
 
 
     private void loadDeviceConfig(){
-        if (userModel.deviceCode==null||userModel.deviceCode.equals("")){//如果账户没绑定蓝牙，直接登陆成功回到主页
+        if (userModel.deviceCode==null||userModel.deviceCode.equals("")){//如果账户没绑定蓝牙，直接登录成功回到主页
             finish();
         }else {
             BluetoothManager bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
@@ -213,7 +212,6 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 SaveDataUtil.newInstance().saveUserInfo(loginBean.getData().getUserInfo());
                 userModel = loginBean.getData().getUserInfo();
                 loadDeviceConfig();
-                startService(new Intent(LoginMainActivity.this, BleService.class));
             }else {
                 showToast(loginBean.getMessage());
             }

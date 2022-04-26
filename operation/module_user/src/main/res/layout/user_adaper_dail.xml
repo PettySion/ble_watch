@@ -8,10 +8,10 @@
     <RelativeLayout
         android:id="@+id/dailRl"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="15dp">
+        android:layout_marginBottom="15dp">
 
         <com.szip.blewatch.base.View.CircularImageView
             android:id="@+id/imageView"

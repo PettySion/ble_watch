@@ -74,7 +74,7 @@ public class TempMonthPresenterImpl implements ITempPresenter{
         }
         if (iTempView!=null){
             if (allMin==1000)
-                allMin = -1000;
+                allMin = 0;
             iTempView.updateTable(reportDataList);
             String maxStr,minStr,averageStr;
             if (userModel.tempUnit==0){

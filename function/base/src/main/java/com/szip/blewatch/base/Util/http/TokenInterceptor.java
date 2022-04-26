@@ -26,13 +26,13 @@ public class TokenInterceptor implements Interceptor {
             String string = responseBody.string();
             LogUtil.getInstance().loge("DATA******","response body = "+string);
             if (string.indexOf("\"code\":401")>0){
-                LogUtil.getInstance().loge("DATA******","登陆过期，拦截");
+                LogUtil.getInstance().loge("DATA******","登录过期，拦截");
                 HttpClientUtils.newInstance().setToken("");
             }else {
                 response = response.newBuilder()
                         .body(ResponseBody.create(responseBody.contentType(), string))
                         .build();
-                LogUtil.getInstance().loge("DATA******","登陆未过期，放行");
+                LogUtil.getInstance().loge("DATA******","登录未过期，放行");
             }
             return response;
         }catch (Exception e){

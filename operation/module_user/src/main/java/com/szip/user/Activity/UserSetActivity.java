@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.Util.ble.ClientManager;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
@@ -96,8 +97,13 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
                                 UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getApplicationContext()));
                                 if (userModel == null)
                                     return;
-                                ProgressHudModel.newInstance().show(UserSetActivity.this,getString(R.string.user_upload_data),false);
-                                if (userModel.deviceCode!=null){
+                                if (userModel.deviceCode==null){
+                                    HttpClientUtils.newInstance().setToken("");
+                                    Intent intent = new Intent(BroadcastConst.UNBIND_SERVICE);
+                                    sendBroadcast(intent);
+                                    finish();
+                                }else {
+                                    ProgressHudModel.newInstance().show(UserSetActivity.this,getString(R.string.user_upload_data),false);
                                     String datas = MathUtil.newInstance().getStringWithJson(getSharedPreferences(FILE,MODE_PRIVATE));
                                     HttpMessageUtil.newInstance().postForUploadReportData(datas, new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
                                         @Override
@@ -110,6 +116,8 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
                                             if(response.getCode()==200){
                                                 ProgressHudModel.newInstance().diss();
                                                 HttpClientUtils.newInstance().setToken("");
+                                                Intent intent = new Intent(BroadcastConst.UNBIND_SERVICE);
+                                                sendBroadcast(intent);
                                                 finish();
                                             }
                                         }

@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import com.szip.blewatch.base.Service.BleService;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.db.SaveDataUtil;
@@ -184,7 +183,6 @@ public class SetPasswordFragment extends DialogFragment implements View.OnClickL
                 MathUtil.newInstance().saveStringData(getActivity().getApplicationContext(),"token",response.getData().getToken());
                 MathUtil.newInstance().saveIntData(getActivity().getApplicationContext(),"userId",response.getData().getUserInfo().id);
                 SaveDataUtil.newInstance().saveUserInfo(response.getData().getUserInfo());
-                getActivity().startService(new Intent(getActivity(), BleService.class));
                 getActivity().finish();
             }
         }

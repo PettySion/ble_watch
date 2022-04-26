@@ -33,7 +33,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private long delayTime = 0;
 
-    protected void showToast(String str){
+    protected synchronized void showToast(String str){
         if (Calendar.getInstance().getTimeInMillis()-delayTime>2000) {
             delayTime = Calendar.getInstance().getTimeInMillis();
             Toast.makeText(this,str,Toast.LENGTH_SHORT).show();

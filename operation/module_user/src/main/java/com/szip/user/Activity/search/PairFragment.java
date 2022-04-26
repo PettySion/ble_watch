@@ -73,6 +73,8 @@ public class PairFragment extends DialogFragment implements MyHandle {
 
     private AlphaAnimation alphaAnimation = new AlphaAnimation(0,1f);
 
+    private SearchPresenter searchPresenter;
+
 
 
     public PairFragment(SportWatchAppFunctionConfigDTO sportWatchAppFunctionConfigDTO) {
@@ -136,6 +138,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
     }
 
     private void initView() {
+        searchPresenter = new SearchPresenter(getActivity().getApplicationContext(),iUpdateSearch);
         ((TextView)mRootView.findViewById(R.id.titleBigTv)).setText(getString(R.string.user_search));
         stateTv = mRootView.findViewById(R.id.stateTv);
         deviceList = mRootView.findViewById(R.id.deviceList);
@@ -180,10 +183,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
 
     private void startSearch() {
         revolveIv.startAnimation(rotateRight);
-        Intent intent = new Intent(BroadcastConst.START_SEARCH_DEVICE);
-        intent.putExtra("search",true);
-        intent.putExtra("deviceName",sportWatchAppFunctionConfigDTO.appName);
-        getActivity().sendBroadcast(intent);
+        searchPresenter.startSearch(sportWatchAppFunctionConfigDTO.appName);
         stateTv.setText(getString(R.string.user_searching));
     }
 
@@ -203,38 +203,39 @@ public class PairFragment extends DialogFragment implements MyHandle {
                         return;
                     userModel.deviceCode = mac;
                     userModel.update();
-                    Intent intent = new Intent(BroadcastConst.START_CONNECT_DEVICE);
-                    intent.putExtra("isConnect",2);
+                    Intent intent = new Intent(BroadcastConst.BIND_SERVICE);
                     getActivity().sendBroadcast(intent);
                 }
             }
         });
     }
 
+    private IUpdateSearch iUpdateSearch = new IUpdateSearch() {
+        @Override
+        public void searchStop(ArrayList<String> mDevices) {
+            revolveIv.clearAnimation();
+            if (mDevices!=null){
+                if (mDevices.size()==0){
+                    stateTv.setText(getString(R.string.user_no_device));
+                    errorLl.setVisibility(View.VISIBLE);
+                    researchRl.setVisibility(View.VISIBLE);
+                    revolveIv.setVisibility(View.GONE);
+                    errorLl.startAnimation(alphaAnimation);
+                    researchRl.startAnimation(alphaAnimation);
+                }else if (mDevices.size() == 1){
+                    stateTv.setText(getString(R.string.user_bind));
+                    bindDevice(mDevices.get(0));
+                }else {
+                    stateTv.setText(getString(R.string.user_search_much));
+                    deviceAdapter.setDataList(mDevices);
+                }
+            }
+        }
+    };
+
     @Override
     public void onReceive(Intent intent) {
         switch (intent.getAction()){
-            case BroadcastConst.UPDATE_UI_VIEW:{
-                revolveIv.clearAnimation();
-                mDevices = intent.getStringArrayListExtra("deviceList");
-                if (mDevices!=null){
-                    if (mDevices.size()==0){
-                        stateTv.setText(getString(R.string.user_no_device));
-                        errorLl.setVisibility(View.VISIBLE);
-                        researchRl.setVisibility(View.VISIBLE);
-                        revolveIv.setVisibility(View.GONE);
-                        errorLl.startAnimation(alphaAnimation);
-                        researchRl.startAnimation(alphaAnimation);
-                    }else if (mDevices.size() == 1){
-                        stateTv.setText(getString(R.string.user_bind));
-                        bindDevice(mDevices.get(0));
-                    }else {
-                        stateTv.setText(getString(R.string.user_search_much));
-                        deviceAdapter.setDataList(mDevices);
-                    }
-                }
-            }
-                break;
             case BroadcastConst.UPDATE_BLE_STATE:
                 int state = intent.getIntExtra("state",0);
                 if (state==3){
@@ -278,9 +279,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
             }else if (id == R.id.stopTv){
                 dismiss();
             }else if (id == R.id.backIv){
-                Intent intent = new Intent(BroadcastConst.START_SEARCH_DEVICE);
-                intent.putExtra("search",false);
-                getActivity().sendBroadcast(intent);
+                searchPresenter.stopSearch();
                 dismiss();
             }else if (id == R.id.searchHelpTv){
                 ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)

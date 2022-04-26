@@ -47,8 +47,7 @@ public class MinePresenterImpl implements IMinePresenter{
 
     @Override
     public void unbind() {
-        Intent intent = new Intent(BroadcastConst.START_CONNECT_DEVICE);
-        intent.putExtra("isConnect",0);
+        Intent intent = new Intent(BroadcastConst.UNBIND_SERVICE);
         context.sendBroadcast(intent);
         HttpMessageUtil.newInstance().getUnbindDevice(callback);
     }

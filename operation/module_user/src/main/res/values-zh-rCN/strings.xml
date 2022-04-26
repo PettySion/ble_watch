@@ -60,7 +60,7 @@
     <string name="user_name_long">昵称不能超过12个字符</string>
     <string name="user_permission_error_camera">权限没通过，无法打开拍照功能</string>
     <string name="user_crop_pic_failed">截取图像失败，请选择jpg格式图片！</string>
-    <string name="user_account">登陆账号</string>
+    <string name="user_account">登录账号</string>
     <string name="user_change">修改密码</string>
     <string name="user_delete_account">注销账号</string>
     <string name="user_logout_tip">确定要退出登录吗？</string>

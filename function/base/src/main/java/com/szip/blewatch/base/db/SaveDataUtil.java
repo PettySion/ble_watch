@@ -111,6 +111,11 @@ public class SaveDataUtil {
      * 批量保存设备健康配置
      * */
     public void saveHealthyConfigData(HealthyConfig healthyConfig){
+        List<HealthyCardData> saveList = SQLite.select()
+                .from(HealthyCardData.class)
+                .queryList();
+        if (saveList!=null&&saveList.size()!=0)
+            return;
         ArrayList<HealthyCardData> list = new ArrayList<>();
         if (healthyConfig.heartRate == 1){
             list.add(new HealthyCardData(HealthyConst.HEART,true,0));
