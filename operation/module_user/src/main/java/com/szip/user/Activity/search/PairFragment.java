@@ -212,8 +212,9 @@ public class PairFragment extends DialogFragment implements MyHandle {
 
     private IUpdateSearch iUpdateSearch = new IUpdateSearch() {
         @Override
-        public void searchStop(ArrayList<String> mDevices) {
+        public void searchStop(ArrayList<String> mDevice) {
             revolveIv.clearAnimation();
+            mDevices = mDevice;
             if (mDevices!=null){
                 if (mDevices.size()==0){
                     stateTv.setText(getString(R.string.user_no_device));

@@ -70,8 +70,6 @@ public class SearchPresenter {
                 searchDevice();
             }else if (iUpdateSearch!=null){
                 iUpdateSearch.searchStop(mDevices);
-                mDevices = null;
-                deviceName = null;
             }
 
         }

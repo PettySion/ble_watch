@@ -212,7 +212,8 @@ public class BleService extends Service implements MyHandle {
             LogUtil.getInstance().logd("data******","搜索结束");
             if (Calendar.getInstance().getTimeInMillis()-subTime<2500)
                 connect();
-            if(bluetoothState==5){
+            if(bluetoothState==4){
+                bluetoothState = 5;
                 Intent intent = new Intent(BroadcastConst.UPDATE_BLE_STATE);
                 intent.putExtra("state",bluetoothState);
                 sendBroadcast(intent);

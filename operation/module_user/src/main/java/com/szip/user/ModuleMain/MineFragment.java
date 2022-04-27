@@ -203,6 +203,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     stateTv.setText(getString(R.string.user_connect));
                 }else if (state == 2){
                     stateTv.setText(getString(R.string.user_connecting));
+                }else if (state == 4){
+                    stateTv.setText(getString(R.string.user_searching));
                 }else {
                     stateTv.setText(getString(R.string.user_disconnect));
                 }
