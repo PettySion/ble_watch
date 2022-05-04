@@ -653,22 +653,22 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
                         " ;distance = "+datas.get(i).getDistance()+" ;calorie = "+datas.get(i).getCalorie()+
                         " ;stepInfo = "+stepString.substring(1));
             }
-            SaveDataUtil.newInstance().saveStepInfoDataListData1(stepData,context);
+            SaveDataUtil.newInstance().saveStepInfoDataListData1(stepData);
         }
 
         @Override
         public void onSaveDayStepDatas(ArrayList<StepData> datas) {
-            SaveDataUtil.newInstance().saveStepDataListData(datas,context);
+            SaveDataUtil.newInstance().saveStepDataListData(datas);
         }
 
         @Override
         public void onSaveHeartDatas(ArrayList<HeartData> datas) {
-            SaveDataUtil.newInstance().saveHeartDataListData(datas,true,context);
+            SaveDataUtil.newInstance().saveHeartDataListData(datas);
         }
 
         @Override
         public void onSaveTempDatas(ArrayList<AnimalHeatData> datas) {
-            SaveDataUtil.newInstance().saveAnimalHeatDataListData(datas,context);
+            SaveDataUtil.newInstance().saveAnimalHeatDataListData(datas);
         }
 
         @Override
@@ -678,12 +678,12 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
 
         @Override
         public void onSaveRunDatas(ArrayList<SportData> datas) {
-            SaveDataUtil.newInstance().saveSportDataListData(datas,context);
+            SaveDataUtil.newInstance().saveSportDataListData(datas);
         }
 
         @Override
         public void onSaveBloodOxygenDatas(ArrayList<BloodOxygenData> datas) {
-            SaveDataUtil.newInstance().saveBloodOxygenDataListData(datas,context);
+            SaveDataUtil.newInstance().saveBloodOxygenDataListData(datas);
         }
 
         @Override

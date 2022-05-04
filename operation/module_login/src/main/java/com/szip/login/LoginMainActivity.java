@@ -38,6 +38,8 @@ import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
+import java.util.Calendar;
+
 import okhttp3.Call;
 
 import static com.szip.blewatch.base.Util.MathUtil.FILE;
@@ -61,7 +63,6 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     private SharedPreferences sharedPreferences;
 
     private UserModel userModel;
-    private BluetoothDevice device;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,14 +185,8 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
         if (userModel.deviceCode==null||userModel.deviceCode.equals("")){//如果账户没绑定蓝牙，直接登录成功回到主页
             finish();
         }else {
-            BluetoothManager bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
-            BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-            device = bluetoothAdapter.getRemoteDevice(userModel.deviceCode);
-            if (device==null){//如果账户绑定的蓝牙地址找不到蓝牙设备，直接解绑设备回到主页
-                HttpMessageUtil.newInstance().unBindDevice(unbindCallback);
-            }else {//如果账户绑定的蓝牙地址找到了蓝牙设备，直接去云端加载该设备的配置表
-                HttpMessageUtil.newInstance().getDeviceConfig(loadConfigCallback);
-            }
+            HttpMessageUtil.newInstance().getDeviceConfig(loadConfigCallback);
+
         }
     }
 
@@ -218,27 +213,6 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
         }
     };
 
-
-
-    private GenericsCallback unbindCallback = new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
-        @Override
-        public void onError(Call call, Exception e, int id) {
-            ProgressHudModel.newInstance().diss();
-            showToast(e.getMessage());
-        }
-
-        @Override
-        public void onResponse(BaseApi response, int id) {
-            ProgressHudModel.newInstance().diss();
-            if (response.getCode()==200){
-                userModel.deviceCode=null;
-                userModel.update();
-                finish();
-            }
-        }
-    };
-
-
     private GenericsCallback loadConfigCallback = new GenericsCallback<DeviceConfigBean>(new JsonGenericsSerializator()) {
         @Override
         public void onError(Call call, Exception e, int id) {
@@ -252,11 +226,12 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
             ProgressHudModel.newInstance().diss();
             if(response.getCode()==200){
                 for (SportWatchAppFunctionConfigDTO data:response.getData()){
-                    if (data.appName.equals(device.getName())){
-                        data.mac = device.getAddress();
+                    if (data.appName.equals(userModel.deviceName)){
+                        data.mac = userModel.deviceCode;
                         HealthyConfig healthyConfig = data.getHealthMonitorConfig();
                         SaveDataUtil.newInstance().saveConfigData(data);
                         SaveDataUtil.newInstance().saveHealthyConfigData(healthyConfig);
+                        HttpMessageUtil.newInstance().getForDownloadReportData(Calendar.getInstance().getTimeInMillis()/1000+"","30");
                         break;
                     }
                 }

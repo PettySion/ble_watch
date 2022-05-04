@@ -126,7 +126,7 @@ public class SleepArcProgressBar extends View {
         //画刻度线
         float start = centerY - diameter / 2 + progressWidth / 2 +
                 DEGREE_PROGRESS_DISTANCE;
-        for(int i = 0; i < 60; i++)//把整个圆划分成90小份
+        for(int i = 0; i < 60; i++)//把整个圆划分成60小份
         {
             degreePaint.setStrokeWidth(dpValue);
             if (i%5 == 0){

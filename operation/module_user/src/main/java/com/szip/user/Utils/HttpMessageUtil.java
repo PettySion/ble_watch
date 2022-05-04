@@ -4,6 +4,7 @@ package com.szip.user.Utils;
 import com.szip.blewatch.base.Util.ble.ClientManager;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.http.TokenInterceptor;
+import com.szip.blewatch.base.db.DownloadDataUtil;
 import com.szip.user.HttpModel.AvatarBean;
 import com.szip.user.HttpModel.DeviceConfigBean;
 import com.szip.user.HttpModel.DialBean;
@@ -16,6 +17,7 @@ import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.builder.PostJsonBuilder;
 import com.zhy.http.okhttp.builder.PostJsonListBuider;
 import com.zhy.http.okhttp.callback.GenericsCallback;
+import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
 import java.io.File;
 
@@ -55,6 +57,7 @@ public class HttpMessageUtil {
                 .get()
                 .addInterceptor(new TokenInterceptor())
                 .addParams("deviceCode",deviceCode)
+                .addParams("deviceName",product)
                 .addParams("product",product);
         HttpClientUtils.newInstance().buildRequest(getBuilder,"device/bindDevice",callback);
     }
@@ -190,6 +193,18 @@ public class HttpMessageUtil {
                 .get()
                 .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(builder,"user/unregister",callback);
+    }
+
+    /**
+     * 获取服务器上的数据
+     * */
+    public void getForDownloadReportData(String time, String size) {
+        GetBuilder getBuilder = OkHttpUtils
+                .get()
+                .addParams("time",time)
+                .addParams("size",size)
+                .addInterceptor(new TokenInterceptor());
+        HttpClientUtils.newInstance().buildRequest(getBuilder,"data/get",new DownloadDataUtil(new JsonGenericsSerializator()));
     }
 
 }

@@ -45,6 +45,7 @@ public class SaveDataUtil {
 
 
     private static SaveDataUtil saveDataUtil;
+    private Context context;
     private SaveDataUtil(){
 
     }
@@ -58,6 +59,10 @@ public class SaveDataUtil {
             }
         }
         return saveDataUtil ;
+    }
+
+    public void init(Context context) {
+        this.context = context;
     }
 
     /**
@@ -202,7 +207,7 @@ public class SaveDataUtil {
     /**
      * 批量保存计步
      * */
-    public void saveStepDataListData(final List<StepData> stepDataList, final Context context){
+    public void saveStepDataListData(final List<StepData> stepDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<StepData>() {
@@ -241,7 +246,7 @@ public class SaveDataUtil {
     /**
      * 批量保存计步数据（线上数据）
      * */
-    public void saveStepDataListDataFromWeb(final List<StepData> stepDataList, final Context context){
+    public void saveStepDataListDataFromWeb(final List<StepData> stepDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<StepData>() {
@@ -282,7 +287,7 @@ public class SaveDataUtil {
     /**
      * 批量保存详情计步
      * */
-    public void saveStepInfoDataListData(final List<StepData> stepDataList, final Context context){
+    public void saveStepInfoDataListData(final List<StepData> stepDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<StepData>() {
@@ -341,7 +346,7 @@ public class SaveDataUtil {
     /**
      * 批量保存详情计步(用来保存2523的计步数据，2523的总计步与详情计步是放在一条协议里面的)
      * */
-    public void saveStepInfoDataListData1(final List<StepData> stepDataList, final Context context){
+    public void saveStepInfoDataListData1(final List<StepData> stepDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<StepData>() {
@@ -433,7 +438,7 @@ public class SaveDataUtil {
     /**
      * 批量保存详情睡眠
      * */
-    public void saveSleepInfoDataListData(final List<SleepData> sleepDataList, final Context context){
+    public void saveSleepInfoDataListData(final List<SleepData> sleepDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<SleepData>() {
@@ -469,9 +474,8 @@ public class SaveDataUtil {
 
     /**
      * 批量保存心率
-     * @param isAdd   判断该条数据是当天需要往上累加的数据还是服务器返回的需要替代的数据
      * */
-    public void saveHeartDataListData(final List<HeartData> heartDataList, final boolean isAdd, final Context context){
+    public void saveHeartDataListData(final List<HeartData> heartDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<HeartData>() {
@@ -484,30 +488,6 @@ public class SaveDataUtil {
                                 if (sqlData == null&&heartData.averageHeart!=0){//为null则代表数据库没有保存
                                     heartData.save();
                                 }
-//                                else {//不为null则代表数据库存在，进行更新
-//                                    if (isAdd){
-//                                        String heartStr = sqlData.heartArray+","+heartData.heartArray;
-//                                        String []heartArray = heartStr.split(",");
-//                                        int heartSum = 0;
-//                                        int sum = 0;
-//                                        for (int i = 0;i<heartArray.length;i++){
-//                                            if (!heartArray[i].equals("0")){
-//                                                heartSum+=Integer.valueOf(heartArray[i]);
-//                                                sum++;
-//                                            }
-//                                        }
-//                                        sqlData.averageHeart = heartSum/sum;
-//                                        sqlData.heartArray = heartStr;
-//                                        sqlData.update();
-//                                    }else {
-//                                        if (sqlData.getHeartArray().length()<heartData.getHeartArray().length()){
-//                                            sqlData.averageHeart = heartData.averageHeart;
-//                                            sqlData.heartArray = heartData.heartArray;
-//                                            sqlData.update();
-//                                        }
-//                                    }
-//
-//                                }
                             }
                         }).addAll(heartDataList).build())  // add elements (can also handle multiple)
                 .error(new Transaction.Error() {
@@ -529,7 +509,7 @@ public class SaveDataUtil {
     /**
      * 批量保存血压
      * */
-    public void saveBloodPressureDataListData(final List<BloodPressureData> bloodPressureDataList, final Context context){
+    public void saveBloodPressureDataListData(final List<BloodPressureData> bloodPressureDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<BloodPressureData>() {
@@ -562,7 +542,7 @@ public class SaveDataUtil {
     /**
      * 批量保存血氧
      * */
-    public void saveBloodOxygenDataListData(final List<BloodOxygenData> bloodOxygenDataList, final Context context){
+    public void saveBloodOxygenDataListData(final List<BloodOxygenData> bloodOxygenDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<BloodOxygenData>() {
@@ -595,7 +575,7 @@ public class SaveDataUtil {
     /**
      * 批量保存体温
      * */
-    public void saveAnimalHeatDataListData(final List<AnimalHeatData> animalHeatDataList, final Context context){
+    public void saveAnimalHeatDataListData(final List<AnimalHeatData> animalHeatDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<AnimalHeatData>() {
@@ -628,7 +608,7 @@ public class SaveDataUtil {
     /**
      * 批量保存ecg
      * */
-    public void saveEcgDataListData(final List<EcgData> ecgDataList, final Context context){
+    public void saveEcgDataListData(final List<EcgData> ecgDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<EcgData>() {
@@ -661,7 +641,7 @@ public class SaveDataUtil {
     /**
      * 批量保存sport
      * */
-    public void saveSportDataListData(final List<SportData> sportDataList, final Context context){
+    public void saveSportDataListData(final List<SportData> sportDataList){
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
                         new ProcessModelTransaction.ProcessModel<SportData>() {

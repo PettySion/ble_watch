@@ -221,9 +221,15 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
     @Override
     public void updateLastSport(SportData sportData) {
         this.sportData = sportData;
-        sportDataTv.setText(String.format(Locale.ENGLISH,
-                "%.2fkm  %02dh%02dmin  %.1fkcal",(sportData.distance+5)/10/100f,
-                sportData.sportTime/3600, sportData.sportTime%3600/60, ((sportData.calorie+55)/100)/10f));
+        if (sportData.distance==0){
+            sportDataTv.setText(String.format(Locale.ENGLISH,
+                    "%02dh%02dmin  %.1fkcal", sportData.sportTime/3600, sportData.sportTime%3600/60, ((sportData.calorie+55)/100)/10f));
+
+        }else {
+            sportDataTv.setText(String.format(Locale.ENGLISH,
+                    "%.2fkm  %02dh%02dmin  %.1fkcal",(sportData.distance+5)/10/100f,
+                    sportData.sportTime/3600, sportData.sportTime%3600/60, ((sportData.calorie+55)/100)/10f));
+        }
         SportTypeModel sportTypeModel = MathUtil.newInstance().getSportType(sportData.type,getActivity().getApplicationContext());
         if (sportTypeModel==null)
             return;

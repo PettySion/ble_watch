@@ -2,6 +2,7 @@ package com.szip.login.Utils;
 
 
 import com.szip.blewatch.base.Util.http.TokenInterceptor;
+import com.szip.blewatch.base.db.DownloadDataUtil;
 import com.szip.login.HttpModel.CheckVerificationBean;
 import com.szip.login.HttpModel.DeviceConfigBean;
 import com.zhy.http.okhttp.BaseApi;
@@ -11,6 +12,11 @@ import com.zhy.http.okhttp.builder.GetBuilder;
 import com.zhy.http.okhttp.builder.PostJsonBuilder;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
+import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
+
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
 
 public class HttpMessageUtil {
 
@@ -142,5 +148,17 @@ public class HttpMessageUtil {
                 .addParams("appName","newApp")
                 .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(getBuilder,"comm/getAppFunctionConfigs",callback);
+    }
+
+    /**
+     * 获取服务器上的数据
+     * */
+    public void getForDownloadReportData(String time, String size) {
+        GetBuilder getBuilder = OkHttpUtils
+                .get()
+                .addParams("time",time)
+                .addParams("size",size)
+                .addInterceptor(new TokenInterceptor());
+        HttpClientUtils.newInstance().buildRequest(getBuilder,"data/get",new DownloadDataUtil(new JsonGenericsSerializator()));
     }
 }

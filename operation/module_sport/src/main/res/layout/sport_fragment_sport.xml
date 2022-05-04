@@ -105,21 +105,12 @@
             android:layout_marginTop="61dp">
 
             <com.szip.blewatch.base.View.CircularImageView
-                android:id="@+id/mapIv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:radius="15dp"
-                app:is_allRadius="true"/>
-
-            <com.szip.blewatch.base.View.CircularImageView
                 android:id="@+id/indoorIv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@mipmap/sport_treadmill_bg"
                 app:radius="15dp"
-                app:is_allRadius="true"
-                android:visibility="gone"
-                android:background="@android:color/white"/>
+                app:is_allRadius="true" />
 
             <ImageView
                 android:id="@+id/startIv"

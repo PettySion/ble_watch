@@ -46,7 +46,7 @@ import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_R
 public class SportFragment extends BaseFragment implements View.OnClickListener, MyHandle,ILastSportView {
     private TextView runTv,walkTv,runIndoorTv;
     private ImageView gpsIv,startIv;
-    private CircularImageView mapIv,indoorIv;
+    private CircularImageView indoorIv;
     private RecyclerView lastSportListView;
     private LastSportAdapter lastSportAdapter;
 
@@ -149,7 +149,6 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
     private void initView() {
         setTitle(getString(R.string.sport_sport_last));
         gpsIv = getView().findViewById(R.id.gpsIv);
-        mapIv = getView().findViewById(R.id.mapIv);
         runTv = getView().findViewById(R.id.runTv);
         walkTv = getView().findViewById(R.id.walkTv);
         startIv = getView().findViewById(R.id.startIv);
@@ -160,9 +159,6 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
         lastSportListView.setNestedScrollingEnabled(false);
         lastSportAdapter = new LastSportAdapter(getActivity().getApplicationContext());
         lastSportListView.setAdapter(lastSportAdapter);
-        String url = MathUtil.newInstance().getString(getActivity().getApplicationContext(),"mapUrl");
-        if (url!=null)
-            Glide.with(getActivity()).load(url).into(mapIv);
     }
 
     @Override
@@ -170,19 +166,19 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
         int id = v.getId();
         if (id == R.id.runTv) {
             sportType = SportConst.RUN;
-            indoorIv.setVisibility(View.GONE);
+            indoorIv.setImageResource(R.mipmap.outrun_mapbg);
             runTv.setTextColor(Color.BLACK);
             walkTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             runIndoorTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
         } else if (id == R.id.walkTv) {
             sportType = SportConst.WALK;
-            indoorIv.setVisibility(View.GONE);
+            indoorIv.setImageResource(R.mipmap.outrun_mapbg);
             runTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             walkTv.setTextColor(Color.BLACK);
             runIndoorTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
         } else if (id == R.id.runIndoorTv) {
             sportType = SportConst.RUN_INDOOR;
-            indoorIv.setVisibility(View.VISIBLE);
+            indoorIv.setImageResource(R.mipmap.sport_treadmill_bg);
             runTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             walkTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             runIndoorTv.setTextColor(Color.BLACK);
@@ -209,7 +205,7 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void updateLocation(String url, float acc) {
+    public void updateLocation(float acc) {
         if (acc == 0){
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_0);
         }else if (acc>=29){
@@ -219,9 +215,6 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
         }else {
             gpsIv.setImageResource(R.mipmap.sport_icon_gps_3);
         }
-
-        Glide.with(getActivity()).load(url).into(mapIv);
-        MathUtil.newInstance().saveStringData(getActivity().getApplicationContext(),"mapUrl",url);
     }
 
     @Override

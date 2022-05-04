@@ -137,6 +137,7 @@ public class BloodOxygenReportActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.getCustomView().findViewById(R.id.main_tv).setSelected(true);
                 mPager.setCurrentItem(tab.getPosition());
+                setTimeText();
             }
 
             @Override

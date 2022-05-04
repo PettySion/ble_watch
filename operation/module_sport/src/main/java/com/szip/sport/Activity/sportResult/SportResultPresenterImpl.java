@@ -43,10 +43,10 @@ public class SportResultPresenterImpl implements ISportResultPresenter{
                         MathUtil.newInstance().km2Miles(sportData.distance/10));
             }
         }else {
-            distance =  String.format("<font color='#000000'><big><big><big>%s</big></big></big></font> km",
+            distance =  String.format("<font color='#000000'><big><big><big>%s</big></big></big></font>",
                     mContext.getString(R.string.sport_sport_info));
         }
-        String time = DateUtil.getStringDateFromSecond(sportData.time,"yyyy/MM/dd hh:mm");
+        String time = DateUtil.getStringDateFromSecond(sportData.time,"yyyy/MM/dd HH:mm");
         List<SportResultDataModel> sportResultDataModels = getDataList();
         if (iSportResultView!=null)
             iSportResultView.updateSportView(distance,time,type,sportResultDataModels);

@@ -19,5 +19,6 @@ public class Migration2 extends AlterTableMigration<UserModel> {
         //所有Java标准的数据类型(boolean、byte、short、int、long、float、double等)及相应的包装类，
         // 以及String，当然我们还默认提供了对java.util.Date、java.sql.Date与Calendar的支持。
         addColumn(SQLiteType.get(Integer.class.getName()), "caloriePlan");//基本数据类型
+        addColumn(SQLiteType.get(String.class.getName()), "deviceName");//基本数据类型
     }
 }

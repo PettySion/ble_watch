@@ -40,12 +40,9 @@ public class LastSportImpl implements ILastSportPresenter{
         Location state = LocationUtil.getInstance().getLocation(locationManager,true,myListener,locationListener,mContext);
         LogUtil.getInstance().logd("data******","state = "+state);
         if (state == null){
-            String url = String.format("https://restapi.amap.com/v3/staticmap?location=%f,%f&zoom=%d&" +
-                            "size=%d*%d&markers=mid,,A:%f,%f&key=%s",116.397477,39.908692,18
-                    ,500,500,116.397477,39.908692, "d7f783d2eb0a38000c900e7f836ee1a0");
             float acc = 0;
             if (iLastSportView!=null)
-                iLastSportView.updateLocation(url,acc);
+                iLastSportView.updateLocation(acc);
         }
 
     }
@@ -64,12 +61,9 @@ public class LastSportImpl implements ILastSportPresenter{
                 //获取国家，省份，城市的名称
                 Log.e("LOCATION******", location.toString());
                 location = LocationUtil.getInstance().getGaoLocation(location,mContext);
-                String url = String.format("https://restapi.amap.com/v3/staticmap?location=%f,%f&zoom=%d&" +
-                                "size=%d*%d&markers=mid,,A:%f,%f&key=%s",location.getLongitude(),location.getLatitude(),18
-                        ,500,500,location.getLongitude(),location.getLatitude(), "d7f783d2eb0a38000c900e7f836ee1a0");
                 float acc = location.getAccuracy();
                 if (iLastSportView!=null)
-                    iLastSportView.updateLocation(url,acc);
+                    iLastSportView.updateLocation(acc);
                 locationManager.removeUpdates(locationListener);
             }
         }

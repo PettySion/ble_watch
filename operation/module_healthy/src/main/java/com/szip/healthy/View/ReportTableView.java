@@ -54,6 +54,7 @@ public class ReportTableView extends View {
     private float maxValue = 60;
     private int startTime,allTime;
     private float dpValue;
+    private float viewMargin;
     private boolean isTouchAble = false;
     private int index;
     private float barWidth = 16f;
@@ -87,6 +88,7 @@ public class ReportTableView extends View {
 
     private void initView() {
         dpValue = MathUtil.newInstance().dip2Px(1,getContext());
+        viewMargin = 18*dpValue;
         textYPaint.setColor(getContext().getResources().getColor(R.color.healthy_gray_text));
         textYPaint.setTextSize(dpValue*7);
 
@@ -261,13 +263,13 @@ public class ReportTableView extends View {
         DashPathEffect dashPathEffect = new DashPathEffect(new float[]{8,8},0);
         paint.setPathEffect(dashPathEffect);
         textYPaint.setTextAlign(Paint.Align.LEFT);
-        float diffCoordinate = (mHeight-dpValue*15)*2f/3f/5f;
+        float diffCoordinate = (mHeight-viewMargin)*2f/3f/5f;
         String[] yMsg = getYMsg();
         for(int i = 0; i<6; i++) {
-            float levelCoordinate = mHeight-dpValue*15-diffCoordinate*i;
+            float levelCoordinate = mHeight-viewMargin-diffCoordinate*i;
             Path dashPath = new Path();
-            dashPath.moveTo(dpValue*15, levelCoordinate);
-            dashPath.lineTo(mWidth-dpValue*15, levelCoordinate);
+            dashPath.moveTo(viewMargin, levelCoordinate);
+            dashPath.lineTo(mWidth-viewMargin, levelCoordinate);
             canvas.drawText(yMsg[i], dpValue*3,
                     levelCoordinate+dpValue*4, textYPaint);
             canvas.drawPath(dashPath, paint);
@@ -309,8 +311,8 @@ public class ReportTableView extends View {
         xMsg[0] = "00:00";
         xMsg[1] = "23:59";
         textXPaint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText(xMsg[0],dpValue*15,mHeight-5*dpValue,textXPaint);
-        canvas.drawText(xMsg[1],mWidth-dpValue*15-textXPaint.measureText(xMsg[1]),mHeight-5*dpValue,textXPaint);
+        canvas.drawText(xMsg[0],viewMargin,mHeight-5*dpValue,textXPaint);
+        canvas.drawText(xMsg[1],mWidth-viewMargin-textXPaint.measureText(xMsg[1]),mHeight-5*dpValue,textXPaint);
     }
 
     private void DrawWXMsg(Canvas canvas){
@@ -318,8 +320,8 @@ public class ReportTableView extends View {
         xMsg[0] = getContext().getString(R.string.healthy_sun);
         xMsg[1] = getContext().getString(R.string.healthy_mon);
         textXPaint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText(xMsg[0],dpValue*15,mHeight-5*dpValue,textXPaint);
-        canvas.drawText(xMsg[1],mWidth-dpValue*15-textXPaint.measureText(xMsg[1]),mHeight-5*dpValue,textXPaint);
+        canvas.drawText(xMsg[0],viewMargin,mHeight-5*dpValue,textXPaint);
+        canvas.drawText(xMsg[1],mWidth-viewMargin-textXPaint.measureText(xMsg[1]),mHeight-5*dpValue,textXPaint);
     }
 
     private void DrawMXMsg(Canvas canvas){
@@ -327,8 +329,8 @@ public class ReportTableView extends View {
         xMsg[0] = "1";
         xMsg[1] = String.format("%d",touchDataList.size());
         textXPaint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText(xMsg[0],dpValue*15,mHeight-5*dpValue,textXPaint);
-        canvas.drawText(xMsg[1],mWidth-dpValue*15-textXPaint.measureText(xMsg[1]),mHeight-5*dpValue,textXPaint);
+        canvas.drawText(xMsg[0],viewMargin,mHeight-5*dpValue,textXPaint);
+        canvas.drawText(xMsg[1],mWidth-viewMargin-textXPaint.measureText(xMsg[1]),mHeight-5*dpValue,textXPaint);
     }
 
     private void DrawSleepXMsg(Canvas canvas){
@@ -336,8 +338,8 @@ public class ReportTableView extends View {
         xMsg[0] = String.format("%02d:%02d",startTime/60,startTime%60);
         xMsg[1] = String.format("%02d:%02d",(startTime+allTime)%1440/60,(startTime+allTime)%1440%60);
         textXPaint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText(xMsg[0],dpValue*15,mHeight,textXPaint);
-        canvas.drawText(xMsg[1],mWidth-dpValue*15-textXPaint.measureText(xMsg[1]),mHeight,textXPaint);
+        canvas.drawText(xMsg[0],viewMargin,mHeight,textXPaint);
+        canvas.drawText(xMsg[1],mWidth-viewMargin-textXPaint.measureText(xMsg[1]),mHeight,textXPaint);
     }
 
     private void DrawDayStep(Canvas canvas){
@@ -346,7 +348,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        float interval = (mWidth-30*dpValue-24*barWidth)/23;
+        float interval = (mWidth-2*viewMargin-24*barWidth)/23;
         for (int i = 0;i<stepDayList.size();i++){
             ReportData data = stepDayList.get(i);
             if (data.getAverageData()==0)
@@ -355,9 +357,9 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
-            float startX = 15*dpValue+barWidth / 2 + (interval + barWidth) * hour;
-            float startY = mHeight-15*dpValue-barWidth/2;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
+            float startX = viewMargin+barWidth / 2 + (interval + barWidth) * hour;
+            float startY = mHeight-viewMargin-barWidth/2;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
             if (stopY>startY)
                 continue;
             canvas.drawLine(startX,startY,startX,
@@ -373,7 +375,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        float interval = (mWidth-30*dpValue-7*barWidth)/6f;
+        float interval = (mWidth-2*viewMargin-7*barWidth)/6f;
         for (int i = 0;i<stepWeekList.size();i++){
             ReportData data = stepWeekList.get(i);
             if (data.getAverageData()==0)
@@ -382,9 +384,9 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-barWidth/2;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-barWidth/2;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
             if (stopY>startY)
                 continue;
             canvas.drawLine(startX,startY,startX,
@@ -398,7 +400,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        float interval = (mWidth-30*dpValue-touchDataList.size()*barWidth)/(touchDataList.size()-1);
+        float interval = (mWidth-2*viewMargin-touchDataList.size()*barWidth)/(touchDataList.size()-1);
         for (int i = 0;i<stepMonthList.size();i++){
             ReportData data = stepMonthList.get(i);
             if (data.getAverageData()==0)
@@ -407,9 +409,9 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-barWidth/2;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-barWidth/2;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
             if (stopY>startY)
                 continue;
             canvas.drawLine(startX,startY,startX,
@@ -419,18 +421,18 @@ public class ReportTableView extends View {
 
     private void DrawDaySleep(Canvas canvas){
         Paint paint = new Paint();
-        float start = dpValue*15;
+        float start = viewMargin;
         float width;
         float top,bottom;
         for (ReportData reportData:sleepDayList){
-            width = (reportData.getTime()/(float)allTime)*(mWidth-30*dpValue);
+            width = (reportData.getTime()/(float)allTime)*(mWidth-2*viewMargin);
             if (reportData.getAverageData()==2){//深睡
-                top = mHeight-15*dpValue-(mHeight-15*dpValue)/2f;
-                bottom = mHeight-15*dpValue;
+                top = mHeight-viewMargin-(mHeight-viewMargin)/2f;
+                bottom = mHeight-viewMargin;
                 paint.setColor(getContext().getResources().getColor(R.color.healthy_ray));
             }else {
                 top = 0;
-                bottom = mHeight-15*dpValue-(mHeight-15*dpValue)/2f;
+                bottom = mHeight-viewMargin-(mHeight-viewMargin)/2f;
                 paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow));
             }
             RectF rectF = new RectF(start,top,start+width,bottom);
@@ -446,7 +448,7 @@ public class ReportTableView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        float interval = (mWidth-30*dpValue-7*barWidth)/6f;
+        float interval = (mWidth-2*viewMargin-7*barWidth)/6f;
         for (int i = 0;i<sleepWeekList.size();i++){
             ReportData data = sleepWeekList.get(i);
             if (data.getAverageData()==0)
@@ -455,18 +457,18 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-barWidth/2;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-barWidth/2;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
             if (stopY>startY)
                 continue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
-            startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            startY = mHeight-15*dpValue-barWidth/2;
-            stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getMinData()/maxValue+barWidth/2;
+            startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            startY = mHeight-viewMargin-barWidth/2;
+            stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinData()/maxValue+barWidth/2;
             if (stopY>startY)
                 continue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_ray));
@@ -482,7 +484,7 @@ public class ReportTableView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        float interval = (mWidth-30*dpValue-touchDataList.size()*barWidth)/(touchDataList.size()-1);
+        float interval = (mWidth-2*viewMargin-touchDataList.size()*barWidth)/(touchDataList.size()-1);
         for (int i = 0;i<sleepMonthList.size();i++){
             ReportData data = sleepMonthList.get(i);
             if (data.getAverageData()==0)
@@ -491,18 +493,18 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-barWidth/2;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-barWidth/2;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
             if (stopY>startY)
                 continue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
-            startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            startY = mHeight-15*dpValue-barWidth/2;
-            stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getMinData()/maxValue+barWidth/2;
+            startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            startY = mHeight-viewMargin-barWidth/2;
+            stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinData()/maxValue+barWidth/2;
             if (stopY>startY)
                 continue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_ray));
@@ -514,7 +516,7 @@ public class ReportTableView extends View {
 
     private void DrawDayHeart(Canvas canvas){
         Paint paint = new Paint();
-        paint.setStrokeWidth(1f);
+        paint.setStrokeWidth(4f);
         paint.setColor(getContext().getResources().getColor(R.color.healthy_red));
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
@@ -523,8 +525,8 @@ public class ReportTableView extends View {
 
 
 
-        float interval = (mWidth-30*dpValue-barWidth*24)/23f;
-        float barHeight = (mHeight-dpValue*15)*2/3;
+        float interval = (mWidth-2*viewMargin-barWidth*24)/23f;
+        float barHeight = (mHeight-viewMargin)*2/3;
         Path line = new Path();
         Path mPathShader = new Path();
 
@@ -534,19 +536,20 @@ public class ReportTableView extends View {
             ReportData reportData = heartDayList.get(i);
             if (reportData.getAverageData()==0)
                 continue;
-            float startX = 15*dpValue+barWidth / 2 + (interval + barWidth) * i;
+            float startX = viewMargin+barWidth / 2 + (interval + barWidth) * i;
             if (startShader == 0){
                 startShader = startX;
-                line.moveTo(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-dpValue*15);
-                mPathShader.moveTo(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-dpValue*15);
+                line.moveTo(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-viewMargin);
+                mPathShader.moveTo(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-viewMargin);
             }else {
-                line.lineTo(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-dpValue*15);
-                mPathShader.lineTo(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-dpValue*15);
+                line.lineTo(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-viewMargin);
+                mPathShader.lineTo(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-viewMargin);
             }
             lastPoint = i;
+            canvas.drawPoint(startX,mHeight-reportData.getAverageData()/(float)maxValue*barHeight-viewMargin,paint);
         }
-        mPathShader.lineTo(15*dpValue+barWidth / 2 + (interval + barWidth) *lastPoint, mHeight-dpValue*15);
-        mPathShader.lineTo(startShader, mHeight-dpValue*15);
+        mPathShader.lineTo(viewMargin+barWidth / 2 + (interval + barWidth) *lastPoint, mHeight-viewMargin);
+        mPathShader.lineTo(startShader, mHeight-viewMargin);
         mPathShader.close();
 
 
@@ -564,7 +567,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        float interval = (mWidth-30*dpValue-7*barWidth)/6f;
+        float interval = (mWidth-2*viewMargin-7*barWidth)/6f;
         for (int i = 0;i<heartWeekList.size();i++){
             ReportData data = heartWeekList.get(i);
             if (data.getAverageData()==0)
@@ -573,15 +576,15 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*data.getMinData()/maxValue;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getMaxData()/maxValue;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinData()/maxValue;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMaxData()/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_red_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_red));
-            startY = mHeight-15*dpValue-data.getAverageData()/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-data.getAverageData()/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -594,7 +597,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        float interval = (mWidth-30*dpValue-touchDataList.size()*barWidth)/(touchDataList.size()-1);
+        float interval = (mWidth-2*viewMargin-touchDataList.size()*barWidth)/(touchDataList.size()-1);
         for (int i = 0;i<heartMonthList.size();i++){
             ReportData data = heartMonthList.get(i);
             if (data.getAverageData()==0)
@@ -603,15 +606,15 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*data.getMinData()/maxValue;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getMaxData()/maxValue;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinData()/maxValue;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMaxData()/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_red_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_red));
-            startY = mHeight-15*dpValue-data.getAverageData()/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-data.getAverageData()/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -628,16 +631,16 @@ public class ReportTableView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        float interval = (mWidth-30*dpValue-barWidth*24)/23f;
-        float barHeight = (mHeight-dpValue*15)*2/3;
+        float interval = (mWidth-2*viewMargin-barWidth*24)/23f;
+        float barHeight = (mHeight-viewMargin)*2/3;
 
         for (int i = 0;i<oxygenDayList.size();i++){
             ReportData reportData = oxygenDayList.get(i);
             if (reportData.getAverageData()==0)
                 continue;
-            float startX = 15*dpValue+barWidth / 2 + (interval + barWidth) * i;
+            float startX = viewMargin+barWidth / 2 + (interval + barWidth) * i;
             LogUtil.getInstance().logd("data******","start = "+startX+" height = "+(mHeight-(reportData.getAverageData()-85)/(float)maxValue*barHeight-dpValue*15));
-            canvas.drawPoint(startX,mHeight-(reportData.getAverageData()-85)/(float)maxValue*barHeight-dpValue*15,paint);
+            canvas.drawPoint(startX,mHeight-(reportData.getAverageData()-85)/(float)maxValue*barHeight-viewMargin,paint);
         }
 
     }
@@ -647,7 +650,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        float interval = (mWidth-30*dpValue-7*barWidth)/6f;
+        float interval = (mWidth-2*viewMargin-7*barWidth)/6f;
         for (int i = 0;i<oxygenWeekList.size();i++){
             ReportData data = oxygenWeekList.get(i);
             if (data.getAverageData()==0)
@@ -656,15 +659,15 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*(data.getMinData()-85)/maxValue;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*(data.getMaxData()-85)/maxValue;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*(data.getMinData()-85)/maxValue;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*(data.getMaxData()-85)/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_red_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_red));
-            startY = mHeight-15*dpValue-(data.getAverageData()-85)/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-(data.getAverageData()-85)/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -677,7 +680,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        float interval = (mWidth-30*dpValue-touchDataList.size()*barWidth)/(touchDataList.size()-1);
+        float interval = (mWidth-2*viewMargin-touchDataList.size()*barWidth)/(touchDataList.size()-1);
         for (int i = 0;i<oxygenMonthList.size();i++){
             ReportData data = oxygenMonthList.get(i);
             if (data.getAverageData()==0)
@@ -686,15 +689,15 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*(data.getMinData()-85)/maxValue;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*(data.getMaxData()-85)/maxValue;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*(data.getMinData()-85)/maxValue;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*(data.getMaxData()-85)/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_red_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_red));
-            startY = mHeight-15*dpValue-(data.getAverageData()-85)/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-(data.getAverageData()-85)/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -710,15 +713,15 @@ public class ReportTableView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        float interval = (mWidth-30*dpValue-barWidth*24)/23f;
-        float barHeight = (mHeight-dpValue*15)*2/3;
+        float interval = (mWidth-2*viewMargin-barWidth*24)/23f;
+        float barHeight = (mHeight-viewMargin)*2/3;
 
         for (int i = 0;i<tempDayList.size();i++){
             ReportData reportData = tempDayList.get(i);
             if (reportData.getAverageData()==0)
                 continue;
-            float startX = 15*dpValue+barWidth / 2 + (interval + barWidth) * i;
-            canvas.drawPoint(startX,mHeight-(reportData.getAverageData()-340)/(float)maxValue*barHeight-dpValue*15,paint);
+            float startX = viewMargin+barWidth / 2 + (interval + barWidth) * i;
+            canvas.drawPoint(startX,mHeight-(reportData.getAverageData()-340)/(float)maxValue*barHeight-viewMargin,paint);
         }
     }
 
@@ -727,7 +730,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        float interval = (mWidth-30*dpValue-7*barWidth)/6f;
+        float interval = (mWidth-2*viewMargin-7*barWidth)/6f;
         for (int i = 0;i<tempWeekList.size();i++){
             ReportData data = tempWeekList.get(i);
             if (data.getAverageData()==0)
@@ -736,15 +739,15 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*(data.getMinData()-340)/maxValue;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*(data.getMaxData()-340)/maxValue;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*(data.getMinData()-340)/maxValue;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*(data.getMaxData()-340)/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue));
-            startY = mHeight-15*dpValue-(data.getAverageData()-340)/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-(data.getAverageData()-340)/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -756,7 +759,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        float interval = (mWidth-30*dpValue-touchDataList.size()*barWidth)/(touchDataList.size()-1);
+        float interval = (mWidth-2*viewMargin-touchDataList.size()*barWidth)/(touchDataList.size()-1);
         for (int i = 0;i<tempMonthList.size();i++){
             ReportData data = tempMonthList.get(i);
             if (data.getAverageData()==0)
@@ -765,15 +768,15 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*(data.getMinData()-340)/maxValue;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*(data.getMaxData()-340)/maxValue;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*(data.getMinData()-340)/maxValue;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*(data.getMaxData()-340)/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue));
-            startY = mHeight-15*dpValue-(data.getAverageData()-340)/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-(data.getAverageData()-340)/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -788,18 +791,18 @@ public class ReportTableView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        float interval = (mWidth-30*dpValue-barWidth*24)/23f;
-        float barHeight = (mHeight-dpValue*15)*2/3;
+        float interval = (mWidth-2*viewMargin-barWidth*24)/23f;
+        float barHeight = (mHeight-viewMargin)*2/3;
 
         for (int i = 0;i<pressureDayList.size();i++){
             ReportData reportData = pressureDayList.get(i);
             if (reportData.getAverageData()==0)
                 continue;
-            float startX = 15*dpValue+barWidth / 2 + (interval + barWidth) * i;
+            float startX = viewMargin+barWidth / 2 + (interval + barWidth) * i;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_orange));
-            canvas.drawPoint(startX,mHeight-(reportData.getAverageData())/(float)maxValue*barHeight-dpValue*15,paint);
+            canvas.drawPoint(startX,mHeight-(reportData.getAverageData())/(float)maxValue*barHeight-viewMargin,paint);
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue));
-            canvas.drawPoint(startX,mHeight-(reportData.getAverageDbpData())/(float)maxValue*barHeight-dpValue*15,paint);
+            canvas.drawPoint(startX,mHeight-(reportData.getAverageDbpData())/(float)maxValue*barHeight-viewMargin,paint);
         }
     }
 
@@ -808,7 +811,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        float interval = (mWidth-30*dpValue-7*barWidth)/6f;
+        float interval = (mWidth-2*viewMargin-7*barWidth)/6f;
         for (int i = 0;i<pressureWeekList.size();i++){
             ReportData data = pressureWeekList.get(i);
             if (data.getAverageData()==0)
@@ -817,27 +820,27 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*data.getMinData()/maxValue;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getMaxData()/maxValue;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinData()/maxValue;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMaxData()/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_orange_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_orange));
-            startY = mHeight-15*dpValue-data.getAverageData()/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-data.getAverageData()/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
-            startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*data.getMinDbpData()/maxValue;
-            stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getMaxDbpData()/maxValue;
+            startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinDbpData()/maxValue;
+            stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMaxDbpData()/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue));
-            startY = mHeight-15*dpValue-data.getAverageDbpData()/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-data.getAverageDbpData()/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -849,7 +852,7 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(barWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        float interval = (mWidth-30*dpValue-touchDataList.size()*barWidth)/(touchDataList.size()-1);
+        float interval = (mWidth-2*viewMargin-touchDataList.size()*barWidth)/(touchDataList.size()-1);
         for (int i = 0;i<pressureMonthList.size();i++){
             ReportData data = pressureMonthList.get(i);
             if (data.getAverageData()==0)
@@ -858,27 +861,27 @@ public class ReportTableView extends View {
             calendar.setTimeInMillis(data.getTime()*1000);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            float startX = 15*dpValue+barWidth/2 + (interval + barWidth) * (day-1);
-            float startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*data.getMinData()/maxValue;
-            float stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getMaxData()/maxValue;
+            float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
+            float startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinData()/maxValue;
+            float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMaxData()/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_orange_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_orange));
-            startY = mHeight-15*dpValue-data.getAverageData()/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-data.getAverageData()/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
-            startY = mHeight-15*dpValue-(mHeight-dpValue*15)*2f/3f*data.getMinDbpData()/maxValue;
-            stopY =mHeight-dpValue*15-(mHeight-dpValue*15)*2f/3f*data.getMaxDbpData()/maxValue;
+            startY = mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinDbpData()/maxValue;
+            stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMaxDbpData()/maxValue;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue_background));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
 
             paint.setColor(getContext().getResources().getColor(R.color.healthy_blue));
-            startY = mHeight-15*dpValue-data.getAverageDbpData()/maxValue*(mHeight-dpValue*15)*2f/3f;
+            startY = mHeight-viewMargin-data.getAverageDbpData()/maxValue*(mHeight-viewMargin)*2f/3f;
             stopY =startY+2*dpValue;
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -893,11 +896,11 @@ public class ReportTableView extends View {
         paint.setStrokeWidth(0.5f);
         DashPathEffect dashPathEffect = new DashPathEffect(new float[]{8,8},0);
         paint.setPathEffect(dashPathEffect);
-        float interval = (mWidth-30*dpValue-touchDataList.size()*barWidth)/(touchDataList.size()-1);
-        float x = 15*dpValue+barWidth/2 + (interval + barWidth) * index;
+        float interval = (mWidth-2*viewMargin-touchDataList.size()*barWidth)/(touchDataList.size()-1);
+        float x = viewMargin+barWidth/2 + (interval + barWidth) * index;
         Path line = new Path();
-        line.moveTo(x,mHeight/3-15*dpValue);
-        line.lineTo(x,mHeight-15*dpValue);
+        line.moveTo(x,mHeight/3-viewMargin);
+        line.lineTo(x,mHeight-viewMargin);
         canvas.drawPath(line,paint);
 
         if (x<50*dpValue)
@@ -905,7 +908,7 @@ public class ReportTableView extends View {
         if (x>mWidth-50*dpValue)
             x = mWidth-50*dpValue;
 
-        canvas.drawRoundRect(x-50*dpValue,10*dpValue,x+50*dpValue,mHeight/3-15*dpValue,10*dpValue,
+        canvas.drawRoundRect(x-50*dpValue,10*dpValue,x+50*dpValue,mHeight/3-viewMargin,10*dpValue,
                 10*dpValue,squareBackPaint);
         String dataStr = "",timeStr = "";
         if (sleepWeekList!=null||sleepMonthList!=null)
@@ -939,9 +942,9 @@ public class ReportTableView extends View {
             case MotionEvent.ACTION_DOWN:
                 float x = event.getX();
                 isTouchAble = true;
-                if (x<dpValue*15){
+                if (x<viewMargin){
                     index = 0;
-                }else if (x>mWidth-dpValue*15){
+                }else if (x>mWidth-viewMargin){
                     index = touchDataList.size()-1;
                 }else {
                     for (int i = 0, j = i+1; i< touchDataList.size()-1; i++,j++){

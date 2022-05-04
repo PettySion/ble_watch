@@ -45,12 +45,9 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
         initEvent();
     }
 
-    private void initView() {
-        setTitle(getString(R.string.user_set));
-        iconIv = findViewById(R.id.iconIv);
-        versionTv = findViewById(R.id.versionTv);
-        nameTv = findViewById(R.id.nameTv);
-
+    @Override
+    protected void onResume() {
+        super.onResume();
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getApplicationContext()));
         if (userModel==null)
             return;
@@ -64,6 +61,15 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initView() {
+        setTitle(getString(R.string.user_set));
+        iconIv = findViewById(R.id.iconIv);
+        versionTv = findViewById(R.id.versionTv);
+        nameTv = findViewById(R.id.nameTv);
+
+
     }
 
     private void initEvent() {

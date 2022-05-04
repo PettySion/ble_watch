@@ -23,6 +23,8 @@ public class UserModel extends BaseModel {
     @Column
     public String deviceCode;
     @Column
+    public String deviceName;
+    @Column
     public String areaCode;
     @Column
     public String userName;

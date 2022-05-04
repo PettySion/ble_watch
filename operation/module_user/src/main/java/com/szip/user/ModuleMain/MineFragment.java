@@ -170,7 +170,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
                     intent.putExtra("command","findWatch");
                     getActivity().sendBroadcast(intent);
-                    MyAlerDialog.getSingle().showFindWatchTag(getActivity());
                     break;
                 case 1:
                     ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)
@@ -209,8 +208,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     stateTv.setText(getString(R.string.user_disconnect));
                 }
                 break;
-            case BroadcastConst.UPDATE_UI_VIEW:
+            case BroadcastConst.UPDATE_UI_VIEW:{
+                String command = intent.getStringExtra("command");
+                if (null!=command&&command.equals("find")){
+                    MyAlerDialog.getSingle().showFindWatchTag(getActivity());
+                }else {
 
+                }
+            }
                 break;
         }
     }
@@ -253,7 +258,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
         stepDataTv.setText(String.format("%d",step));
         sleepDataTv.setText(String.format("%dh%dmin",sleep/60,sleep%60));
-        calorieDataTv.setText(String.format("%.1fkcal",((calorie+55)/100)/10f));
+        calorieDataTv.setText(String.format("%.1fkcal",((calorie*1000+55)/100)/10f));
 
         stepRateTv.setText(String.format("%.1f%%",step>=stepPlan?100:step/(float)stepPlan*100));
         sleepRateTv.setText(String.format("%.1f%%",sleep>=sleepPlan?100:sleep/(float)sleepPlan*100));

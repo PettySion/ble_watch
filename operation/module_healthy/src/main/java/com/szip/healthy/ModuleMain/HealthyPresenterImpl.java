@@ -151,8 +151,8 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
             case 1:{
                 List<HeartData> heartDatas = LoadDataUtil.newInstance().getHeartWithDay(DateUtil.getTimeOfToday());
                 if (heartDatas!=null&&heartDatas.size()!=0){
-                    healthyData.setTime(heartDatas.get(0).time);
-                    healthyData.setData(heartDatas.get(0).averageHeart);
+                    healthyData.setTime(heartDatas.get(heartDatas.size()-1).time);
+                    healthyData.setData(heartDatas.get(heartDatas.size()-1).averageHeart);
                     healthyData.setHeartDataList(heartDatas);
                 }else
                     healthyData.setTime(DateUtil.getTimeOfToday());

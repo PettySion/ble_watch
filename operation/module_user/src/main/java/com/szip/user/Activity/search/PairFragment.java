@@ -46,6 +46,7 @@ import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import okhttp3.Call;
 
@@ -245,6 +246,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
                     HealthyConfig healthyConfig = sportWatchAppFunctionConfigDTO.getHealthMonitorConfig();
                     SaveDataUtil.newInstance().saveConfigData(sportWatchAppFunctionConfigDTO);
                     SaveDataUtil.newInstance().saveHealthyConfigData(healthyConfig);
+                    HttpMessageUtil.newInstance().getForDownloadReportData(Calendar.getInstance().getTimeInMillis()/1000+"","30");
 
                     //跳转到配对成功提醒页面
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
