@@ -20,6 +20,8 @@
     <string name="user_unit">单位制式</string>
     <string name="user_notification">消息通知</string>
     <string name="user_about">关于设备</string>
+    <string name="user_schedule">我的日程</string>
+    <string name="user_auto">自动监测</string>
     <string name="user_add_device">添加设备</string>
 
     <string name="user_measureUnit">度量单位</string>
@@ -131,4 +133,29 @@
     <string name="user_deleteTip">是否确认注销您的账号，确认后账号将会在三天内注销成功，注销成功后账号数据将被完全删除，不可恢复！请谨慎操作。</string>
     <string name="user_deleteSuccess">申请账号注销成功。</string>
     <string name="user_deleteNow">当前账号正在等待注销阶段。</string>
+
+    <string name="user_schedule_empty">当前手表无日程，请添加新的日程吧</string>
+    <string name="user_delete_schedule">删除日程</string>
+    <string name="user_save_schedule">保存日程</string>
+    <string name="user_schedule_info">日程详情</string>
+    <string name="user_schedule_fall">手表可添加的日程已经达到上限，请清理后再添加</string>
+    <string name="user_schedule_add_fail">添加日程失败</string>
+    <string name="user_schedule_edit_fail">修改日程失败</string>
+    <string name="user_schedule_delete_fail">删除日程失败</string>
+    <string name="user_schedule_past">无法设置已经过去的时间点作为日程时间点</string>
+    <string name="user_schedule_same">当前选中的时间点已经存在日程，无法重复设置</string>
+    <string name="user_schedule_msg">请填写日程详情</string>
+    <string name="user_today">今天</string>
+    <string name="user_time">时间</string>
+
+
+    <string name="user_auto_measure_tip">开启自动监测功能后手表会在生效时段内每隔频率时间测量一次</string>
+    <string name="user_measure_frequency">监测频率</string>
+    <string name="user_valid_time">生效时段</string>
+    <string name="user_start_time">开始时间</string>
+    <string name="user_end_time">结束时间</string>
+    <string name="user_heart">心率</string>
+    <string name="user_blood_pressure">血压</string>
+    <string name="user_blood_oxygen">血氧</string>
+    <string name="user_temperature">体温</string>
 </resources>

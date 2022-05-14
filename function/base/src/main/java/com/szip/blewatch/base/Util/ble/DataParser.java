@@ -3,13 +3,16 @@ package com.szip.blewatch.base.Util.ble;
 
 
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
+import com.szip.blewatch.base.db.dbModel.BloodPressureData;
 import com.szip.blewatch.base.db.dbModel.HeartData;
+import com.szip.blewatch.base.db.dbModel.ScheduleData;
 import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
@@ -18,6 +21,7 @@ import com.szip.blewatch.base.db.dbModel.UserModel;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -31,10 +35,13 @@ public class DataParser {
 
     private ArrayList<BleStepModel> stepDataArrayList;
     private ArrayList<StepData> stepOnDayDataArrayList;
+    private ArrayList<BloodPressureData> bloodPressureDataArrayList;
+    private ArrayList<AnimalHeatData> getAnimalHeatDataArrayList;
     private ArrayList<BloodOxygenData> bloodOxygenDataArrayList;
     private ArrayList<HeartData> heartDataArrayList;
     private ArrayList<AnimalHeatData> animalHeatDataArrayList;
     private ArrayList<SportData> sportDataArrayList;
+    private ArrayList<ScheduleData> scheduleDataArrayList;
     private ArrayList<SleepData> sleepDataArrayList;
     private long timeOfdata = 0;//用来存储上一段数据的时间，以判断下一段数据是否为同一天的数据
 
@@ -124,16 +131,27 @@ public class DataParser {
                 break;
             }
         }else if (data[1] == 0x48){//音乐控制
-//            if (mIDataResponse!=null){
-//                if (data[8] != 4){
-//                    mIDataResponse.onMusicControl(data[8],0);
-//                }else {
-//                    mIDataResponse.onMusicControl(data[8],data[9]);
-//                }
-//            }
+            if (mIDataResponse!=null){
+                if (data[8] != 4){
+                    mIDataResponse.onMusicControl(data[8],0);
+                }else {
+                    mIDataResponse.onMusicControl(data[8],data[9]);
+                }
+            }
         }else if (data[1] == 0x50){//来电挂断
 //            if (mIDataResponse!=null)
 //                mIDataResponse.endCall();
+        }else if (data[1] == 0x52||data[1] == 0x53||data[1] == 0x54){
+            if (mIDataResponse!=null){
+                mIDataResponse.onScheduleCallback(data[1]&0xff,data[8]&0xff);
+            }
+        }else if (data[1] == 0x55){//手表返回空的日程列表的时候，特殊处理
+            SQLite.delete()
+                    .from(ScheduleData.class)
+                    .execute();
+            mIDataResponse.onScheduleRefresh(false);
+        }else if (data[1] == 0x56){
+            mIDataResponse.onScheduleRefresh(true);
         }
     }
 
@@ -1156,7 +1174,59 @@ public class DataParser {
                 mIDataResponse.onSaveBloodOxygenDatas(bloodOxygenDataArrayList);
             bloodOxygenDataArrayList = null;
             dataType = 0;
-            LogUtil.getInstance().logd("DATA******","总计血氧数据接收 time= "+timeOfDay+" ;data = "+bloodOxy);
+            LogUtil.getInstance().logd("DATA******","实时血氧数据接收 time= "+timeOfDay+" ;data = "+bloodOxy);
+        }else if (type == 0x25){//体温
+            if (animalHeatDataArrayList==null)
+                animalHeatDataArrayList = new ArrayList<>();
+            int temp = (data[0] & 0xff) + ((data[1] & 0xFF) << 8);
+            if (temp!=0)
+                animalHeatDataArrayList.add(new AnimalHeatData(time,temp));
+            if (isEnd){
+                if (mIDataResponse!=null)
+                    mIDataResponse.onSaveTempDatas(animalHeatDataArrayList);
+                animalHeatDataArrayList = null;
+                dataType = 0;
+                LogUtil.getInstance().logd("DATA******","总计体温数据接收 time= "+time+" ;data = "+temp);
+            }
+        }else if (type == 0x26){//血压
+            if (bloodPressureDataArrayList==null)
+                bloodPressureDataArrayList = new ArrayList<>();
+            int sbp = (data[0] & 0xff) + ((data[1] & 0xFF) << 8);
+            int dbp = (data[2] & 0xff) + ((data[3] & 0xFF) << 8);
+            if (sbp!=0&&sbp!=0)
+                bloodPressureDataArrayList.add(new BloodPressureData(time,sbp,dbp));
+            if (isEnd){
+                if (mIDataResponse!=null)
+                    mIDataResponse.onSaveBpDatas(bloodPressureDataArrayList);
+                bloodPressureDataArrayList = null;
+                dataType = 0;
+
+            }
+        }else if (type == 0x27){//血氧
+            if (bloodOxygenDataArrayList==null)
+                bloodOxygenDataArrayList = new ArrayList<>();
+            int spo = (data[0] & 0xff);
+            if (spo!=0)
+                bloodOxygenDataArrayList.add(new BloodOxygenData(time,spo));
+            if (isEnd){
+                if (mIDataResponse!=null)
+                    mIDataResponse.onSaveBloodOxygenDatas(bloodOxygenDataArrayList);
+                bloodOxygenDataArrayList = null;
+                dataType = 0;
+                LogUtil.getInstance().logd("DATA******","总计血氧数据接收 time= "+time+" ;data = "+spo);
+            }
+        }else if (type == 0x28){//实时血压
+            if (bloodPressureDataArrayList==null)
+                bloodPressureDataArrayList = new ArrayList<>();
+            int sbp = (data[0] & 0xff) + ((data[1] & 0xFF) << 8);
+            int dbp = (data[2] & 0xff) + ((data[3] & 0xFF) << 8);
+            if (sbp!=0&&sbp!=0)
+                bloodPressureDataArrayList.add(new BloodPressureData(time,sbp,dbp));
+            if (mIDataResponse!=null)
+                mIDataResponse.onSaveBpDatas(bloodPressureDataArrayList);
+            bloodOxygenDataArrayList = null;
+            dataType = 0;
+            LogUtil.getInstance().logd("DATA******","总计血压数据接收 time= "+time+" ;sbp = "+sbp+ " ;dbp = "+dbp);
         }else if (type==0x32){//数据标示
             int deviceNum = (data[1]&0xff)<<8|(data[0]&0xff)&0x0ffff;
             ArrayList<Integer> datas = new ArrayList<>();
@@ -1183,11 +1253,47 @@ public class DataParser {
                 }
             }
             if (data.length>30&&data[30]==1){
-                datas.add(0x24);
+                datas.add(0x27);
+            }
+
+            if (data.length>31&&data[31]==1){
+                datas.add(0x25);
+            }
+
+            if (data.length>32&&data[32]==1){
+                datas.add(0x26);
             }
             datas.add(0x19);
             if (mIDataResponse!=null)
                 mIDataResponse.onGetDataIndex(deviceNum+"",datas);
+        }else if (type == 0x55){//获取日程列表
+            if(scheduleDataArrayList==null)
+                scheduleDataArrayList = new ArrayList<>();
+            ScheduleData scheduleData = new ScheduleData();
+            scheduleData.setIndex(data[0]);
+            scheduleData.setType(data[1]);
+            scheduleData.setTime((data[2] & 0xff) + ((data[3] & 0xFF) << 8) + ((data[4] & 0xff) << 16) + ((data[5] & 0xFF) << 24));
+            int strLength = (data[6] & 0xff) + ((data[7] & 0xFF) << 8);
+            byte strs[] = new byte[strLength];
+            System.arraycopy(data,8, strs,0,strLength);
+            String value = DateUtil.byteToHexString(strs);
+            try {
+                scheduleData.setMsg(new String(strs,"UnicodeBigUnmarked"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            scheduleDataArrayList.add(scheduleData);
+            LogUtil.getInstance().logd("DATA******","解析到的计划表 : "+time+" ;时间 = "+scheduleData.getTime()+" ;消息 = "+scheduleData.getMsg()+
+                    " ;序号 = "+scheduleData.getIndex());
+
+            if (isEnd){
+                if (mIDataResponse!=null)
+                    mIDataResponse.onSaveScheduleData(scheduleDataArrayList);
+                scheduleDataArrayList = null;
+                dataType = 0;
+                LogUtil.getInstance().logd("DATA******","计划表同步结束");
+            }
         }
     }
 
@@ -1287,7 +1393,17 @@ public class DataParser {
                 mIDataResponse.onSaveRunDatas(sportDataArrayList);
             sportDataArrayList = null;
             LogUtil.getInstance().logd("DATA******","足球数据接受结束");
-        }else if (type == 0x24){
+        }else if (type == 0x25){
+            if (mIDataResponse!=null)
+                mIDataResponse.onSaveBloodOxygenDatas(bloodOxygenDataArrayList);
+            bloodOxygenDataArrayList = null;
+            LogUtil.getInstance().logd("DATA******","血氧数据接受结束");
+        }else if (type == 0x26){
+            if (mIDataResponse!=null)
+                mIDataResponse.onSaveBloodOxygenDatas(bloodOxygenDataArrayList);
+            bloodOxygenDataArrayList = null;
+            LogUtil.getInstance().logd("DATA******","血氧数据接受结束");
+        }else if (type == 0x27){
             if (mIDataResponse!=null)
                 mIDataResponse.onSaveBloodOxygenDatas(bloodOxygenDataArrayList);
             bloodOxygenDataArrayList = null;

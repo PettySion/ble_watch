@@ -37,7 +37,9 @@ import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
+import com.szip.blewatch.base.db.dbModel.BloodPressureData;
 import com.szip.blewatch.base.db.dbModel.HeartData;
+import com.szip.blewatch.base.db.dbModel.ScheduleData;
 import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
@@ -257,6 +259,10 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         @Override
         public void onResponse(int code, byte[] data) {
             if (data.length != 0){
+                if (data.length==8&&(data[1] == 0x56||data[1] == 0x55)){
+                    DataParser.newInstance().parseNotifyData(data);
+                    return;
+                }
                 if (data.length > 0) {
                     Message message = mAnalysisHandler.obtainMessage();
                     message.what = ANALYSIS_HANDLER_FLAG;
@@ -548,6 +554,30 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
     }
 
     @Override
+    public void writeForGetSchedule() {
+        sendCommand( CommandUtil.getCommandbyteArray(context,0x55, 8, 0, true));
+    }
+
+    @Override
+    public void writeForAddSchedule(ScheduleData scheduleData){
+        if (scheduleData==null)
+            return;
+        sendCommand(CommandUtil.getCommandByteSchedule(0x52, scheduleData));
+    }
+    @Override
+    public void writeForDeleteSchedule(ScheduleData scheduleData){
+        if (scheduleData==null)
+            return;
+        sendCommand(CommandUtil.getCommandByteSchedule(0x53, scheduleData));
+    }
+    @Override
+    public void writeForEditSchedule(ScheduleData scheduleData){
+        if (scheduleData==null)
+            return;
+        sendCommand(CommandUtil.getCommandByteSchedule(0x54, scheduleData));
+    }
+
+    @Override
     public void onDestroy() {
         iBluetoothState = null;
         ClientManager.getClient().disconnect(mMac);
@@ -575,6 +605,8 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
     public void writeForSetUnit(){
         sendCommand(CommandUtil.getCommandbyteArray(context,0x41, 10, 2, true));
     }
+
+
 
     @Override
     public void writeForFindWatch(int state) {
@@ -669,6 +701,11 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         @Override
         public void onSaveTempDatas(ArrayList<AnimalHeatData> datas) {
             SaveDataUtil.newInstance().saveAnimalHeatDataListData(datas);
+        }
+
+        @Override
+        public void onSaveBpDatas(ArrayList<BloodPressureData> datas) {
+            SaveDataUtil.newInstance().saveBloodPressureDataListData(datas);
         }
 
         @Override
@@ -848,6 +885,22 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         }
 
         @Override
+        public void onSaveScheduleData(ArrayList<ScheduleData> scheduleDataArrayList) {
+            if (scheduleDataArrayList==null||scheduleDataArrayList.size()==0)
+                return;
+            SaveDataUtil.newInstance().saveScheduleListData(scheduleDataArrayList);
+        }
+
+        @Override
+        public void onScheduleRefresh(boolean refresh) {
+            if (refresh){
+                writeForGetSchedule();
+            }else {
+                context.sendBroadcast(new Intent(BroadcastConst.UPDATE_UI_VIEW));
+            }
+        }
+
+        @Override
         public void updateOtaProgress(int type,int state, int address) {
 //            if (iOtaResponse!=null){
 //                if (type==0){
@@ -881,6 +934,14 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         @Override
         public void endCall() {
 //            toEndCall(MyApplication.getInstance().getApplicationContext());
+        }
+
+        @Override
+        public void onScheduleCallback(int type, int state) {
+            Intent intent = new Intent(BroadcastConst.UPDATE_UI_VIEW);
+            intent.putExtra("type",type);
+            intent.putExtra("state",state);
+            context.sendBroadcast(intent);
         }
 
         @Override

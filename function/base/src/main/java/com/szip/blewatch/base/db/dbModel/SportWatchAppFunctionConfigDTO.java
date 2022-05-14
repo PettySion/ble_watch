@@ -125,6 +125,8 @@ public class SportWatchAppFunctionConfigDTO extends BaseModel {
     @Column
     public boolean  cameraSwitch;
 
+    public int autoMeasure = 1;
+
     private HealthyConfig healthMonitorConfig;
 
     public HealthyConfig getHealthMonitorConfig() {

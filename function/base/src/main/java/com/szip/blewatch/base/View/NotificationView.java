@@ -3,9 +3,7 @@ package com.szip.blewatch.base.View;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
@@ -54,16 +52,16 @@ public class NotificationView {
                 .setContentText(state?context.getResources().getString(R.string.connected):context.getResources().getString(R.string.disConnect))
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(false) //点击通知栏后是否消失
-                .setColor(Color.parseColor("#2CBDF2"))
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.my_head_58))
-                .setSmallIcon(R.mipmap.my_head_58)
+
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon))
+                .setSmallIcon(R.mipmap.small)
                 // 设置点击通知栏后跳转地址
 //                .setContentIntent(PendingIntent.getActivity(context, 1,
 //                        intent, PendingIntent.FLAG_UPDATE_CURRENT))
                 .build();
 //        添加渠道
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel("0103", "iSmarport", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel("0103", "ble_watch", NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription("description");
             notificationManager.createNotificationChannel(channel);
         }

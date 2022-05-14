@@ -1,7 +1,6 @@
 package com.szip.blewatch.Activity.main;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,13 +10,12 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTabHost;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
 import com.szip.blewatch.R;
 import com.szip.blewatch.View.HostTabView;
 import com.szip.blewatch.base.Broadcast.MyHandle;
@@ -28,8 +26,6 @@ import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.LoadDataUtil;
-import com.szip.blewatch.base.db.dbModel.UserModel;
-import com.szip.user.Activity.userInfo.UserInfoActivity;
 
 import java.util.ArrayList;
 
@@ -39,9 +35,12 @@ import java.util.ArrayList;
  */
 public class MainActivity extends BaseActivity implements IMainView,MyHandle{
 
-    private ArrayList<HostTabView> mTableItemList;
-    private RelativeLayout layout;
-    private FragmentTabHost fragmentTabHost;
+    private ViewPager2 pager;
+    private TabLayout tabLayout;
+
+//    private ArrayList<HostTabView> mTableItemList;
+//    private RelativeLayout layout;
+//    private FragmentTabHost fragmentTabHost;
     private IMainPrisenter iMainPrisenter;
 
     private long firstTime = 0;
@@ -55,12 +54,12 @@ public class MainActivity extends BaseActivity implements IMainView,MyHandle{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.aactivty_main);
+        setContentView(R.layout.activty_main);
         setAndroidNativeLightStatusBar(this,true);
-        iMainPrisenter = new MainPresenterImpl(this,this);
+        iMainPrisenter = new MainPresenterImpl(this);
         iMainPrisenter.checkBluetoochState();
         initView();
-        initHost();
+        initPager();
         /**
          * 获取权限·
          * */
@@ -109,23 +108,26 @@ public class MainActivity extends BaseActivity implements IMainView,MyHandle{
     }
 
     private void initView() {
-        layout = findViewById(R.id.layout);
-        fragmentTabHost = findViewById(android.R.id.tabhost);
+//        layout = findViewById(R.id.layout);
+//        fragmentTabHost = findViewById(android.R.id.tabhost);
+        pager = findViewById(R.id.pager);
+        tabLayout = findViewById(R.id.tabLayout);
+        MainAdapter mainAdapter = new MainAdapter(this);
+        pager.setAdapter(mainAdapter);
     }
 
 
     @Override
     public void initHostFinish(ArrayList<HostTabView> hostTabViews) {
-        mTableItemList =hostTabViews;
+
     }
 
     /**
      * 初始化选项卡视图
      * */
-    private void initHost() {
+    private void initPager() {
         //实例化FragmentTabHost对象
-        fragmentTabHost.setup(this,getSupportFragmentManager(),android.R.id.tabcontent);
-        iMainPrisenter.initHost(fragmentTabHost);
+        iMainPrisenter.initPager(pager,tabLayout);
     }
 
     /**

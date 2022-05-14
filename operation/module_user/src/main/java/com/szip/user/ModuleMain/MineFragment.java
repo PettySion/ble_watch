@@ -26,11 +26,13 @@ import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
 import com.szip.user.Activity.AboutActivity;
+import com.szip.user.Activity.AutoMeasureActivity;
 import com.szip.user.Activity.NotificationActivity;
 import com.szip.user.Activity.TargetActivity;
 import com.szip.user.Activity.UserSetActivity;
 import com.szip.user.Activity.camera.CameraSetActivity;
 import com.szip.user.Activity.dial.DialSelectActivity;
+import com.szip.user.Activity.schedule.ScheduleActivity;
 import com.szip.user.Activity.userInfo.UserInfoActivity;
 import com.szip.user.R;
 import com.szip.user.Activity.UnitSelectActivity;
@@ -165,30 +167,26 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
-            switch (position){
-                case 0:
-                    Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
-                    intent.putExtra("command","findWatch");
-                    getActivity().sendBroadcast(intent);
-                    break;
-                case 1:
-                    ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)
-                            .withString("id","CALL")
-                            .navigation();
-                    break;
-                case 2:
-                    startActivity(new Intent(getActivity(), CameraSetActivity.class));
-                    break;
-                case 3:
-                    startActivity(new Intent(getActivity(), UnitSelectActivity.class));
-                    break;
-                case 4:
-                    startActivity(new Intent(getActivity(), NotificationActivity.class));
-                    break;
-                case 5:
-                    startActivity(new Intent(getActivity(), AboutActivity.class));
-                    break;
-
+            if (position == R.string.user_find_watch) {
+                Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
+                intent.putExtra("command", "findWatch");
+                getActivity().sendBroadcast(intent);
+            } else if (position == R.string.user_ble_call) {
+                ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)
+                        .withString("id", "CALL")
+                        .navigation();
+            } else if (position == R.string.user_ble_camera) {
+                startActivity(new Intent(getActivity(), CameraSetActivity.class));
+            } else if (position == R.string.user_unit) {
+                startActivity(new Intent(getActivity(), UnitSelectActivity.class));
+            } else if (position == R.string.user_notification) {
+                startActivity(new Intent(getActivity(), NotificationActivity.class));
+            } else if (position == R.string.user_about) {
+                startActivity(new Intent(getActivity(), AboutActivity.class));
+            }else if (position == R.string.user_schedule) {
+                startActivity(new Intent(getActivity(), ScheduleActivity.class));
+            }else if (position == R.string.user_auto) {
+                startActivity(new Intent(getActivity(), AutoMeasureActivity.class));
             }
         }
     };
@@ -250,7 +248,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public void updateDeviceView(int step, int sleep, int calorie,int stepPlan,int sleepPlan,int caloriePlan, SportWatchAppFunctionConfigDTO device) {
         stepTv.setText(String.format("%d",stepPlan));
         sleepTv.setText(String.format("%.1f h",sleepPlan/60f));
-        calorieTv.setText(String.format("%d kcal",caloriePlan));
+        calorieTv.setText(String.format("%d kcal",caloriePlan/1000));
 
         stepSb.setRatio(step>=stepPlan?1:step/(float)stepPlan);
         sleepSb.setRatio(sleep>=sleepPlan?1:sleep/(float)sleepPlan);
@@ -258,7 +256,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
         stepDataTv.setText(String.format("%d",step));
         sleepDataTv.setText(String.format("%dh%dmin",sleep/60,sleep%60));
-        calorieDataTv.setText(String.format("%.1fkcal",((calorie*1000+55)/100)/10f));
+        calorieDataTv.setText(String.format("%.1fkcal",((calorie+55)/100)/10f));
 
         stepRateTv.setText(String.format("%.1f%%",step>=stepPlan?100:step/(float)stepPlan*100));
         sleepRateTv.setText(String.format("%.1f%%",sleep>=sleepPlan?100:sleep/(float)sleepPlan*100));

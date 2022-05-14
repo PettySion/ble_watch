@@ -24,6 +24,8 @@ import com.szip.blewatch.base.Model.HealthyConfig;
 import com.szip.blewatch.base.db.dbModel.HeartData;
 import com.szip.blewatch.base.db.dbModel.HeartData_Table;
 import com.szip.blewatch.base.db.dbModel.NotificationData;
+import com.szip.blewatch.base.db.dbModel.ScheduleData;
+import com.szip.blewatch.base.db.dbModel.ScheduleData_Table;
 import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SleepData_Table;
 import com.szip.blewatch.base.db.dbModel.SportData;
@@ -36,6 +38,8 @@ import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.db.dbModel.UserModel_Table;
 import com.szip.blewatch.base.db.dbModel.Weather;
 import com.szip.blewatch.base.db.dbModel.Weather_Table;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -710,6 +714,41 @@ public class SaveDataUtil {
         SQLite.delete()
                 .from(HealthyCardData.class)
                 .execute();
+    }
+
+    /**
+     * 批量保存计划表数据
+     * */
+    public void saveScheduleListData(List<ScheduleData> scheduleDataList){
+        SQLite.delete()
+                .from(ScheduleData.class)
+                .execute();
+        FlowManager.getDatabase(AppDatabase.class)
+                .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
+                        new ProcessModelTransaction.ProcessModel<ScheduleData>() {
+                            @Override
+                            public void processModel(ScheduleData scheduleData, DatabaseWrapper wrapper) {
+                                ScheduleData sqlData = SQLite.select()
+                                        .from(ScheduleData.class)
+                                        .where(ScheduleData_Table.time.is(scheduleData.time))
+                                        .querySingle();
+                                if (sqlData == null){//为null则代表数据库没有保存
+                                    scheduleData.save();
+                                }
+                            }
+                        }).addAll(scheduleDataList).build())  // add elements (can also handle multiple)
+                .error(new Transaction.Error() {
+                    @Override
+                    public void onError(Transaction transaction, Throwable error) {
+
+                    }
+                }).success(new Transaction.Success() {
+            @Override
+            public void onSuccess(Transaction transaction) {
+                LogUtil.getInstance().logd("DATA******","计划表数据保存成功");
+                context.sendBroadcast(new Intent(BroadcastConst.UPDATE_UI_VIEW));
+            }
+        }).build().execute();
     }
 
     /**

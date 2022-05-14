@@ -1,5 +1,6 @@
 package com.szip.blewatch.Activity.main;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +11,21 @@ import android.location.LocationManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTabHost;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.szip.blewatch.R;
 import com.szip.blewatch.View.HostTabView;
 
+import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.MyAlerDialog;
@@ -31,13 +39,9 @@ import java.util.ArrayList;
 
 public class MainPresenterImpl implements IMainPrisenter{
 
-    private IMainView iMainView;
-    private Handler handler;
     private Context context;
 
-    public MainPresenterImpl(IMainView iMainView, Context context) {
-        this.iMainView = iMainView;
-        handler = new Handler(Looper.getMainLooper());
+    public MainPresenterImpl( Context context) {
         this.context = context;
     }
 
@@ -94,58 +98,18 @@ public class MainPresenterImpl implements IMainPrisenter{
         }
     }
 
-
     @Override
-    public void setViewDestory() {
-        iMainView = null;
-    }
+    public void initPager(ViewPager2 pager, TabLayout tabLayout) {
+        pager.setUserInputEnabled(false);
+        String[] tabText = new String[]{context.getString(R.string.home),context.getString(R.string.sport),context.getString(R.string.mine)};
+        int[] tabBg = new int[]{R.drawable.bg_tab_state,R.drawable.bg_tab_sport,R.drawable.bg_tab_mine};
 
-
-
-
-    @Override
-    public void initHost(FragmentTabHost fragmentTabHost) {
-
-        final ArrayList<HostTabView> mTableItemList = new ArrayList<>();
-        //添加tab
-        mTableItemList.add(new HostTabView(R.mipmap.nav_state,R.mipmap.nav_state_pre,R.string.home, HealthyFragment.class,context));
-        mTableItemList.add(new HostTabView(R.mipmap.nav_sport,R.mipmap.nav_sport_pre,R.string.sport, SportFragment.class,context));
-//        mTableItemList.add(new HostTabView(R.mipmap.a_tabbar_tab3,R.mipmap.a_tabbar_market_p,R.string.consult, ConsultFragment.class,context));
-        mTableItemList.add(new HostTabView(R.mipmap.nav_my,R.mipmap.nav_my_pre,R.string.mine, MineFragment.class,context));
-        //去掉分割线
-        fragmentTabHost.getTabWidget().setDividerDrawable(null);
-
-        for (int i = 0; i<mTableItemList.size(); i++) {
-            HostTabView tabItem = mTableItemList.get(i);
-            //实例化一个TabSpec,设置tab的名称和视图
-            TabHost.TabSpec tabSpec = fragmentTabHost.newTabSpec(tabItem.getTitleString()).setIndicator(tabItem.getView());
-            fragmentTabHost.addTab(tabSpec,tabItem.getFragmentClass(),null);
-
-            //给Tab按钮设置背景
-            fragmentTabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#00ffffff"));
-
-            //默认选中第一个tab
-            if(i == 0) {
-                tabItem.setChecked(true);
-            }
-        }
-
-        fragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                //重置Tab样式
-                for (int i = 0; i< mTableItemList.size(); i++) {
-                    HostTabView tabitem = mTableItemList.get(i);
-                    if (tabId.equals(tabitem.getTitleString())) {
-                        tabitem.setChecked(true);
-                    }else {
-                        tabitem.setChecked(false);
-                    }
-                }
-            }
-        });
-
-        if (iMainView!=null)
-            iMainView.initHostFinish(mTableItemList);
+        new TabLayoutMediator(tabLayout, pager, true, (tab, position) -> {
+            tab.setCustomView(R.layout.tab_host_layout);
+            TextView textView = tab.getCustomView().findViewById(R.id.tabTv);
+            ImageView imageView = tab.getCustomView().findViewById(R.id.tabIv);
+            textView.setText(tabText[position]);
+            imageView.setBackground(context.getResources().getDrawable(tabBg[position]));
+        }).attach();
     }
 }

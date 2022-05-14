@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -39,6 +40,7 @@ import com.szip.blewatch.base.Broadcast.ToServiceBroadcast;
 import com.szip.blewatch.base.View.NotificationView;
 import com.szip.blewatch.base.View.ProgressHudModel;
 import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.ScheduleData;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -452,6 +454,26 @@ public class BleService extends Service implements MyHandle {
                         iBluetoothUtil.writeForUpdate();
                     }
                     break;
+                    case "getSchedule":{
+                        iBluetoothUtil.writeForGetSchedule();
+                    }
+                    break;
+                    case "addSchedule":{
+                        Bundle bundle = intent.getBundleExtra("bundle");
+                        iBluetoothUtil.writeForAddSchedule((ScheduleData) bundle.getSerializable("schedule"));
+                    }
+                    break;
+                    case "delSchedule":{
+                        Bundle bundle = intent.getBundleExtra("bundle");
+                        iBluetoothUtil.writeForDeleteSchedule((ScheduleData) bundle.getSerializable("schedule"));
+                    }
+                    break;
+                    case "editSchedule":{
+                        Bundle bundle = intent.getBundleExtra("bundle");
+                        iBluetoothUtil.writeForEditSchedule((ScheduleData) bundle.getSerializable("schedule"));
+                    }
+                    break;
+
                 }
             }
                 break;

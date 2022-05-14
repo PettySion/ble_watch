@@ -12,27 +12,38 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
+import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
+import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.user.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DeviceManagementAdapter extends RecyclerView.Adapter<DeviceManagementAdapter.Holder>{
 
-    private int imageList[];
-    private List<String> nameList;
+    private ArrayList<Integer> imageList;
+    private ArrayList<Integer> nameList;
+    private Context context;
 
     public DeviceManagementAdapter(Context context) {
-        nameList = Arrays.asList(context.getString(R.string.user_find_watch),context.getString(R.string.user_ble_call),
-                context.getString(R.string.user_ble_camera),context.getString(R.string.user_unit)
-                ,context.getString(R.string.user_notification),context.getString(R.string.user_about));
-        imageList = new int[6];
-        imageList[0] = R.mipmap.my_device_findwatch;
-        imageList[1] = R.mipmap.my_device_btphone;
-        imageList[2] = R.mipmap.my_device_btcamera;
-        imageList[3] = R.mipmap.my_device_unit;
-        imageList[4] = R.mipmap.my_device_message;
-        imageList[5] = R.mipmap.my_device_about;
+        this.context = context;
+        nameList = new ArrayList<>(Arrays.asList(R.string.user_find_watch,R.string.user_ble_call, R.string.user_ble_camera,R.string.user_unit
+                ,R.string.user_notification,R.string.user_about
+                ,R.string.user_schedule));
+        imageList = new ArrayList<>(Arrays.asList(R.mipmap.my_device_findwatch,R.mipmap.my_device_btphone,R.mipmap.my_device_btcamera,
+                R.mipmap.my_device_unit,R.mipmap.my_device_message,R.mipmap.my_device_about,
+                R.mipmap.my_device_schedule));
+        SportWatchAppFunctionConfigDTO sportWatchAppFunctionConfigDTO = LoadDataUtil.newInstance().getSportConfig(MathUtil.newInstance().getUserId(context));
+        if (sportWatchAppFunctionConfigDTO!=null){
+           if (sportWatchAppFunctionConfigDTO.autoMeasure==1){
+               nameList.add(R.string.user_auto);
+               imageList.add(R.mipmap.my_device_autodetect);
+           }
+        }
+
     }
 
     @NonNull
@@ -44,7 +55,7 @@ public class DeviceManagementAdapter extends RecyclerView.Adapter<DeviceManageme
         holder.fruitView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClick(holder.getAdapterPosition());
+                onItemClickListener.onItemClick(nameList.get(holder.getAdapterPosition()));
             }
         });
         return holder;
@@ -52,8 +63,8 @@ public class DeviceManagementAdapter extends RecyclerView.Adapter<DeviceManageme
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        holder.menuTv.setText(nameList.get(position));
-        holder.menuIv.setImageResource(imageList[position]);
+        holder.menuTv.setText(context.getString(nameList.get(position)));
+        holder.menuIv.setImageResource(imageList.get(position));
     }
 
     @Override

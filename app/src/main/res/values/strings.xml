@@ -1,5 +1,5 @@
 <resources>
-    <string name="name">My Application</string>
+    <string name="name">FitRing</string>
     <string name="home">state</string>
     <string name="sport">sport</string>
     <string name="consult">consult</string>

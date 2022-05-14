@@ -1,6 +1,9 @@
 package com.szip.blewatch.Activity.main;
 
 import androidx.fragment.app.FragmentTabHost;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
 
 public interface IMainPrisenter {
 
@@ -9,7 +12,5 @@ public interface IMainPrisenter {
     //检查GPS状态
     void checkGPSState();
     //初始化工具栏
-    void initHost(FragmentTabHost fragmentTabHost);
-
-    void setViewDestory();
+    void initPager(ViewPager2 pager, TabLayout tabLayout);
 }

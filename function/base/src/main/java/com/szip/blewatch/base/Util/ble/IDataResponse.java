@@ -4,7 +4,9 @@ package com.szip.blewatch.base.Util.ble;
 
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
+import com.szip.blewatch.base.db.dbModel.BloodPressureData;
 import com.szip.blewatch.base.db.dbModel.HeartData;
+import com.szip.blewatch.base.db.dbModel.ScheduleData;
 import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SportData;
 import com.szip.blewatch.base.db.dbModel.StepData;
@@ -39,6 +41,10 @@ public interface IDataResponse {
      */
     void onSaveTempDatas(ArrayList<AnimalHeatData> datas);
 
+    /**
+     * 接收完成体温数据
+     */
+    void onSaveBpDatas(ArrayList<BloodPressureData> datas);
 
     /**
      * 接收完成睡眠数据
@@ -75,9 +81,14 @@ public interface IDataResponse {
      * */
     void updateUserInfo(UserModel userModel);
 
+    void onSaveScheduleData(ArrayList<ScheduleData> scheduleDataArrayList);
+    void onScheduleRefresh(boolean refresh);
+
     void updateOtaProgress(int type, int state, int address);
     void onMusicControl(int cmd, int voiceValue);
     void endCall();
+
+    void onScheduleCallback(int type,int state);
 
     void sendDialFinish();
     void sendDialError();

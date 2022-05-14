@@ -1122,6 +1122,22 @@ public class MathUtil {
         return option;
     }
 
+    public ArrayList<String> getNumberList(int num){
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0;i<num;i++){
+            list.add(String.format("%02d",i));
+        }
+        return list;
+    }
+
+    public ArrayList<String> getFrequencyList(int num){
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 1;i<=num;i++){
+            list.add(String.format("%d",i*30));
+        }
+        return list;
+    }
+
     public SportTypeModel getSportType(int type, Context context){
         SportTypeModel typeModel = null;
         if (type== SportConst.RUN){

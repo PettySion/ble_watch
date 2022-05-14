@@ -3,7 +3,10 @@
     package="com.szip.user">
 
     <application>
-        <activity android:name=".Activity.camera.CameraActivity"></activity>
+        <activity android:name=".Activity.AutoMeasureActivity"></activity>
+        <activity android:name=".Activity.schedule.ScheduleEditActivity" />
+        <activity android:name=".Activity.schedule.ScheduleActivity" />
+        <activity android:name=".Activity.camera.CameraActivity" />
         <activity android:name=".Activity.help.ServicePrivacyActivity" />
         <activity android:name=".Activity.help.FaqContentActivity" />
         <activity android:name=".Activity.camera.CameraSetActivity" />

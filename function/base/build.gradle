@@ -47,6 +47,7 @@ dependencies {
     api project(path: ':function:library')
     api project(path: ':function:okhttputils')
     api project(path: ':function:citypicker')
+    api project(path: ':function:ncalendar')
     annotationProcessor rootProject.ext.otherDeps["arouter-compiler"]
     annotationProcessor rootProject.ext.otherDeps["dbflow-processor"]
 }

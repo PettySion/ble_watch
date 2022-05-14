@@ -1,5 +1,4 @@
-include ':ncalendar'
-include ':function:citypicker'
+include ':function:ncalendar'
 include ':app', ':function:base'
 include ':function:citypicker'
 include ':function:okhttputils'

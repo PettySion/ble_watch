@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="name">My Application</string>
+    <string name="name">FitRing</string>
     <string name="home">状态</string>
     <string name="sport">运动</string>
     <string name="consult">咨询</string>

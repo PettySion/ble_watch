@@ -322,6 +322,19 @@ public class DateUtil {
     }
 
     /**
+     * 时间戳（到秒）转换成字符窜
+     *
+     * @param milSecond
+     * @return
+     */
+    public static String getStringDateFromSecondCn(long milSecond, String formatStyle) {
+        long time = milSecond * 1000;
+        Date date = new Date(time);
+        SimpleDateFormat format = new SimpleDateFormat(formatStyle);
+        return format.format(date);
+    }
+
+    /**
      * 判断这段时间的睡眠数据是属于哪一天
      *
      * @param data 详情睡眠数据

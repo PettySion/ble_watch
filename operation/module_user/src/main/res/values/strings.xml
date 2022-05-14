@@ -18,6 +18,8 @@
     <string name="user_unit">Unit</string>
     <string name="user_notification">Notification</string>
     <string name="user_about">About Device</string>
+    <string name="user_schedule">My Schedule</string>
+    <string name="user_auto">Auto Measure</string>
     <string name="user_add_device">Add Device</string>
 
     <string name="user_measureUnit">Unit Of Measure</string>
@@ -128,4 +130,28 @@
     <string name="user_deleteTip">Confirm to cancel your account, the account will be successfully cancelled within three days after the confirmation, the account data will be completely deleted and cannot be restored! Perform this operation with caution.</string>
     <string name="user_deleteSuccess">The request is successful.</string>
     <string name="user_deleteNow">The current account is awaiting destruction.</string>
+
+    <string name="user_schedule_empty">The current watch has no schedule, please add a new schedule</string>
+    <string name="user_delete_schedule">Delete</string>
+    <string name="user_save_schedule">Save</string>
+    <string name="user_schedule_info">Schedule Information</string>
+    <string name="user_schedule_fall">The number of schedules that can be added to the watch has reached the upper limit</string>
+    <string name="user_schedule_add_fail">Failed to add schedule</string>
+    <string name="user_schedule_edit_fail">Failed to modify schedule</string>
+    <string name="user_schedule_delete_fail">Failed to delete schedule</string>
+    <string name="user_schedule_past">A past time point cannot be set as a schedule point</string>
+    <string name="user_schedule_same">The selected time point has an existing schedule and cannot be set repeatedly</string>
+    <string name="user_schedule_msg">Fill in schedule Details</string>
+    <string name="user_today">Today</string>
+    <string name="user_time">Time</string>
+
+    <string name="user_auto_measure_tip">After the automatic monitoring function is enabled, the watch will be measured every other frequency time during the effective period</string>
+    <string name="user_measure_frequency">Measure Frequency</string>
+    <string name="user_valid_time">Effective Time</string>
+    <string name="user_start_time">Start Time</string>
+    <string name="user_end_time">End Time</string>
+    <string name="user_heart">Heart Rate</string>
+    <string name="user_blood_pressure">Blood Pressure</string>
+    <string name="user_blood_oxygen">Blood Oxygen</string>
+    <string name="user_temperature">Temperature</string>
 </resources>

@@ -11,6 +11,7 @@ import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.ScheduleData;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.db.dbModel.Weather;
 import com.szip.blewatch.base.Model.Condition;
@@ -616,6 +617,79 @@ public class CommandUtil {
         return null;
     }
 
+    public static byte[] getCommandByteSchedule(int type, ScheduleData scheduleData){
+        byte[] data = new byte[0];
+        long time = scheduleData.getTime();
+        if (type == 0x52){
+            byte msgs[] = null;
+            try {
+                msgs = scheduleData.getMsg().getBytes("UnicodeBigUnmarked");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if (msgs==null||msgs.length==0)
+                return new byte[0];
+            data = new byte[15+msgs.length];
+            data[0] = (byte) 0xAA;
+            data[1] = (byte) type;
+            data[2] = (byte) (7+msgs.length);
+            data[3] = 0;
+            data[4] = (byte)0xf0;
+            data[5] = (byte)0xf0;
+            data[6] = (byte)0xf0;
+            data[7] = (byte)0xf0;
+            data[8] = 0;
+            data[9] = (byte) (time&0xff);
+            data[10] = (byte) ((time>>8)&0xff);
+            data[11] = (byte) ((time>>16)&0xff);
+            data[12] = (byte) ((time>>24)&0xff);
+            data[13] = (byte) (msgs.length&0xff);
+            data[14] = (byte) ((msgs.length>>8)&0xff);
+            System.arraycopy(msgs,0,data,15,msgs.length);
+        }else if (type == 0x53){
+            data = new byte[9];
+            data[0] = (byte) 0xAA;
+            data[1] = (byte) type;
+            data[2] = (byte) (data.length-8);
+            data[3] = 0;
+            data[4] = (byte)0xf0;
+            data[5] = (byte)0xf0;
+            data[6] = (byte)0xf0;
+            data[7] = (byte)0xf0;
+            data[8] = (byte) scheduleData.getIndex();
+        }else if (type == 0x54){
+            byte msgs[] = null;
+            try {
+                msgs = scheduleData.getMsg().getBytes("UnicodeBigUnmarked");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if (msgs==null||msgs.length==0)
+                return new byte[0];
+            data = new byte[16+msgs.length];
+            data[0] = (byte) 0xAA;
+            data[1] = (byte) type;
+            data[2] = (byte) (8+msgs.length);
+            data[3] = 0;
+            data[4] = (byte)0xf0;
+            data[5] = (byte)0xf0;
+            data[6] = (byte)0xf0;
+            data[7] = (byte)0xf0;
+            data[8] = (byte) scheduleData.getIndex();
+            data[9] = 0;
+            data[10] = (byte) (time&0xff);
+            data[11] = (byte) ((time>>8)&0xff);
+            data[12] = (byte) ((time>>16)&0xff);
+            data[13] = (byte) ((time>>24)&0xff);
+            data[14] = (byte) (msgs.length&0xff);
+            data[15] = (byte) ((msgs.length>>8)&0xff);
+            System.arraycopy(msgs,0,data,16,msgs.length);
+        }
+
+        LogUtil.getInstance().logd("data******","index = "+scheduleData.getIndex()+" ;msg = "+scheduleData.getMsg());
+        LogUtil.getInstance().logd("DATA******","发送的蓝牙数据:"+ DateUtil.byteToHexString(data));
+        return data;
+    }
 
     /**
      * 计算列表平均值Integer:平均值  String:详情数据列表

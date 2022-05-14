@@ -1,5 +1,7 @@
 package com.szip.blewatch.base.Util.ble;
 
+import com.szip.blewatch.base.db.dbModel.ScheduleData;
+
 public interface IBluetoothUtil {
     void connect(String mac,IBluetoothState iBluetoothState);
     void disconnect();
@@ -12,5 +14,9 @@ public interface IBluetoothUtil {
     void writeForSendDialFile(int type,byte clockId,int address,int num,byte[] data);
     void writeForSendDialBackground(int type,int clockType,int clockIndex,int num,byte[] datas);
     void writeForUpdate();
+    void writeForGetSchedule();
+    void writeForAddSchedule(ScheduleData scheduleData);
+    void writeForDeleteSchedule(ScheduleData scheduleData);
+    void writeForEditSchedule(ScheduleData scheduleData);
     void onDestroy();
 }

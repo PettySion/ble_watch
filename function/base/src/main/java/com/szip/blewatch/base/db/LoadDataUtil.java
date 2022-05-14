@@ -22,6 +22,8 @@ import com.szip.blewatch.base.db.dbModel.HeartData;
 import com.szip.blewatch.base.db.dbModel.HeartData_Table;
 import com.szip.blewatch.base.db.dbModel.NotificationData;
 import com.szip.blewatch.base.db.dbModel.NotificationData_Table;
+import com.szip.blewatch.base.db.dbModel.ScheduleData;
+import com.szip.blewatch.base.db.dbModel.ScheduleData_Table;
 import com.szip.blewatch.base.db.dbModel.SleepData;
 import com.szip.blewatch.base.db.dbModel.SleepData_Table;
 import com.szip.blewatch.base.db.dbModel.SportData;
@@ -135,6 +137,19 @@ public class LoadDataUtil {
         }else {
             return null;
         }
+    }
+
+    /**
+     * 判断是否支持血压
+     * */
+    public boolean isSupportBp(){
+
+        HealthyCardData healthyCardData = SQLite.select()
+                .from(HealthyCardData.class)
+                .where(HealthyCardData_Table.type.is(6))
+                .querySingle();
+
+        return healthyCardData!=null;
     }
 
 
@@ -367,4 +382,24 @@ public class LoadDataUtil {
         return bloodOxygenDataList;
     }
 
+
+    /**
+     * 取计划表数据
+     * */
+    public List<ScheduleData> getScheduleData(){
+        List<ScheduleData> list = SQLite.select()
+                .from(ScheduleData.class)
+                .orderBy(OrderBy.fromString(ScheduleData_Table.time+OrderBy.DESCENDING))
+                .queryList();
+        return list;
+    }
+
+    public boolean scheduleCanAdd(long time){
+        ScheduleData data = SQLite.select()
+                .from(ScheduleData.class)
+                .where(ScheduleData_Table.time.is(time))
+                .querySingle();
+
+        return data==null;
+    }
 }

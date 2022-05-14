@@ -76,7 +76,7 @@ public class MinePresenterImpl implements IMinePresenter{
             return;
 
 
-        iMineView.updateDeviceView(step,sleep,calorie/1000,userModel.stepsPlan,userModel.sleepPlan,userModel.caloriePlan,sportWatchAppFunctionConfigDTO);
+        iMineView.updateDeviceView(step,sleep,calorie,userModel.stepsPlan,userModel.sleepPlan,userModel.caloriePlan*1000,sportWatchAppFunctionConfigDTO);
     }
 
     private GenericsCallback<BaseApi> callback = new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
