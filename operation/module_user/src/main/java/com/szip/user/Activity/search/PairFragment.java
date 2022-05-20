@@ -108,16 +108,6 @@ public class PairFragment extends DialogFragment implements MyHandle {
             window.setBackgroundDrawableResource(R.color.bgColor);
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         }
-
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    return true;
-                }
-                return false;
-            }
-        });
         return dialog;
     }
 
@@ -136,6 +126,12 @@ public class PairFragment extends DialogFragment implements MyHandle {
     public void onPause() {
         super.onPause();
         toActivityBroadcast.unregister(getActivity());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        searchPresenter.stopSearch();
     }
 
     private void initView() {

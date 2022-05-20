@@ -43,12 +43,7 @@ public class FaqContentActivity extends BaseActivity {
 
     private void initView() {
         contentWeb = findViewById(R.id.contentWeb);
-        findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        findViewById(R.id.backIv).setOnClickListener(v -> finish());
     }
 
     private void initData() {

@@ -157,7 +157,7 @@ public class SleepReportActivity extends BaseActivity {
             calendar.setTimeInMillis(reportDate*1000);
             calendar.set(Calendar.DAY_OF_WEEK,1);
             timeTv.setText(DateUtil.getStringDateFromSecond(calendar.getTimeInMillis()/1000,"yyyy/MM/dd")
-                    +"~"+DateUtil.getStringDateFromSecond(calendar.getTimeInMillis()/1000+7*24*60*60,"yyyy/MM/dd"));
+                    +"~"+DateUtil.getStringDateFromSecond(calendar.getTimeInMillis()/1000+6*24*60*60,"yyyy/MM/dd"));
         }else {
             timeTv.setText(DateUtil.getStringDateFromSecond(reportDate,"yyyy/MM/dd"));
         }

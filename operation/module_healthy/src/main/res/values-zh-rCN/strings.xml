@@ -22,7 +22,7 @@
     <string name="healthy_week">周</string>
     <string name="healthy_month">月</string>
     <string name="healthy_sun">周日</string>
-    <string name="healthy_mon">周一</string>
+    <string name="healthy_sta">周六</string>
     <string name="healthy_survey">今日概况</string>
     <string name="healthy_week_survey">每周概况</string>
     <string name="healthy_month_survey">每月概况</string>

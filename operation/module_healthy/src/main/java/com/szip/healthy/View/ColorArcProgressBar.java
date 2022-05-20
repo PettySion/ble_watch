@@ -116,7 +116,7 @@ public class ColorArcProgressBar extends View
         progressWidth = a.getDimension(R.styleable.ColorArcProgressBar_front_width, dipToPx(10));
 
         setCurrentValues(0,0,0);
-        setMaxValues(maxValuesStep);
+        setMaxValues(maxValuesStep,maxValuesCalorie);
 
         a.recycle();
 
@@ -225,12 +225,12 @@ public class ColorArcProgressBar extends View
      *
      * @param maxValues
      */
-    public void setMaxValues(float maxValues) {
+    public void setMaxValues(float maxValues,float maxCalorie) {
         this.maxValuesStep = maxValues;
         kStep = sweepAngleStep / maxValues;
-        this.maxValuesDistance = 172*0.45f*maxValues/100;
+        this.maxValuesDistance = 172*0.45f*maxValues/100*1.5f;
         kDistance = sweepAngleDistance/maxValuesDistance;
-        this.maxValuesCalorie = 65*1.036f*(maxValuesDistance);
+        this.maxValuesCalorie = maxCalorie*1000;
         kCalorie = sweepAngleCalorie/maxValuesCalorie;
     }
 

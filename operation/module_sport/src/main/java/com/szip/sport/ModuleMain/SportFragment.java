@@ -68,7 +68,6 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
         initView();
         initEvent();
         iLastSportPresenter = new LastSportImpl(this,getActivity());
-        iLastSportPresenter.initLocation((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE));
     }
 
     @Override
@@ -81,6 +80,7 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
         intentFilter.addAction(BroadcastConst.UPDATE_SPORT_VIEW);
         toActivityBroadcast.registerReceive(this,getActivity(),intentFilter);
         iLastSportPresenter.initLastSport();
+        iLastSportPresenter.initLocation((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE));
     }
 
     @Override
@@ -207,13 +207,13 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void updateLocation(float acc) {
         if (acc == 0){
-            gpsIv.setImageResource(R.mipmap.sport_icon_gps_0);
+            gpsIv.setImageResource(R.mipmap.sport_gps_0);
         }else if (acc>=29){
-            gpsIv.setImageResource(R.mipmap.sport_icon_gps_1);
+            gpsIv.setImageResource(R.mipmap.sport_gps_1);
         }else if (acc>=15){
-            gpsIv.setImageResource(R.mipmap.sport_icon_gps_2);
+            gpsIv.setImageResource(R.mipmap.sport_gps_2);
         }else {
-            gpsIv.setImageResource(R.mipmap.sport_icon_gps_3);
+            gpsIv.setImageResource(R.mipmap.sport_gps_3);
         }
     }
 
@@ -226,6 +226,4 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
                 break;
         }
     }
-
-
 }

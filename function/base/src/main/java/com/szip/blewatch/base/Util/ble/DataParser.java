@@ -1239,12 +1239,10 @@ public class DataParser {
                 datas.add(0x14);
 
             //todo 调起经典蓝牙配对
-//            if (data.length>20)
-//                MyApplication.getInstance().setHeartSwitch(data[20]==1);
-//            if (data.length>21){
-//                MyApplication.getInstance().setBtMac(String.format("%02X:%02X:%02X:%02X:%02X:%02X",data[26],data[25], data[24],data[23],
-//                        data[22],data[21]));
-//            }
+            if (data.length>21){
+                mIDataResponse.pairBluetooth(String.format("%02X:%02X:%02X:%02X:%02X:%02X",data[26],data[25], data[24],data[23],
+                        data[22],data[21]));
+            }
             if (data.length>27){
                 for (int i = 0;i<3;i++){
                     if (data[27+i]!=0){

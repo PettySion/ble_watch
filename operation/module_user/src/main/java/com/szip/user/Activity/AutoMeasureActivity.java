@@ -1,7 +1,6 @@
 package com.szip.user.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -9,11 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.szip.blewatch.base.Const.BroadcastConst;
+import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.View.character.OnOptionChangedListener;
 import com.szip.blewatch.base.db.LoadDataUtil;
-import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
+import com.szip.blewatch.base.db.dbModel.AutoMeasureData;
 import com.szip.user.R;
 import com.szip.user.View.CharacterPickerWindow;
 
@@ -22,17 +23,19 @@ import java.util.List;
 public class AutoMeasureActivity extends BaseActivity {
 
     private Switch heartSw,bpSw,spoSw,tempSw;
-    private LinearLayout bpLl;
+    private LinearLayout bpLl,heartLl,spoLl,tempLl;
     private TextView heartFrequencyTv,bpFrequencyTv,spoFrequencyTv,tempFrequencyTv;
     private TextView heartStartTv,bpStartTv,spoStartTv,tempStartTv;
     private TextView heartEndTv,bpEndTv,spoEndTv,tempEndTv;
     private CharacterPickerWindow window;
+    private AutoMeasureData autoMeasureData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.user_activity_auto_measure);
         setAndroidNativeLightStatusBar(this,true);
+        autoMeasureData = LoadDataUtil.newInstance().getAutoMeasureData();
         initView();
         initEvent();
     }
@@ -40,46 +43,75 @@ public class AutoMeasureActivity extends BaseActivity {
     private void initView() {
         setTitle(getString(R.string.user_auto));
         heartSw = findViewById(R.id.heartSw);
+        heartSw.setChecked(autoMeasureData.heartState==1);
         bpSw = findViewById(R.id.bpSw);
+        bpSw.setChecked(autoMeasureData.bpState==1);
         spoSw = findViewById(R.id.spoSw);
+        spoSw.setChecked(autoMeasureData.spoState==1);
         tempSw = findViewById(R.id.tempSw);
+        tempSw.setChecked(autoMeasureData.tempState==1);
 
         heartFrequencyTv = findViewById(R.id.heartFrequencyTv);
+        heartFrequencyTv.setText(String.format("%02dmin",autoMeasureData.heartFrequency));
         bpFrequencyTv = findViewById(R.id.bpFrequencyTv);
+        bpFrequencyTv.setText(String.format("%02dmin",autoMeasureData.bpFrequency));
         spoFrequencyTv = findViewById(R.id.spoFrequencyTv);
+        spoFrequencyTv.setText(String.format("%02dmin",autoMeasureData.spoFrequency));
         tempFrequencyTv = findViewById(R.id.tempFrequencyTv);
+        tempFrequencyTv.setText(String.format("%02dmin",autoMeasureData.tempFrequency));
 
         heartStartTv = findViewById(R.id.heartStartTv);
+        heartStartTv.setText(String.format("%02d:%02d",autoMeasureData.heartStartTime/60,autoMeasureData.heartStartTime%60));
         bpStartTv = findViewById(R.id.bpStartTv);
+        bpStartTv.setText(String.format("%02d:%02d",autoMeasureData.bpStartTime/60,autoMeasureData.bpStartTime%60));
         spoStartTv = findViewById(R.id.spoStartTv);
+        spoStartTv.setText(String.format("%02d:%02d",autoMeasureData.spoStartTime/60,autoMeasureData.spoStartTime%60));
         tempStartTv = findViewById(R.id.tempStartTv);
+        tempStartTv.setText(String.format("%02d:%02d",autoMeasureData.tempStartTime/60,autoMeasureData.tempStartTime%60));
 
         heartEndTv = findViewById(R.id.heartEndTv);
+        heartEndTv.setText(String.format("%02d:%02d",autoMeasureData.heartEndTime/60,autoMeasureData.heartEndTime%60));
         bpEndTv = findViewById(R.id.bpEndTv);
+        bpEndTv.setText(String.format("%02d:%02d",autoMeasureData.bpEndTime/60,autoMeasureData.bpEndTime%60));
         spoEndTv = findViewById(R.id.spoEndTv);
+        spoEndTv.setText(String.format("%02d:%02d",autoMeasureData.spoEndTime/60,autoMeasureData.spoEndTime%60));
         tempEndTv = findViewById(R.id.tempEndTv);
+        tempEndTv.setText(String.format("%02d:%02d",autoMeasureData.tempEndTime/60,autoMeasureData.tempEndTime%60));
 
         bpLl = findViewById(R.id.bpLl);
+        spoLl = findViewById(R.id.spoLl);
+        heartLl = findViewById(R.id.heartLl);
+        tempLl = findViewById(R.id.tempLl);
 
-        if(LoadDataUtil.newInstance().isSupportBp())
+        if(LoadDataUtil.newInstance().isSupportHealthy(HealthyConst.BLOOD_PRESSURE))
             bpLl.setVisibility(View.VISIBLE);
-
+        if(LoadDataUtil.newInstance().isSupportHealthy(HealthyConst.BLOOD_OXYGEN))
+            spoLl.setVisibility(View.VISIBLE);
+        if(LoadDataUtil.newInstance().isSupportHealthy(HealthyConst.HEART))
+            heartLl.setVisibility(View.VISIBLE);
+        if(LoadDataUtil.newInstance().isSupportHealthy(HealthyConst.TEMPERATURE))
+            tempLl.setVisibility(View.VISIBLE);
     }
 
     private void initEvent() {
         findViewById(R.id.heartStartLl).setOnClickListener(onClickListener);
         findViewById(R.id.heartEndLl).setOnClickListener(onClickListener);
         findViewById(R.id.heartFrequencyLl).setOnClickListener(onClickListener);
+        findViewById(R.id.heartSw).setOnClickListener(onClickListener);
         findViewById(R.id.bpStartLl).setOnClickListener(onClickListener);
         findViewById(R.id.bpEndLl).setOnClickListener(onClickListener);
         findViewById(R.id.bpFrequencyLl).setOnClickListener(onClickListener);
+        findViewById(R.id.bpSw).setOnClickListener(onClickListener);
         findViewById(R.id.spoStartLl).setOnClickListener(onClickListener);
         findViewById(R.id.spoEndLl).setOnClickListener(onClickListener);
         findViewById(R.id.spoFrequencyLl).setOnClickListener(onClickListener);
+        findViewById(R.id.spoSw).setOnClickListener(onClickListener);
         findViewById(R.id.tempStartLl).setOnClickListener(onClickListener);
         findViewById(R.id.tempEndLl).setOnClickListener(onClickListener);
         findViewById(R.id.tempFrequencyLl).setOnClickListener(onClickListener);
+        findViewById(R.id.tempSw).setOnClickListener(onClickListener);
         findViewById(R.id.saveTv).setOnClickListener(onClickListener);
+        findViewById(R.id.backIv).setOnClickListener(onClickListener);
     }
 
     /**
@@ -99,42 +131,54 @@ public class AutoMeasureActivity extends BaseActivity {
     }
 
     private OnOptionChangedListener heartFrequency = (option1, option2, option3) -> {
-
+        autoMeasureData.heartFrequency = option1;
+        heartFrequencyTv.setText(String.format("%02dmin",option1));
     };
     private OnOptionChangedListener heartStart = (option1, option2, option3) -> {
+        autoMeasureData.heartStartTime = option1*60+option2;
         heartStartTv.setText(String.format("%02d:%02d",option1,option2));
     };
     private OnOptionChangedListener heartEnd = (option1, option2, option3) -> {
+        autoMeasureData.heartEndTime = option1*60+option2;
         heartEndTv.setText(String.format("%02d:%02d",option1,option2));
     };
 
     private OnOptionChangedListener bpFrequency = (option1, option2, option3) -> {
-
+        autoMeasureData.bpFrequency = option1;
+        bpFrequencyTv.setText(String.format("%02dmin",option1));
     };
     private OnOptionChangedListener bpStart = (option1, option2, option3) -> {
+        autoMeasureData.bpStartTime = option1*60+option2;
         bpStartTv.setText(String.format("%02d:%02d",option1,option2));
     };
     private OnOptionChangedListener bpEnd = (option1, option2, option3) -> {
+        autoMeasureData.bpEndTime = option1*60+option2;
         bpEndTv.setText(String.format("%02d:%02d",option1,option2));
     };
 
     private OnOptionChangedListener spoFrequency = (option1, option2, option3) -> {
-
+        autoMeasureData.spoFrequency = option1;
+        spoFrequencyTv.setText(String.format("%02dmin",option1));
     };
     private OnOptionChangedListener spoStart = (option1, option2, option3) -> {
+        autoMeasureData.spoStartTime = option1*60+option2;
         spoStartTv.setText(String.format("%02d:%02d",option1,option2));
     };
     private OnOptionChangedListener spoEnd = (option1, option2, option3) -> {
+        autoMeasureData.spoEndTime = option1*60+option2;
         spoEndTv.setText(String.format("%02d:%02d",option1,option2));
     };
 
     private OnOptionChangedListener tempFrequency = (option1, option2, option3) -> {
-
+        autoMeasureData.tempFrequency = option1;
+        tempFrequencyTv.setText(String.format("%02dmin",option1));
     };
     private OnOptionChangedListener tempStart = (option1, option2, option3) -> {
+        autoMeasureData.tempStartTime = option1*60+option2;
         tempStartTv.setText(String.format("%02d:%02d",option1,option2));
     };
     private OnOptionChangedListener tempEnd = (option1, option2, option3) -> {
+        autoMeasureData.tempEndTime = option1*60+option2;
         tempEndTv.setText(String.format("%02d:%02d",option1,option2));
     };
 
@@ -191,7 +235,7 @@ public class AutoMeasureActivity extends BaseActivity {
             String str = heartFrequencyTv.getText().toString();
             str.substring(0,str.length()-3);
             int current = Integer.valueOf(str)/30-1;
-            initWindow(R.string.user_start_time,frequencyList,null,null,current,0,0,heartFrequency);
+            initWindow(R.string.user_start_time,frequencyList,null,null,current,0,0,spoFrequency);
             window.showAtLocation(v, Gravity.BOTTOM, 0, 0);
         }else if (id == R.id.spoStartLl){
             final List<String> hourList = MathUtil.newInstance().getNumberList(24);
@@ -199,7 +243,7 @@ public class AutoMeasureActivity extends BaseActivity {
             String str[] = spoFrequencyTv.getText().toString().split(":");
             int hour = Integer.valueOf(str[0]);
             int min = Integer.valueOf(str[1]);
-            initWindow(R.string.user_start_time,hourList,minList,null,hour,min,0,spoFrequency);
+            initWindow(R.string.user_start_time,hourList,minList,null,hour,min,0,spoStart);
             window.showAtLocation(v, Gravity.BOTTOM, 0, 0);
         }else if (id == R.id.spoEndLl){
             final List<String> hourList = MathUtil.newInstance().getNumberList(24);
@@ -232,8 +276,20 @@ public class AutoMeasureActivity extends BaseActivity {
             int min = Integer.valueOf(str[1]);
             initWindow(R.string.user_start_time,hourList,minList,null,hour,min,0,tempEnd);
             window.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+        }else if (id == R.id.heartSw){
+            autoMeasureData.heartState=heartSw.isChecked()?1:0;
+        }else if (id == R.id.bpSw){
+            autoMeasureData.bpState=bpSw.isChecked()?1:0;
+        }else if (id == R.id.spoSw){
+            autoMeasureData.spoState=spoSw.isChecked()?1:0;
+        }else if (id == R.id.tempSw){
+            autoMeasureData.tempState=tempSw.isChecked()?1:0;
         }else if (id == R.id.saveTv){
-
+            Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
+            intent.putExtra("command","setAuto");
+            sendBroadcast(intent);
+        }else if (id == R.id.backIv){
+            finish();
         }
     };
 }

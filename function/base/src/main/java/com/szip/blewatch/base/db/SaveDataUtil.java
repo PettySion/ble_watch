@@ -48,6 +48,8 @@ import java.util.Locale;
 public class SaveDataUtil {
 
 
+    private int broadCount = 0;//发送更新数据广播的计数，为0的时候则发送广播
+
     private static SaveDataUtil saveDataUtil;
     private Context context;
     private SaveDataUtil(){
@@ -240,8 +242,7 @@ public class SaveDataUtil {
             @Override
             public void onSuccess(Transaction transaction) {
                 LogUtil.getInstance().logd("DATA******","计步数据保存成功");
-                if (stepDataList.size()==1)
-                    context.sendBroadcast(new Intent(BroadcastConst.UPDATE_STEP_VIEW));
+                context.sendBroadcast(new Intent(BroadcastConst.UPDATE_STEP_VIEW));
             }
         }).build().execute();
     }
@@ -397,6 +398,7 @@ public class SaveDataUtil {
             @Override
             public void onSuccess(Transaction transaction) {
                 LogUtil.getInstance().logd("DATA******","计步详情数据保存成功");
+
             }
         }).build().execute();
     }
@@ -469,7 +471,6 @@ public class SaveDataUtil {
             @Override
             public void onSuccess(Transaction transaction) {
                 LogUtil.getInstance().logd("DATA******","睡眠详情保存成功");
-                if (sleepDataList.size()==1)
                     context.sendBroadcast(new Intent(BroadcastConst.UPDATE_HEALTHY_VIEW));
             }
         }).build().execute();
@@ -503,7 +504,6 @@ public class SaveDataUtil {
             @Override
             public void onSuccess(Transaction transaction) {
                 LogUtil.getInstance().logd("DATA******","心率数据保存成功");
-                if (heartDataList.size()==1)
                     context.sendBroadcast(new Intent(BroadcastConst.UPDATE_HEALTHY_VIEW));
             }
         }).build().execute();
@@ -537,7 +537,6 @@ public class SaveDataUtil {
             @Override
             public void onSuccess(Transaction transaction) {
                 LogUtil.getInstance().logd("DATA******","血压数据保存成功");
-                if (bloodPressureDataList.size()==1)
                     context.sendBroadcast(new Intent(BroadcastConst.UPDATE_HEALTHY_VIEW));
             }
         }).build().execute();
@@ -570,7 +569,6 @@ public class SaveDataUtil {
             @Override
             public void onSuccess(Transaction transaction) {
                 LogUtil.getInstance().logd("DATA******","血氧数据保存成功");
-                if (bloodOxygenDataList.size()==1)
                     context.sendBroadcast(new Intent(BroadcastConst.UPDATE_HEALTHY_VIEW));
             }
         }).build().execute();
@@ -603,7 +601,6 @@ public class SaveDataUtil {
             @Override
             public void onSuccess(Transaction transaction) {
                 LogUtil.getInstance().logd("DATA******","体温数据保存成功");
-                if (animalHeatDataList.size()==1)
                     context.sendBroadcast(new Intent(BroadcastConst.UPDATE_HEALTHY_VIEW));
             }
         }).build().execute();

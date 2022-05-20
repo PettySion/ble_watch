@@ -38,13 +38,15 @@
 
 
             <LinearLayout
+                android:id="@+id/heartLl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/user_bg_item"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -404,13 +406,15 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/spoLl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/user_bg_item"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -586,13 +590,15 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tempLl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/user_bg_item"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"

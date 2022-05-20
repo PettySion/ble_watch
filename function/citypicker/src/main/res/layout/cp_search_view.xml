@@ -21,7 +21,7 @@
         android:hint="?attr/cpSearchHintText"
         android:maxLength="20"
         android:maxLines="1"
-        android:textCursorDrawable="?attr/cpSearchCursorDrawable"
+
         android:textColor="?attr/cpSearchTextColor"
         android:textColorHint="?attr/cpSearchHintTextColor"
         android:textSize="?attr/cpSearchTextSize"

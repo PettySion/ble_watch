@@ -2,6 +2,8 @@ package com.szip.blewatch.base.Util.ble;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -52,6 +54,7 @@ import com.zhy.http.okhttp.builder.PostJsonBuilder;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -578,6 +581,11 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
     }
 
     @Override
+    public void writeForSetAuto() {
+        sendCommand(CommandUtil.getCommandbyteArray(context,0x3A, 8, 0, true));
+    }
+
+    @Override
     public void onDestroy() {
         iBluetoothState = null;
         ClientManager.getClient().disconnect(mMac);
@@ -1014,6 +1022,31 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
             Intent intent = new Intent(BroadcastConst.UPDATE_BACKGROUND_STATE);
             intent.putExtra("command", SendFileConst.PROGRESS);
             context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void pairBluetooth(String mac) {
+            LogUtil.getInstance().logd("data******","mac = "+mac);
+            if (mac.equals("00:00:00:00:00:00"))
+                return;
+            BluetoothAdapter btAdapt = BluetoothAdapter.getDefaultAdapter();
+            try {
+                if (mac!=null) {
+                    BluetoothDevice btDev = btAdapt.getRemoteDevice(mac);
+                    Boolean returnValue = false;
+                    if (btDev.getBondState() == BluetoothDevice.BOND_NONE) {
+                        //利用反射方法调用BluetoothDevice.createBond(BluetoothDevice remoteDevice);
+                        Method createBondMethod = BluetoothDevice.class
+                                .getMethod("createBond");
+                        Log.d("DATA******", "开始配对");
+                        returnValue = (Boolean) createBondMethod.invoke(btDev);
+                    }
+                }
+            }catch (IllegalArgumentException e){
+                Log.e("DATA******",e.getMessage());
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     };
 

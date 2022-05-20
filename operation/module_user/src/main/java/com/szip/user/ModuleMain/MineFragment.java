@@ -211,7 +211,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 if (null!=command&&command.equals("find")){
                     MyAlerDialog.getSingle().showFindWatchTag(getActivity());
                 }else {
-
+                    if(null!=iMinePresenter)
+                        iMinePresenter.initUser();
                 }
             }
                 break;

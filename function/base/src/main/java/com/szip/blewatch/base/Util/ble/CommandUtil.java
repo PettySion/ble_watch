@@ -11,6 +11,7 @@ import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.AutoMeasureData;
 import com.szip.blewatch.base.db.dbModel.ScheduleData;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.db.dbModel.Weather;
@@ -234,6 +235,46 @@ public class CommandUtil {
             }
             for (int i = 0;i<datas.length;i++){
                 data[8+i] = datas[i];
+            }
+        }else if (syncType == 0x3A){
+            AutoMeasureData autoMeasureData = LoadDataUtil.newInstance().getAutoMeasureData();
+            if (null==autoMeasureData)
+                return null;
+            for(int i = 0;i<4;i++){
+                int state = 0;
+                int startTime = 0;
+                int endTime = 1439;
+                int frequency = 30;
+                if (i == 0){
+                    state = autoMeasureData.tempState;
+                    startTime = autoMeasureData.tempStartTime;
+                    endTime = autoMeasureData.tempEndTime;
+                    frequency = autoMeasureData.tempFrequency;
+                }else if (i == 1){
+                    state = autoMeasureData.bpState;
+                    startTime = autoMeasureData.bpStartTime;
+                    endTime = autoMeasureData.bpEndTime;
+                    frequency = autoMeasureData.bpFrequency;
+                }else if (i == 2){
+                    state = autoMeasureData.spoState;
+                    startTime = autoMeasureData.spoStartTime;
+                    endTime = autoMeasureData.spoEndTime;
+                    frequency = autoMeasureData.spoFrequency;
+                }else {
+                    state = autoMeasureData.heartState;
+                    startTime = autoMeasureData.heartStartTime;
+                    endTime = autoMeasureData.heartEndTime;
+                    frequency = autoMeasureData.heartFrequency;
+                }
+
+
+                data[8+i*7] = (byte) state;
+                data[9+i*7] = (byte) (startTime & 0xff);
+                data[10+i*7] = (byte) ((startTime >> 8) & 0xff);
+                data[11+i*7] = (byte) (endTime & 0xff);
+                data[12+i*7] = (byte) ((endTime >> 8) & 0xff);
+                data[13+i*7] = (byte) (frequency & 0xff);
+                data[14+i*7] = (byte) ((frequency >> 8) & 0xff);
             }
         }else if (syncType == 0x41){
             UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(context));

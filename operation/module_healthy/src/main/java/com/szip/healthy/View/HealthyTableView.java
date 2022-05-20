@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
@@ -343,14 +344,27 @@ public class HealthyTableView extends View {
 
         int sleepData = healthyData.getData()+healthyData.getData1();
         Paint paint = new Paint();
-        paint.setColor(getContext().getResources().getColor(R.color.healthy_ray_background));
-        canvas.drawRect(0,0+dpValue*10,healthyData.getData()/(float)sleepData*mWidth,mHeight-dpValue*12,paint);
-        paint.setColor(getContext().getResources().getColor(R.color.healthy_ray));
-        canvas.drawRect(0,0,healthyData.getData()/(float)sleepData*mWidth,dpValue*10,paint);
-        paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow_background));
-        canvas.drawRect(healthyData.getData()/(float)sleepData*mWidth,0+dpValue*10,mWidth,mHeight-dpValue*12,paint);
-        paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow));
-        canvas.drawRect(healthyData.getData()/(float)sleepData*mWidth,0,mWidth,dpValue*10,paint);
+        float start = 0;
+        float width;
+        float top,bottom;
+        for (int i = 1;i<sleepStr.length;i++){
+
+            int value = Integer.valueOf(sleepStr[i].split(":")[0]);
+            int state = Integer.valueOf(sleepStr[i].split(":")[1]);
+            width = value/(float)sleepData*mWidth;
+            if (state==2){//深睡
+                top = (mHeight-dpValue*12)/2f;
+                bottom = mHeight-dpValue*12;
+                paint.setColor(getContext().getResources().getColor(R.color.healthy_ray));
+            }else {
+                top = 0;
+                bottom = (mHeight-dpValue*12)/2f;
+                paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow));
+            }
+            RectF rectF = new RectF(start,top,start+width,bottom);
+            canvas.drawRect(rectF,paint);
+            start+=width;
+        }
     }
 
     private void drawBackgroundBar(Canvas canvas){

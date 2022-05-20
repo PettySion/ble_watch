@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:src="@mipmap/sport_icon_gps_0" />
+            android:src="@mipmap/sport_gps_0" />
     </LinearLayout>
 
     <TextView
@@ -332,7 +332,7 @@
         android:id="@+id/lockFl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
+        android:background="#33000000"
         android:clickable="true"
         android:visibility="gone">
 
@@ -546,7 +546,7 @@
                 android:id="@+id/gpsMapIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/sport_icon_gps_0"
+                android:src="@mipmap/sport_gps_0"
                 android:padding="8dp"/>
         </LinearLayout>
 

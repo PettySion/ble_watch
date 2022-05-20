@@ -108,7 +108,7 @@
                 android:id="@+id/indoorIv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@mipmap/sport_treadmill_bg"
+                android:src="@mipmap/outrun_mapbg"
                 app:radius="15dp"
                 app:is_allRadius="true" />
 
@@ -152,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:src="@mipmap/sport_icon_gps_0"
+                    android:src="@mipmap/sport_gps_0"
                     android:layout_marginStart="5dp"/>
             </LinearLayout>
 

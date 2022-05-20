@@ -12,6 +12,7 @@ import com.szip.blewatch.base.Const.ReportConst;
 import com.szip.blewatch.base.Model.ReportInfoData;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData_Table;
+import com.szip.blewatch.base.db.dbModel.AutoMeasureData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData_Table;
 import com.szip.blewatch.base.db.dbModel.BloodPressureData;
@@ -142,11 +143,11 @@ public class LoadDataUtil {
     /**
      * 判断是否支持血压
      * */
-    public boolean isSupportBp(){
+    public boolean isSupportHealthy(int type){
 
         HealthyCardData healthyCardData = SQLite.select()
                 .from(HealthyCardData.class)
-                .where(HealthyCardData_Table.type.is(6))
+                .where(HealthyCardData_Table.type.is(type))
                 .querySingle();
 
         return healthyCardData!=null;
@@ -401,5 +402,13 @@ public class LoadDataUtil {
                 .querySingle();
 
         return data==null;
+    }
+
+    public AutoMeasureData getAutoMeasureData(){
+        AutoMeasureData data = SQLite.select()
+                .from(AutoMeasureData.class)
+                .querySingle();
+
+        return data;
     }
 }

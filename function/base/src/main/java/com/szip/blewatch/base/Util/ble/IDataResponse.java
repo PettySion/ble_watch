@@ -101,4 +101,6 @@ public interface IDataResponse {
     void sendBackgroundStart();
     void startSendFile();
     void sendBackgroundProgress();
+
+    void pairBluetooth(String mac);
 }

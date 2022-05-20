@@ -346,20 +346,20 @@ public class GpsActivity extends BaseActivity implements IGpsView, OnMapReadyCal
         distanceMapTv.setText(String.format("%.2f",distance/1000));
         calorieMapTv.setText(String.format("%.1f",calorie));
         if (acc == 0){
-            gpsIv.setImageResource(R.mipmap.sport_icon_gps_0);
-            gpsMapIv.setImageResource(R.mipmap.sport_icon_gps_0);
+            gpsIv.setImageResource(R.mipmap.sport_gps_0);
+            gpsMapIv.setImageResource(R.mipmap.sport_gps_0);
             gpsTv.setText(getString(R.string.sport_gps_low));
         }else if (acc>=29){
-            gpsIv.setImageResource(R.mipmap.sport_icon_gps_1);
-            gpsMapIv.setImageResource(R.mipmap.sport_icon_gps_1);
+            gpsIv.setImageResource(R.mipmap.sport_gps_1);
+            gpsMapIv.setImageResource(R.mipmap.sport_gps_1);
             gpsTv.setText(getString(R.string.sport_gps_low));
         }else if (acc>=15){
-            gpsIv.setImageResource(R.mipmap.sport_icon_gps_2);
-            gpsMapIv.setImageResource(R.mipmap.sport_icon_gps_2);
+            gpsIv.setImageResource(R.mipmap.sport_gps_2);
+            gpsMapIv.setImageResource(R.mipmap.sport_gps_2);
             gpsTv.setText(getString(R.string.sport_gps_middle));
         }else {
-            gpsIv.setImageResource(R.mipmap.sport_icon_gps_3);
-            gpsMapIv.setImageResource(R.mipmap.sport_icon_gps_3);
+            gpsIv.setImageResource(R.mipmap.sport_gps_3);
+            gpsMapIv.setImageResource(R.mipmap.sport_gps_3);
             gpsTv.setText(getString(R.string.sport_gps_high));
         }
     }

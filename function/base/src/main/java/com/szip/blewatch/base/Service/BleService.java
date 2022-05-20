@@ -473,7 +473,10 @@ public class BleService extends Service implements MyHandle {
                         iBluetoothUtil.writeForEditSchedule((ScheduleData) bundle.getSerializable("schedule"));
                     }
                     break;
-
+                    case "setAuto":{
+                        iBluetoothUtil.writeForSetAuto();
+                    }
+                    break;
                 }
             }
                 break;

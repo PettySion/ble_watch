@@ -3,6 +3,7 @@ package com.szip.user.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,5 +53,12 @@ public class AboutActivity extends BaseActivity {
         nameTv.setText(data.appName);
         macTv.setText(data.mac);
         Glide.with(this).load(data.dialImg).into(dialIv);
+
+        findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

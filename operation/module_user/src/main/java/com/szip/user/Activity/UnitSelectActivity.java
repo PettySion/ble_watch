@@ -73,6 +73,7 @@ public class UnitSelectActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.fRl).setOnClickListener(this);
         findViewById(R.id.cRl).setOnClickListener(this);
         findViewById(R.id.saveTv).setOnClickListener(this);
+        findViewById(R.id.backIv).setOnClickListener(this);
     }
 
     @Override

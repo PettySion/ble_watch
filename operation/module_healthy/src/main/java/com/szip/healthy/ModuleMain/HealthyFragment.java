@@ -1,20 +1,22 @@
 package com.szip.healthy.ModuleMain;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.Const.BroadcastConst;
-import com.szip.blewatch.base.Interfere.OnItemClickListener;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
@@ -22,7 +24,9 @@ import com.szip.blewatch.base.View.BaseFragment;
 import com.szip.blewatch.base.Broadcast.MyHandle;
 import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
 import com.szip.blewatch.base.db.LoadDataUtil;
+import com.szip.blewatch.base.db.dbModel.HealthyCardData;
 import com.szip.blewatch.base.db.dbModel.SportData;
+import com.szip.blewatch.base.db.dbModel.StepData;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.Model.SportTypeModel;
 import com.szip.healthy.Activity.card.CardEditActivity;
@@ -32,6 +36,7 @@ import com.szip.healthy.Model.HealthyData;
 import com.szip.healthy.Activity.sport.SportListActivity;
 import com.szip.healthy.View.ColorArcProgressBar;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -63,7 +68,26 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
     private SportData sportData;
     private List<HealthyData> healthyDataList;
 
+    private SwipeRefreshLayout refreshLl;
+    private DelayHandler delayHandler;
 
+
+
+    private static class DelayHandler extends Handler{
+        WeakReference<Activity> activityWeakReference;
+
+        public DelayHandler(Activity activityWeakReference) {
+            this.activityWeakReference = new WeakReference<Activity>(activityWeakReference);
+        }
+    }
+
+    private Runnable delayMessage = new Runnable() {
+        @Override
+        public void run() {
+            if (refreshLl.isRefreshing())
+                refreshLl.setRefreshing(false);
+        }
+    };
 
     @Override
     protected int getLayoutId() {
@@ -81,43 +105,47 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
 
     private void initView() {
         setTitle(getString(R.string.healthy_my_state));
-        if (stepTv==null){
-            colorArcProgressBar = getView().findViewById(R.id.healthyStateView);
-            stepTv = getView().findViewById(R.id.stepTv);
-            caloriesTv = getView().findViewById(R.id.caloriesTv);
-            distanceTv = getView().findViewById(R.id.distanceTv);
-            sportDataTv = getView().findViewById(R.id.sportDataTv);
-            sportTypeTv = getView().findViewById(R.id.sportTypeTv);
-            editTv = getView().findViewById(R.id.editTv);
-            cardRecyclerView = getView().findViewById(R.id.cardRecyclerView);
-            cardRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-            cardRecyclerView.setHasFixedSize(true);
-            cardRecyclerView.setNestedScrollingEnabled(false);
-            healthyCardAdapter = new HealthyCardAdapter(getActivity().getApplicationContext());
-            cardRecyclerView.setAdapter(healthyCardAdapter);
+        colorArcProgressBar = getView().findViewById(R.id.healthyStateView);
+        stepTv = getView().findViewById(R.id.stepTv);
+        caloriesTv = getView().findViewById(R.id.caloriesTv);
+        distanceTv = getView().findViewById(R.id.distanceTv);
+        sportDataTv = getView().findViewById(R.id.sportDataTv);
+        sportTypeTv = getView().findViewById(R.id.sportTypeTv);
+        editTv = getView().findViewById(R.id.editTv);
+        cardRecyclerView = getView().findViewById(R.id.cardRecyclerView);
+        cardRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        cardRecyclerView.setHasFixedSize(true);
+        cardRecyclerView.setNestedScrollingEnabled(false);
+        healthyCardAdapter = new HealthyCardAdapter(getActivity().getApplicationContext());
+        cardRecyclerView.setAdapter(healthyCardAdapter);
 
-            UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity().getApplicationContext()));
-            if (userModel!=null)
-                colorArcProgressBar.setMaxValues(userModel.stepsPlan);
-        }
+        refreshLl = getView().findViewById(R.id.refreshData);
+        delayHandler = new DelayHandler(getActivity());
+        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity().getApplicationContext()));
+        if (userModel!=null)
+            colorArcProgressBar.setMaxValues(userModel.stepsPlan,userModel.caloriePlan);
+
     }
 
     private void initEvent() {
         getView().findViewById(R.id.moreTv).setOnClickListener(this);
         getView().findViewById(R.id.lastSportLl).setOnClickListener(this);
         editTv.setOnClickListener(this);
-        healthyCardAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                if (!MathUtil.newInstance().needLogin(getActivity())) {
-                    if (healthyDataList.size()%2!=0&&position == healthyDataList.size()){
-                        startActivity(new Intent(getActivity(),CardEditActivity.class));
-                    }else {
-                        ARouter.getInstance().build(PATH_ACTIVITY_REPORT+healthyDataList.get(position).getType())
-                                .navigation();
-                    }
+        healthyCardAdapter.setOnItemClickListener(position -> {
+            if (!MathUtil.newInstance().needLogin(getActivity())) {
+                if (healthyDataList.size()%2!=0&&position == healthyDataList.size()){
+                    startActivity(new Intent(getActivity(),CardEditActivity.class));
+                }else {
+                    ARouter.getInstance().build(PATH_ACTIVITY_REPORT+healthyDataList.get(position).getType())
+                            .navigation();
                 }
             }
+        });
+        refreshLl.setOnRefreshListener(() -> {
+            Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
+            intent.putExtra("command","update_data");
+            getActivity().sendBroadcast(intent);
+            delayHandler.postDelayed(delayMessage,5000);
         });
     }
 
@@ -173,6 +201,11 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
                     iHealthyPresenter.initHealthyCard();
                 break;
         }
+        if (refreshLl.isRefreshing()){
+            refreshLl.setRefreshing(false);
+            delayHandler.removeCallbacks(delayMessage);
+        }
+
     }
 
     @Override
@@ -200,10 +233,14 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
     }
 
     @Override
-    public void updateSportData(int step, int calorie, int distance) {
+    public void updateSportData(StepData stepData) {
+
         UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity().getApplicationContext()));
         if (userModel==null)
             return;
+        int step = stepData.steps;
+        int calorie = stepData.calorie;
+        int distance = stepData.distance;
         String stepStr = String.format("<big>%d</big> steps",step);
         String calorieStr = String.format(Locale.ENGLISH,"<big>%.1f</big> kcal",((calorie+55)/100)/10f);
         String distanceStr = "";
@@ -216,6 +253,22 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
         caloriesTv.setText(Html.fromHtml(calorieStr));
         distanceTv.setText(Html.fromHtml(distanceStr));
         colorArcProgressBar.setCurrentValues(step,distance/10,calorie);
+
+        if(null!=healthyDataList){
+            int i;
+            for (i =0;i<healthyDataList.size();i++){
+                HealthyData data = healthyDataList.get(i);
+                if (data.getType()==2){
+                    break;
+                }
+            }
+            HealthyData healthyData = new HealthyData(2);
+            healthyData.setDataStr(stepData.dataForHour);
+            healthyData.setTime(stepData.time);
+            healthyData.setData(stepData.steps);
+            healthyDataList.set(i,healthyData);
+            healthyCardAdapter.setHealthyDataList(healthyDataList);
+        }
     }
 
     @Override

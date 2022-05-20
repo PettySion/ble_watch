@@ -18,5 +18,6 @@ public interface IBluetoothUtil {
     void writeForAddSchedule(ScheduleData scheduleData);
     void writeForDeleteSchedule(ScheduleData scheduleData);
     void writeForEditSchedule(ScheduleData scheduleData);
+    void writeForSetAuto();
     void onDestroy();
 }

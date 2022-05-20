@@ -1,5 +1,6 @@
 package com.szip.blewatch.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -11,21 +12,25 @@ import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_PRIVACY
 @Route(path = PATH_ACTIVITY_PRIVACY)
 public class PrivacyActivity extends BaseActivity {
     private WebView webView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_activity_privacy);
+        getSupportActionBar().hide();
+        setContentView(com.szip.user.R.layout.user_activity_privacy);
+        setAndroidNativeLightStatusBar(this,true);
         initView();
     }
 
     private void initView() {
-//        findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-        webView = findViewById(R.id.webview);
+        setTitle(getString(com.szip.user.R.string.user_privacy));
+        findViewById(com.szip.user.R.id.backIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        webView = findViewById(com.szip.user.R.id.webview);
         if(getResources().getConfiguration().locale.getLanguage().equals("zh"))
             webView.loadUrl("https://cloud.znsdkj.com:8443/file/contract/iSmarport/statement-zh.html");
         else

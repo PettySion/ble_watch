@@ -318,7 +318,7 @@ public class ReportTableView extends View {
     private void DrawWXMsg(Canvas canvas){
         String[] xMsg= new String[2];
         xMsg[0] = getContext().getString(R.string.healthy_sun);
-        xMsg[1] = getContext().getString(R.string.healthy_mon);
+        xMsg[1] = getContext().getString(R.string.healthy_sta);
         textXPaint.setTextAlign(Paint.Align.LEFT);
         canvas.drawText(xMsg[0],viewMargin,mHeight-5*dpValue,textXPaint);
         canvas.drawText(xMsg[1],mWidth-viewMargin-textXPaint.measureText(xMsg[1]),mHeight-5*dpValue,textXPaint);

@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LocationUtil;
+import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
@@ -58,8 +59,7 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
 
         StepData stepData = LoadDataUtil.newInstance().getStepWithDay(DateUtil.getTimeOfToday());
         if (iHealthyView!=null&&stepData!=null){
-            if (iHealthyView!=null)
-                iHealthyView.updateSportData(stepData.steps,stepData.calorie,stepData.distance);
+                iHealthyView.updateSportData(stepData);
         }
     }
 

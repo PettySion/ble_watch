@@ -14,7 +14,9 @@ import com.szip.blewatch.base.Util.ble.ClientManager;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.View.NotificationView;
+import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.SaveDataUtil;
+import com.szip.blewatch.base.db.dbModel.AutoMeasureData;
 
 /**
  * @author ddnosh
@@ -36,6 +38,7 @@ public class BaseApplication extends Application {
         NotificationView.getInstance().init(this);
         MusicUtil.getSingle().init(getApplicationContext());
         SaveDataUtil.newInstance().init(this);
+        initAuto();
     }
 
     @Override
@@ -51,4 +54,13 @@ public class BaseApplication extends Application {
         }
         ARouter.init(this);
     }
+
+
+    private void initAuto() {
+        if (null==LoadDataUtil.newInstance().getAutoMeasureData()){
+            AutoMeasureData data = new AutoMeasureData(true);
+            data.save();
+        }
+    }
+
 }

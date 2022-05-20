@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
@@ -28,6 +29,7 @@ import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
 import okhttp3.Call;
 
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_PRIVACY;
 import static com.szip.blewatch.base.Util.MathUtil.FILE;
 
 public class UserSetActivity extends BaseActivity implements View.OnClickListener {
@@ -93,7 +95,7 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
         }else if (id == R.id.helpRl){
             startActivity(new Intent(UserSetActivity.this, HelpActivity.class));
         }else if (id == R.id.privacyRl){
-            startActivity(new Intent(UserSetActivity.this, PrivacyActivity.class));
+            ARouter.getInstance().build(PATH_ACTIVITY_PRIVACY).navigation();
         }else if (id == R.id.logoutTv){
             MyAlerDialog.getSingle().showAlerDialog(getString(R.string.tip), getString(R.string.user_logout_tip), null, null,
                     false, new MyAlerDialog.AlerDialogOnclickListener() {

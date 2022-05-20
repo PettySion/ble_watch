@@ -188,8 +188,8 @@ public class ScheduleEditActivity extends BaseActivity implements View.OnClickLi
                 showToast(getString(R.string.user_schedule_msg));
                 return;
             }
-            ProgressHudModel.newInstance().show(ScheduleEditActivity.this, getString(R.string.loading), false);
             if (scheduleData != null) {
+                ProgressHudModel.newInstance().show(ScheduleEditActivity.this, getString(R.string.loading), false);
                 scheduleData.setMsg(msgEt.getText().toString().trim());
                 scheduleData.setTime(time);
                 scheduleData.setType(0);
@@ -204,6 +204,7 @@ public class ScheduleEditActivity extends BaseActivity implements View.OnClickLi
                     showToast(getString(R.string.user_schedule_same));
                     return;
                 }
+                ProgressHudModel.newInstance().show(ScheduleEditActivity.this, getString(R.string.loading), false);
                 scheduleData = new ScheduleData();
                 scheduleData.setMsg(msgEt.getText().toString().trim());
                 scheduleData.setTime(time);
