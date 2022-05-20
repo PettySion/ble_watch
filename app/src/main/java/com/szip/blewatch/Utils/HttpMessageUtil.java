@@ -4,8 +4,10 @@ package com.szip.blewatch.Utils;
 import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.Util.http.TokenInterceptor;
 import com.szip.blewatch.HttpModel.UserInfoBean;
+import com.zhy.http.okhttp.BaseApi;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.GetBuilder;
+import com.zhy.http.okhttp.builder.PostJsonListBuider;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 
 import java.io.IOException;
@@ -37,6 +39,14 @@ public class HttpMessageUtil {
                 .get()
                 .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(getBuilder,"v2/user/getUserInfo",callback);
+    }
+
+    public void postForUploadReportData(String data,GenericsCallback<BaseApi> callback){
+        PostJsonListBuider jsonBuilder =   OkHttpUtils
+                .listpost()
+                .addInterceptor(new TokenInterceptor())
+                .addParams("data",data);
+        HttpClientUtils.newInstance().buildRequest(jsonBuilder,"data/upload",callback);
     }
 
 }

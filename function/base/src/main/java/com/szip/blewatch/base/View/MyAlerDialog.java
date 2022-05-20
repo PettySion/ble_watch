@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.R;
+
+import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_PRIVACY;
 
 
 public class MyAlerDialog {
@@ -33,57 +36,58 @@ public class MyAlerDialog {
         return dialogUtil;
     }
 
-//    public AlertDialog showAlerDialogWithPrivacy(String title, String msg, String positive, String negative, boolean cancelable,
-//                                                 final AlerDialogOnclickListener onclickListener, final Context context){
-//
-//        final AlertDialog alertDialog = new AlertDialog.Builder(context)
-//                .setCancelable(true)
-//                .create();
-//        alertDialog.show();
-//        Window window = alertDialog.getWindow();
-//        window.setContentView(R.layout.dialog_layout_pri);
-//        TextView tv_title = window.findViewById(R.id.dialogTitle);
-//        tv_title.setText(title);
-//        TextView tv_message =  window.findViewById(R.id.msgTv);
-//        tv_message.setText(msg);
-//        alertDialog.setCancelable(cancelable);
-//
-//        Button cancel = window.findViewById(R.id.btn_cancel);
-//        if (negative!=null)
-//            cancel.setText(negative);
-//        cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (onclickListener!=null){
-//                    onclickListener.onDialogTouch(false);
-//                    alertDialog.dismiss();
-//                }
-//            }
-//        });//取消按钮
-//        Button confirm = window.findViewById(R.id.btn_comfirm);
-//        if (positive!=null)
-//            confirm.setText(positive);
-//        confirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (onclickListener!=null){
-//                    onclickListener.onDialogTouch(true);
-//                    alertDialog.dismiss();
-//                }
-//            }
-//        });//确定按钮
-//
-//        window.findViewById(R.id.privacyTv).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                context.startActivity(new Intent(context, PrivacyActivity.class));
-//            }
-//        });
-//
-//        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//
-//        return alertDialog;
-//    }
+    public AlertDialog showAlerDialogWithPrivacy(String title, String msg, String positive, String negative, boolean cancelable,
+                                                 final AlerDialogOnclickListener onclickListener, final Context context){
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setCancelable(true)
+                .create();
+        alertDialog.show();
+        Window window = alertDialog.getWindow();
+        window.setContentView(R.layout.dialog_layout_pri);
+        TextView tv_title = window.findViewById(R.id.dialogTitle);
+        tv_title.setText(title);
+        TextView tv_message =  window.findViewById(R.id.msgTv);
+        tv_message.setText(msg);
+        alertDialog.setCancelable(cancelable);
+
+        Button cancel = window.findViewById(R.id.btn_cancel);
+        if (negative!=null)
+            cancel.setText(negative);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onclickListener!=null){
+                    onclickListener.onDialogTouch(false);
+                    alertDialog.dismiss();
+                }
+            }
+        });//取消按钮
+        Button confirm = window.findViewById(R.id.btn_comfirm);
+        if (positive!=null)
+            confirm.setText(positive);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onclickListener!=null){
+                    onclickListener.onDialogTouch(true);
+                    alertDialog.dismiss();
+                }
+            }
+        });//确定按钮
+
+        ((TextView)window.findViewById(R.id.privacyTv)).setText(title);
+        window.findViewById(R.id.privacyTv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(PATH_ACTIVITY_PRIVACY).navigation();
+            }
+        });
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        return alertDialog;
+    }
 
     public AlertDialog showAlerDialogWithEdit(String title, String edit1, String editHint1, String positive, String negative, boolean cancelable,
                                               final AlerDialogEditOnclickListener onclickListener, Context context){

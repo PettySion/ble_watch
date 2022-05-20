@@ -65,6 +65,7 @@
     <string name="user_delete_account">Destruction Account</string>
     <string name="user_logout_tip">Are You Sure You Want To Log Out？</string>
     <string name="user_upload_data">Data Uploading...</string>
+    <string name="user_upload_data_success">Data uploaded successfully!</string>
     <string name="user_faq">FAQ</string>
     <string name="user_feedback_hint">Your feedback/question</string>
     <string name="user_send_feedback">Send</string>

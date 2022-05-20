@@ -67,6 +67,7 @@
     <string name="user_delete_account">注销账号</string>
     <string name="user_logout_tip">确定要退出登录吗？</string>
     <string name="user_upload_data">正在上传数据...</string>
+    <string name="user_upload_data_success">数据上传成功!</string>
     <string name="user_faq">常见问题</string>
     <string name="user_feedback_hint">您的反馈/问题</string>
     <string name="user_send_feedback">提交反馈</string>

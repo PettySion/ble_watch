@@ -123,6 +123,7 @@ public class UserSetActivity extends BaseActivity implements View.OnClickListene
                                         public void onResponse(BaseApi response, int id) {
                                             if(response.getCode()==200){
                                                 ProgressHudModel.newInstance().diss();
+                                                MathUtil.newInstance().saveLastTime(getSharedPreferences(FILE,MODE_PRIVATE));
                                                 HttpClientUtils.newInstance().setToken("");
                                                 Intent intent = new Intent(BroadcastConst.UNBIND_SERVICE);
                                                 sendBroadcast(intent);

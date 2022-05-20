@@ -26,6 +26,7 @@ public class WelcomeActivity extends BaseActivity implements IWelcomeView{
         mContext = this;
         welcomePresenter = new WelcomePresenterImpl(this);
         welcomePresenter.checkPrivacy(this);
+        welcomePresenter.uploadData(this);
     }
 
     @Override

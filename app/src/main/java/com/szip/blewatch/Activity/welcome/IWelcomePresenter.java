@@ -13,4 +13,6 @@ public interface IWelcomePresenter {
     void initUserInfo(Context context);
 
     void setViewDestory();
+
+    void uploadData(Context context);
 }

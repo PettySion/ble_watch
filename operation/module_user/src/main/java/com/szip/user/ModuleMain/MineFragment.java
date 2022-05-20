@@ -17,11 +17,13 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Util.MathUtil;
+import com.szip.blewatch.base.Util.http.HttpClientUtils;
 import com.szip.blewatch.base.View.BaseFragment;
 import com.szip.blewatch.base.View.CircularImageView;
 import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.Broadcast.MyHandle;
 import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
+import com.szip.blewatch.base.View.ProgressHudModel;
 import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
@@ -38,9 +40,17 @@ import com.szip.user.R;
 import com.szip.user.Activity.UnitSelectActivity;
 import com.szip.user.Adapter.DeviceManagementAdapter;
 import com.szip.user.Activity.search.DeviceActivity;
+import com.szip.user.Utils.HttpMessageUtil;
 import com.szip.user.View.RoundProgressBar;
+import com.zhy.http.okhttp.BaseApi;
+import com.zhy.http.okhttp.callback.GenericsCallback;
+import com.zhy.http.okhttp.utils.JsonGenericsSerializator;
 
+import okhttp3.Call;
+
+import static android.content.Context.MODE_PRIVATE;
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_USER_FAQ;
+import static com.szip.blewatch.base.Util.MathUtil.FILE;
 
 /**
  * Created by Administrator on 2019/12/1.
@@ -152,9 +162,23 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                         }
                     }, getActivity());
         }else if (id == R.id.updateIv){
-            Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
-            intent.putExtra("command","update_data");
-            getActivity().sendBroadcast(intent);
+            ProgressHudModel.newInstance().show(getActivity(),getString(R.string.user_upload_data),false);
+            String datas = MathUtil.newInstance().getStringWithJson(getContext().getSharedPreferences(FILE,MODE_PRIVATE));
+            HttpMessageUtil.newInstance().postForUploadReportData(datas, new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    ProgressHudModel.newInstance().diss();
+                    showToast(e.getMessage());
+                }
+                @Override
+                public void onResponse(BaseApi response, int id) {
+                    if(response.getCode()==200){
+                        ProgressHudModel.newInstance().diss();
+                        MathUtil.newInstance().saveLastTime(getContext().getSharedPreferences(FILE,MODE_PRIVATE));
+                        showToast(getString(R.string.user_upload_data_success));
+                    }
+                }
+            });
         }else if (id == R.id.dialLl){
             startActivity(new Intent(getActivity(), DialSelectActivity.class));
         }else if (id == R.id.editPlanTv){

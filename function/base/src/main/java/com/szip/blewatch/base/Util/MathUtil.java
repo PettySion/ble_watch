@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
+import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.szip.blewatch.base.Const.SportConst;
 import com.szip.blewatch.base.R;
@@ -785,58 +786,58 @@ public class MathUtil {
         return uuid;
     }
 
-//    public void saveLastTime(SharedPreferences sharedPreferences){
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//        StepData stepDataList = SQLite.select()
-//                .from(StepData.class)
-//                .orderBy(OrderBy.fromString(StepData_Table.time+OrderBy.DESCENDING))
-//                .limit(0)
-//                .querySingle();
-//        if (stepDataList!=null)
-//            editor.putLong("lastTime",stepDataList.time);
-//
-//        BloodPressureData bloodPressureDataList = SQLite.select()
-//                .from(BloodPressureData.class)
-//                .orderBy(OrderBy.fromString(BloodPressureData_Table.time+OrderBy.DESCENDING))
-//                .limit(0)
-//                .querySingle();
-//        if (bloodPressureDataList!=null)
-//            editor.putLong("lastTimeBp",bloodPressureDataList.time);
-//
-//        BloodOxygenData bloodOxygenDataList = SQLite.select()
-//                .from(BloodOxygenData.class)
-//                .orderBy(OrderBy.fromString(BloodOxygenData_Table.time+OrderBy.DESCENDING))
-//                .limit(0)
-//                .querySingle();
-//        if (bloodOxygenDataList!=null)
-//            editor.putLong("lastTimeBo",bloodOxygenDataList.time);
-//
-//        EcgData ecgDataList = SQLite.select()
-//                .from(EcgData.class)
-//                .orderBy(OrderBy.fromString(EcgData_Table.time+OrderBy.DESCENDING))
-//                .limit(0)
-//                .querySingle();
-//        if (ecgDataList!=null)
-//            editor.putLong("lastTimeEcg",ecgDataList.time);
-//
-//        SportData sportDataList = SQLite.select()
-//                .from(SportData.class)
-//                .orderBy(OrderBy.fromString(SportData_Table.time+OrderBy.DESCENDING))
-//                .limit(0)
-//                .querySingle();
-//        if (sportDataList!=null)
-//            editor.putLong("lastTimeSport",sportDataList.time);
-//
-//        AnimalHeatData animalHeatDataList = SQLite.select()
-//                .from(AnimalHeatData.class)
-//                .orderBy(OrderBy.fromString(AnimalHeatData_Table.time+OrderBy.DESCENDING))
-//                .limit(0)
-//                .querySingle();
-//        if (animalHeatDataList!=null)
-//            editor.putLong("lastTimeAh",animalHeatDataList.time);
-//        editor.commit();
-//    }
+    public void saveLastTime(SharedPreferences sharedPreferences){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        StepData stepDataList = SQLite.select()
+                .from(StepData.class)
+                .orderBy(OrderBy.fromString(StepData_Table.time+OrderBy.DESCENDING))
+                .limit(0)
+                .querySingle();
+        if (stepDataList!=null)
+            editor.putLong("lastTime",stepDataList.time);
+
+        BloodPressureData bloodPressureDataList = SQLite.select()
+                .from(BloodPressureData.class)
+                .orderBy(OrderBy.fromString(BloodPressureData_Table.time+OrderBy.DESCENDING))
+                .limit(0)
+                .querySingle();
+        if (bloodPressureDataList!=null)
+            editor.putLong("lastTimeBp",bloodPressureDataList.time);
+
+        BloodOxygenData bloodOxygenDataList = SQLite.select()
+                .from(BloodOxygenData.class)
+                .orderBy(OrderBy.fromString(BloodOxygenData_Table.time+OrderBy.DESCENDING))
+                .limit(0)
+                .querySingle();
+        if (bloodOxygenDataList!=null)
+            editor.putLong("lastTimeBo",bloodOxygenDataList.time);
+
+        EcgData ecgDataList = SQLite.select()
+                .from(EcgData.class)
+                .orderBy(OrderBy.fromString(EcgData_Table.time+OrderBy.DESCENDING))
+                .limit(0)
+                .querySingle();
+        if (ecgDataList!=null)
+            editor.putLong("lastTimeEcg",ecgDataList.time);
+
+        SportData sportDataList = SQLite.select()
+                .from(SportData.class)
+                .orderBy(OrderBy.fromString(SportData_Table.time+OrderBy.DESCENDING))
+                .limit(0)
+                .querySingle();
+        if (sportDataList!=null)
+            editor.putLong("lastTimeSport",sportDataList.time);
+
+        AnimalHeatData animalHeatDataList = SQLite.select()
+                .from(AnimalHeatData.class)
+                .orderBy(OrderBy.fromString(AnimalHeatData_Table.time+OrderBy.DESCENDING))
+                .limit(0)
+                .querySingle();
+        if (animalHeatDataList!=null)
+            editor.putLong("lastTimeAh",animalHeatDataList.time);
+        editor.commit();
+    }
 
 
 
