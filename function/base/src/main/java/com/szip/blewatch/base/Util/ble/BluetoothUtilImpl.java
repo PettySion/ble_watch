@@ -212,6 +212,7 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
                         writeForSetWeather();
                         writeForUpdateUserInfo();
                         writeForSetUnit();
+                        writeForSetAuto();
 //                        initPhoneStateListener(true);
                         MusicUtil.getSingle().registerNotify();
                     }
@@ -262,6 +263,7 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
         @Override
         public void onResponse(int code, byte[] data) {
             if (data.length != 0){
+                LogUtil.getInstance().logd("DATA******","读取到的蓝牙通知信息:"+ DateUtil.byteToHexString(data));
                 if (data.length==8&&(data[1] == 0x56||data[1] == 0x55)){
                     DataParser.newInstance().parseNotifyData(data);
                     return;
@@ -358,7 +360,9 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
      * 依次去同步运动数据
      */
     private void syncSportDataByOrder() {
+        LogUtil.getInstance().logd("data******","indexData = "+indexData);
         if (indexData==null||mSportIndex == indexData.size()) {
+
             //说明所有的运动都同步完了
             isSync = false;
             indexData = null;
@@ -531,10 +535,22 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
                     datas = CommandUtil.getCommandbyteArray(context,0x23, 8,
                             0, true);
                     break;
-                case 0x24:
+                case 0x25:
+                    //体温
+                    LogUtil.getInstance().logd("DATA******", "sync temp on day");
+                    datas = CommandUtil.getCommandbyteArray(context,0x25, 8,
+                            0, true);
+                    break;
+                case 0x26:
+                    //血压
+                    LogUtil.getInstance().logd("DATA******", "sync blood pressure on day");
+                    datas = CommandUtil.getCommandbyteArray(context,0x26, 8,
+                            0, true);
+                    break;
+                case 0x27:
                     //血氧
-                    LogUtil.getInstance().logd("DATA******", "sync bloodoxygen on day");
-                    datas = CommandUtil.getCommandbyteArray(context,0x24, 8,
+                    LogUtil.getInstance().logd("DATA******", "sync blood oxygen on day");
+                    datas = CommandUtil.getCommandbyteArray(context,0x27, 8,
                             0, true);
                     break;
                 default:
@@ -582,7 +598,7 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
 
     @Override
     public void writeForSetAuto() {
-        sendCommand(CommandUtil.getCommandbyteArray(context,0x3A, 8, 0, true));
+        sendCommand(CommandUtil.getCommandbyteArray(context,0x3A, 36, 28, true));
     }
 
     @Override

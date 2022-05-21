@@ -138,13 +138,13 @@ public class SaveDataUtil {
             list.add(new HealthyCardData(HealthyConst.SLEEP,true,2));
         }
         if (healthyConfig.bloodOxygen == 1){
-            list.add(new HealthyCardData(HealthyConst.BLOOD_OXYGEN,false,3));
+            list.add(new HealthyCardData(HealthyConst.BLOOD_OXYGEN,true,3));
         }
         if (healthyConfig.bloodPressure == 1){
-            list.add(new HealthyCardData(HealthyConst.BLOOD_PRESSURE,false,4));
+            list.add(new HealthyCardData(HealthyConst.BLOOD_PRESSURE,true,4));
         }
         if (healthyConfig.temperature == 1){
-            list.add(new HealthyCardData(HealthyConst.TEMPERATURE,false,5));
+            list.add(new HealthyCardData(HealthyConst.TEMPERATURE,true,5));
         }
         FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(

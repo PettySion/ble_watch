@@ -26,9 +26,11 @@ public class PairFinishFragment extends DialogFragment {
     private ImageView deviceIv;
 
     private int screenType;
+    private String imgUrl;
 
-    public PairFinishFragment(int screenType) {
+    public PairFinishFragment(int screenType,String imgUrl) {
         this.screenType = screenType;
+        this.imgUrl = imgUrl;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +63,7 @@ public class PairFinishFragment extends DialogFragment {
                     ft = fragmentManager.beginTransaction();
                 }
                 ft.addToBackStack(null);
-                PairTipFragment finish = new PairTipFragment(screenType);
+                PairTipFragment finish = new PairTipFragment(imgUrl);
                 finish.show(ft, "PAIR_TIP");
             }
         });

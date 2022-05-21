@@ -266,8 +266,6 @@ public class CommandUtil {
                     endTime = autoMeasureData.heartEndTime;
                     frequency = autoMeasureData.heartFrequency;
                 }
-
-
                 data[8+i*7] = (byte) state;
                 data[9+i*7] = (byte) (startTime & 0xff);
                 data[10+i*7] = (byte) ((startTime >> 8) & 0xff);

@@ -253,7 +253,8 @@ public class PairFragment extends DialogFragment implements MyHandle {
                         ft = fragmentManager.beginTransaction();
                     }
                     ft.addToBackStack(null);
-                    PairFinishFragment finish = new PairFinishFragment(sportWatchAppFunctionConfigDTO.screenType);
+                    PairFinishFragment finish = new PairFinishFragment(sportWatchAppFunctionConfigDTO.screenType,
+                            sportWatchAppFunctionConfigDTO.productImg);
                     finish.show(ft, "PAIR_FINISH");
                 }else if (state == 2){
                     stateTv.setText(getString(R.string.user_connecting));

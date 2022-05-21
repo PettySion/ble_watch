@@ -30,7 +30,7 @@ public class FaqAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size()+2;
+        return list.size()+1;
     }
 
     @Override
@@ -56,11 +56,14 @@ public class FaqAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (position == list.size()+1)
+//        if (position == list.size()+1)
+//            holder.titleTv.setText(mContext.getResources().getString(R.string.user_guide));
+//        else
+            if (position == list.size()){
             holder.titleTv.setText(mContext.getResources().getString(R.string.user_service));
-        else if (position == list.size()){
-            holder.titleTv.setText(mContext.getResources().getString(R.string.user_guide));
-        }else
+
+        }
+        else
             holder.titleTv.setText(list.get(position).getTitle());
         return convertView;
     }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.bumptech.glide.Glide;
 import com.szip.user.R;
 
 public class PairTipFragment extends DialogFragment {
@@ -22,10 +23,10 @@ public class PairTipFragment extends DialogFragment {
     private View mRootView;
     private ImageView deviceIv;
 
-    private int screenType;
+    private String imgUrl;
 
-    public PairTipFragment(int screenType) {
-        this.screenType = screenType;
+    public PairTipFragment(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,9 +37,12 @@ public class PairTipFragment extends DialogFragment {
         }
         ((TextView)mRootView.findViewById(R.id.titleBigTv)).setText(getString(R.string.user_wear_tip));
         deviceIv = mRootView.findViewById(R.id.deviceIv);
-        if (screenType == 1){
-            deviceIv.setImageResource(R.mipmap.adddevice_wear_06);
-        }
+
+        Glide.with(getActivity()).load(imgUrl).into(deviceIv);
+
+//        if (screenType == 1){
+//            deviceIv.setImageResource(R.mipmap.adddevice_wear_06);
+//        }
 
         mRootView.findViewById(R.id.backIv).setOnClickListener(new View.OnClickListener() {
             @Override

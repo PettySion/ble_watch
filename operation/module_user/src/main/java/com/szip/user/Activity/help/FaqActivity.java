@@ -52,10 +52,12 @@ public class FaqActivity extends BaseActivity {
         faqList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              if (position==list.size()+1){
-                    startActivity(new Intent(FaqActivity.this,ServicePrivacyActivity.class));
-                }else if (position==list.size()){
-//                    startActivity(new Intent(FaqActivity.this,GuideActivity.class));
+//              if (position==list.size()+1){
+//                  //                    startActivity(new Intent(FaqActivity.this,GuideActivity.class));
+//                }else
+                    if (position==list.size()){
+                  startActivity(new Intent(FaqActivity.this,ServicePrivacyActivity.class));
+
                 }else {
                   ARouter.getInstance().build(PATH_ACTIVITY_USER_FAQ)
                           .withString("id",list.get(position).getReqId()+"")

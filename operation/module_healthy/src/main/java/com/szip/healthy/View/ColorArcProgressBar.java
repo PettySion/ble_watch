@@ -61,9 +61,9 @@ public class ColorArcProgressBar extends View
     private float lastAngleDistance;
     private float lastAngleCalorie;
 
-    private float maxValuesStep     = 60;
-    private float maxValuesDistance     = 60;
-    private float maxValuesCalorie     = 60;
+    private float maxValuesStep     = 6000;
+    private float maxValuesDistance     = 6000;
+    private float maxValuesCalorie     = 6000;
     private float currentValuesStep = 0;
     private float currentValuesDistance = 0;
     private float currentValuesCalorie = 0;
