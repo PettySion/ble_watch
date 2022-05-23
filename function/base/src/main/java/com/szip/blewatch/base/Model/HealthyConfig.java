@@ -41,6 +41,19 @@ public class HealthyConfig extends BaseModel {
     public byte sleep;
 
 
+    public byte heartRateAutoTest;
+    public byte ecgAutoTest;
+    public byte bloodOxygenAutoTest;
+    public byte bloodPressureAutoTest;
+    public byte stepCounterAutoTest;
+
+    public byte temperatureAutoTest;
+    public byte sleepAutoTest;
+
+
+
+
+
     public HealthyConfig(byte heartRate, byte ecg, byte bloodOxygen, byte bloodPressure, byte stepCounter, byte temperature, byte sleep) {
         this.heartRate = heartRate;
         this.ecg = ecg;

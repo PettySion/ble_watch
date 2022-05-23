@@ -134,6 +134,12 @@ public class HealthyCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return healthyDataList.size()%2==0?healthyDataList.size():healthyDataList.size()+1;
     }
 
+
+    public void clear(){
+        healthyDataList.clear();
+        notifyDataSetChanged();
+    }
+
     class Holder extends RecyclerView.ViewHolder {
 
         private View fruitView;  //表示我们自定义的控件的视图

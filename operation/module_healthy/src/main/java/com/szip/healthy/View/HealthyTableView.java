@@ -77,9 +77,9 @@ public class HealthyTableView extends View {
             if (healthyData.getType() == HealthyConst.SLEEP){
                 drawSleepView(canvas);
             }else {
-                canvas.drawText("0", 0, mHeight-dpValue*3, textXPaint);
-                float w = textXPaint.measureText("24");
-                canvas.drawText("24", mWidth-w, mHeight-dpValue*3, textXPaint);
+                canvas.drawText("00:00", 0, mHeight-dpValue*3, textXPaint);
+                float w = textXPaint.measureText("23:59");
+                canvas.drawText("23:59", mWidth-w, mHeight-dpValue*3, textXPaint);
                 if (healthyData.getType() == HealthyConst.HEART){
                     drawHeartView(canvas);
                 }else {
@@ -335,16 +335,17 @@ public class HealthyTableView extends View {
         if (healthyData.getDataStr()==null||healthyData.getDataStr().equals(""))
             return;
         String sleepStr[] = healthyData.getDataStr().split(",");
-        String startTime = sleepStr[0];
-        int end = DateUtil.getMinue(startTime)+healthyData.getData()+healthyData.getData1();
-        String endTime = String.format("%d:%d",end/60,end%60);
+        int start = DateUtil.getMinue(sleepStr[0]);
+        String startTime = String.format("%02d:%02d",start/60,start%60);
+        int end = start+healthyData.getData()+healthyData.getData1();
+        String endTime = String.format("%02d:%02d",end/60,end%60);
         canvas.drawText(startTime, 0, mHeight-dpValue*3, textXPaint);
         float w = textXPaint.measureText(endTime);
         canvas.drawText(endTime, mWidth-w, mHeight-dpValue*3, textXPaint);
 
         int sleepData = healthyData.getData()+healthyData.getData1();
         Paint paint = new Paint();
-        float start = 0;
+        float startWidth = 0;
         float width;
         float top,bottom;
         for (int i = 1;i<sleepStr.length;i++){
@@ -361,9 +362,9 @@ public class HealthyTableView extends View {
                 bottom = (mHeight-dpValue*12)/2f;
                 paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow));
             }
-            RectF rectF = new RectF(start,top,start+width,bottom);
+            RectF rectF = new RectF(startWidth,top,startWidth+width,bottom);
             canvas.drawRect(rectF,paint);
-            start+=width;
+            startWidth+=width;
         }
     }
 
@@ -402,6 +403,8 @@ public class HealthyTableView extends View {
             String datas[] = string.split(":");
             int index = Integer.valueOf(datas[0]);
             int data = Integer.valueOf(datas[1]);
+            if (data == 0)
+                continue;
             hashMap.put(index,data);
             if (data>maxValue)
                 maxValue = data;

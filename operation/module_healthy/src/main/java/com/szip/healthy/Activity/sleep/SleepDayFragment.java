@@ -80,8 +80,8 @@ public class SleepDayFragment extends BaseLazyLoadingFragment implements ISleepR
         allSleepTv.setText(Html.fromHtml(String.format(Locale.ENGLISH,
                 "<font color='#000000'><big><big>%d</big></big></font>h<font color='#000000'><big><big>%d</big></big></font>min",
                 (lightTime+deepTime)/60,(lightTime+deepTime)%60)));
-        bedTv.setText(String.format(Locale.ENGLISH,"%d:%d",startTime/60,startTime%60));
-        wakeTv.setText(String.format(Locale.ENGLISH,"%d:%d",(startTime+deepTime+lightTime)%1440/60,
+        bedTv.setText(String.format(Locale.ENGLISH,"%02d:%02d",startTime/60,startTime%60));
+        wakeTv.setText(String.format(Locale.ENGLISH,"%02d:%02d",(startTime+deepTime+lightTime)%1440/60,
                 (startTime+deepTime+lightTime)%1440%60));
         sleepPb.setCurrentValues(deepTime+lightTime,startTime);
     }

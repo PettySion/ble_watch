@@ -103,7 +103,16 @@ public class SaveDataUtil {
      * 批量保存设备配置
      * */
     public void saveConfigData(SportWatchAppFunctionConfigDTO sportWatchAppFunctionConfigDTO){
-
+        HealthyConfig healthMonitorConfig = sportWatchAppFunctionConfigDTO.getHealthMonitorConfig();
+        if (null!=healthMonitorConfig){
+            sportWatchAppFunctionConfigDTO.heartRateAutoTest = healthMonitorConfig.heartRateAutoTest;
+            sportWatchAppFunctionConfigDTO.ecgAutoTest = healthMonitorConfig.ecgAutoTest;
+            sportWatchAppFunctionConfigDTO.bloodOxygenAutoTest= healthMonitorConfig.bloodOxygenAutoTest;
+            sportWatchAppFunctionConfigDTO.bloodPressureAutoTest= healthMonitorConfig.bloodPressureAutoTest;
+            sportWatchAppFunctionConfigDTO.stepCounterAutoTest= healthMonitorConfig.stepCounterAutoTest;
+            sportWatchAppFunctionConfigDTO.temperatureAutoTest= healthMonitorConfig.temperatureAutoTest;
+            sportWatchAppFunctionConfigDTO.sleepAutoTest= healthMonitorConfig.sleepAutoTest;
+        }
         SportWatchAppFunctionConfigDTO sql = SQLite.select()
                 .from(SportWatchAppFunctionConfigDTO.class)
                 .where(SportWatchAppFunctionConfigDTO_Table.mac.is(sportWatchAppFunctionConfigDTO.mac))

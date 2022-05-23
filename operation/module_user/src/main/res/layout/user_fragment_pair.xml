@@ -139,13 +139,13 @@
             <TextView
                 android:id="@+id/stopTv"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/user_stop_bind"
                 android:textColor="@color/user_gray_text"
                 android:layout_gravity="center"
                 android:gravity="bottom"
                 android:layout_marginBottom="30dp"
-                android:layout_marginTop="50dp"/>
+                android:layout_marginTop="80dp"/>
 
         </LinearLayout>
 

@@ -186,6 +186,11 @@ public class PairFragment extends DialogFragment implements MyHandle {
 
     private void bindDevice(String address){
         mac = address;
+        //绑定mac地址，把手表的配置信息缓存到数据库
+        sportWatchAppFunctionConfigDTO.mac = mac;
+        HealthyConfig healthyConfig = sportWatchAppFunctionConfigDTO.getHealthMonitorConfig();
+        SaveDataUtil.newInstance().saveConfigData(sportWatchAppFunctionConfigDTO);
+        SaveDataUtil.newInstance().saveHealthyConfigData(healthyConfig);
         HttpMessageUtil.newInstance().getBindDevice(mac, sportWatchAppFunctionConfigDTO.appName, new GenericsCallback<BaseApi>(new JsonGenericsSerializator()) {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -205,6 +210,7 @@ public class PairFragment extends DialogFragment implements MyHandle {
                 }
             }
         });
+        HttpMessageUtil.newInstance().getForDownloadReportData(Calendar.getInstance().getTimeInMillis()/1000+"","30");
     }
 
     private IUpdateSearch iUpdateSearch = new IUpdateSearch() {
@@ -237,13 +243,6 @@ public class PairFragment extends DialogFragment implements MyHandle {
             case BroadcastConst.UPDATE_BLE_STATE:
                 int state = intent.getIntExtra("state",0);
                 if (state==3){
-                    //连接成功，把手表的配置信息缓存到数据库
-                    sportWatchAppFunctionConfigDTO.mac = mac;
-                    HealthyConfig healthyConfig = sportWatchAppFunctionConfigDTO.getHealthMonitorConfig();
-                    SaveDataUtil.newInstance().saveConfigData(sportWatchAppFunctionConfigDTO);
-                    SaveDataUtil.newInstance().saveHealthyConfigData(healthyConfig);
-                    HttpMessageUtil.newInstance().getForDownloadReportData(Calendar.getInstance().getTimeInMillis()/1000+"","30");
-
                     //跳转到配对成功提醒页面
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fragmentManager.beginTransaction();

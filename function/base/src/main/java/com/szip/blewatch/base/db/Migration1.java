@@ -22,6 +22,13 @@ public class Migration1 extends AlterTableMigration<SportWatchAppFunctionConfigD
         addColumn(SQLiteType.get(String.class.getName()), "productImg");//基本数据类型
         addColumn(SQLiteType.get(String.class.getName()), "dialImg");//基本数据类型
         addColumn(SQLiteType.get(Boolean.class.getName()), "cameraSwitch");//基本数据类型
+        addColumn(SQLiteType.get(Byte.class.getName()), "heartRateAutoTest");//基本数据类型
+        addColumn(SQLiteType.get(Byte.class.getName()), "ecgAutoTest");//基本数据类型
+        addColumn(SQLiteType.get(Byte.class.getName()), "bloodOxygenAutoTest");//基本数据类型
+        addColumn(SQLiteType.get(Byte.class.getName()), "bloodPressureAutoTest");//基本数据类型
+        addColumn(SQLiteType.get(Byte.class.getName()), "stepCounterAutoTest");//基本数据类型
+        addColumn(SQLiteType.get(Byte.class.getName()), "temperatureAutoTest");//基本数据类型
+        addColumn(SQLiteType.get(Byte.class.getName()), "sleepAutoTest");//基本数据类型
 
     }
 }

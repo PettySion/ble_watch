@@ -30,20 +30,20 @@ public class DeviceManagementAdapter extends RecyclerView.Adapter<DeviceManageme
 
     public DeviceManagementAdapter(Context context) {
         this.context = context;
+    }
+
+    public void update(){
         nameList = new ArrayList<>(Arrays.asList(R.string.user_find_watch,R.string.user_ble_call, R.string.user_ble_camera,R.string.user_unit
                 ,R.string.user_notification,R.string.user_about
                 ,R.string.user_schedule));
         imageList = new ArrayList<>(Arrays.asList(R.mipmap.my_device_findwatch,R.mipmap.my_device_btphone,R.mipmap.my_device_btcamera,
                 R.mipmap.my_device_unit,R.mipmap.my_device_message,R.mipmap.my_device_about,
                 R.mipmap.my_device_schedule));
-        SportWatchAppFunctionConfigDTO sportWatchAppFunctionConfigDTO = LoadDataUtil.newInstance().getSportConfig(MathUtil.newInstance().getUserId(context));
-        if (sportWatchAppFunctionConfigDTO!=null){
-           if (sportWatchAppFunctionConfigDTO.autoMeasure==1){
-               nameList.add(R.string.user_auto);
-               imageList.add(R.mipmap.my_device_autodetect);
-           }
+        if (LoadDataUtil.newInstance().showAutoMeasure(MathUtil.newInstance().getUserId(context))){
+            nameList.add(R.string.user_auto);
+            imageList.add(R.mipmap.my_device_autodetect);
         }
-
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -52,12 +52,7 @@ public class DeviceManagementAdapter extends RecyclerView.Adapter<DeviceManageme
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_adapter_menu, null);
         final Holder holder = new Holder(view);
         //对加载的子项注册监听事件
-        holder.fruitView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClickListener.onItemClick(nameList.get(holder.getAdapterPosition()));
-            }
-        });
+        holder.fruitView.setOnClickListener(view1 -> onItemClickListener.onItemClick(nameList.get(holder.getAdapterPosition())));
         return holder;
     }
 

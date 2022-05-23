@@ -10,6 +10,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.Const.ReportConst;
 import com.szip.blewatch.base.Model.ReportInfoData;
+import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData_Table;
 import com.szip.blewatch.base.db.dbModel.AutoMeasureData;
@@ -137,6 +138,36 @@ public class LoadDataUtil {
             return sportWatchAppFunctionConfigDTO;
         }else {
             return null;
+        }
+    }
+
+    /**
+     * 判断是否支持设置自动测量
+     * */
+    public boolean showAutoMeasure(long userId){
+
+        UserModel userModel = SQLite.select()
+                .from(UserModel.class)
+                .where(UserModel_Table.id.is(userId))
+                .querySingle();
+
+        if (userModel!=null){
+            SportWatchAppFunctionConfigDTO sportWatchAppFunctionConfigDTO = SQLite.select()
+                    .from(SportWatchAppFunctionConfigDTO.class)
+                    .where(SportWatchAppFunctionConfigDTO_Table.mac.is(userModel.deviceCode))
+                    .querySingle();
+
+            if (sportWatchAppFunctionConfigDTO==null)
+                return false;
+            return (sportWatchAppFunctionConfigDTO.bloodOxygenAutoTest|
+                    sportWatchAppFunctionConfigDTO.bloodPressureAutoTest|
+                    sportWatchAppFunctionConfigDTO.ecgAutoTest|
+                    sportWatchAppFunctionConfigDTO.heartRateAutoTest|
+                    sportWatchAppFunctionConfigDTO.sleepAutoTest |
+                    sportWatchAppFunctionConfigDTO.stepCounterAutoTest|
+                    sportWatchAppFunctionConfigDTO.temperatureAutoTest)!=0;
+        }else {
+            return false;
         }
     }
 

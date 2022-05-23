@@ -4,8 +4,8 @@ ext {
             buildToolsVersion: "30.0.2",
             minSdkVersion    : 21,
             targetSdkVersion : 30,
-            versionCode      : 5,
-            versionName      : "1.05",
+            versionCode      : 6,
+            versionName      : "1.06",
             dbflow_version : "4.2.4"
     ]
 

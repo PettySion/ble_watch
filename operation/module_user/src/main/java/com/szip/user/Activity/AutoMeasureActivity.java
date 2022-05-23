@@ -15,6 +15,7 @@ import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.View.character.OnOptionChangedListener;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.AutoMeasureData;
+import com.szip.blewatch.base.db.dbModel.SportWatchAppFunctionConfigDTO;
 import com.szip.user.R;
 import com.szip.user.View.CharacterPickerWindow;
 
@@ -83,13 +84,16 @@ public class AutoMeasureActivity extends BaseActivity {
         heartLl = findViewById(R.id.heartLl);
         tempLl = findViewById(R.id.tempLl);
 
-        if(LoadDataUtil.newInstance().isSupportHealthy(HealthyConst.BLOOD_PRESSURE))
+        SportWatchAppFunctionConfigDTO sportWatchAppFunctionConfigDTO = LoadDataUtil.newInstance().getSportConfig(MathUtil.newInstance().getUserId(getApplicationContext()));
+        if (sportWatchAppFunctionConfigDTO==null)
+            return;
+        if(sportWatchAppFunctionConfigDTO.bloodPressureAutoTest==1)
             bpLl.setVisibility(View.VISIBLE);
-        if(LoadDataUtil.newInstance().isSupportHealthy(HealthyConst.BLOOD_OXYGEN))
+        if(sportWatchAppFunctionConfigDTO.bloodOxygenAutoTest==1)
             spoLl.setVisibility(View.VISIBLE);
-        if(LoadDataUtil.newInstance().isSupportHealthy(HealthyConst.HEART))
+        if(sportWatchAppFunctionConfigDTO.heartRateAutoTest==1)
             heartLl.setVisibility(View.VISIBLE);
-        if(LoadDataUtil.newInstance().isSupportHealthy(HealthyConst.TEMPERATURE))
+        if(sportWatchAppFunctionConfigDTO.temperatureAutoTest==1)
             tempLl.setVisibility(View.VISIBLE);
     }
 

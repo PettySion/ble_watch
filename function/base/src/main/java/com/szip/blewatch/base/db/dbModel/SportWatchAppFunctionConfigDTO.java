@@ -4,6 +4,7 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.db.AppDatabase;
 import com.szip.blewatch.base.Model.HealthyConfig;
 
@@ -125,7 +126,20 @@ public class SportWatchAppFunctionConfigDTO extends BaseModel {
     @Column
     public boolean  cameraSwitch;
 
-    public int autoMeasure = 1;
+    @Column
+    public byte heartRateAutoTest;
+    @Column
+    public byte ecgAutoTest;
+    @Column
+    public byte bloodOxygenAutoTest;
+    @Column
+    public byte bloodPressureAutoTest;
+    @Column
+    public byte stepCounterAutoTest;
+    @Column
+    public byte temperatureAutoTest;
+    @Column
+    public byte sleepAutoTest;
 
     private HealthyConfig healthMonitorConfig;
 
@@ -260,5 +274,4 @@ public class SportWatchAppFunctionConfigDTO extends BaseModel {
     public int getSportSync() {
         return sportSync;
     }
-
 }

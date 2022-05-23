@@ -65,7 +65,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     private RelativeLayout addDeviceRl;
     private LinearLayout deviceLl;
     private ToActivityBroadcast toActivityBroadcast;
-
+    private DeviceManagementAdapter deviceManagementAdapter;
     private IMinePresenter iMinePresenter;
     @Override
     protected int getLayoutId() {
@@ -90,6 +90,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         intentFilter.addAction(BroadcastConst.UPDATE_BLE_STATE);
         toActivityBroadcast.registerReceive(this,getActivity().getApplicationContext(),intentFilter);
         getActivity().sendBroadcast(new Intent(BroadcastConst.CHECK_BLE_STATE));
+        if (deviceManagementAdapter!=null){
+            deviceManagementAdapter.update();
+        }
 
     }
 
@@ -131,7 +134,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         addDeviceRl = getView().findViewById(R.id.addDeviceRl);
         deviceLl = getView().findViewById(R.id.deviceLl);
         menuList.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        DeviceManagementAdapter deviceManagementAdapter = new DeviceManagementAdapter(getActivity().getApplicationContext());
+        deviceManagementAdapter = new DeviceManagementAdapter(getActivity().getApplicationContext());
         deviceManagementAdapter.setOnItemClickListener(listener);
         menuList.setAdapter(deviceManagementAdapter);
         menuList.setHasFixedSize(true);

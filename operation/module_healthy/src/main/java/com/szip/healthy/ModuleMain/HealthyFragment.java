@@ -162,6 +162,11 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
     @Override
     public void onResume() {
         super.onResume();
+        if (MathUtil.newInstance().getToken(getContext())==null){
+            healthyCardAdapter.clear();
+            sportDataTv.setText(getString(R.string.healthy_no_sport));
+            sportData = null;
+        }
         iHealthyPresenter.initStepData();
         iHealthyPresenter.initLastSport();
         iHealthyPresenter.initHealthyCard();
@@ -228,7 +233,9 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
                 }
             }
         }else if (id == R.id.editTv){
-            startActivity(new Intent(getActivity(), CardEditActivity.class));
+            if (!MathUtil.newInstance().needLogin(getActivity())) {
+                startActivity(new Intent(getActivity(), CardEditActivity.class));
+            }
         }
     }
 
