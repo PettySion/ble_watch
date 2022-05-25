@@ -81,7 +81,7 @@ public class HealthyPresenterImpl implements IHealthyPresenter{
                 dataList.add(data);
             }
         }
-        if (iHealthyView!=null&&dataList.size()!=0){
+        if (iHealthyView!=null){
             iHealthyView.updateHealthyCard(dataList);
         }
     }

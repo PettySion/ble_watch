@@ -15,6 +15,7 @@ import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Const.ReportConst;
 import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.View.BaseActivity;
+import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.healthy.Adapter.MyPagerAdapter;
 import com.szip.healthy.R;
 import com.szip.healthy.View.CalendarPicker;
@@ -46,6 +47,7 @@ public class BpReportActivity extends BaseActivity {
         setAndroidNativeLightStatusBar(this,true);
         tabs = new String[]{getString(R.string.healthy_day),getString(R.string.healthy_week),getString(R.string.healthy_month)};
         reportDate = DateUtil.getTimeOfToday();
+        LoadDataUtil.newInstance().initCalendarPoint("bp");
         initView();
         initPage();
     }

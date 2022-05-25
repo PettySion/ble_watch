@@ -337,8 +337,8 @@ public class HealthyTableView extends View {
         String sleepStr[] = healthyData.getDataStr().split(",");
         int start = DateUtil.getMinue(sleepStr[0]);
         String startTime = String.format("%02d:%02d",start/60,start%60);
-        int end = start+healthyData.getData()+healthyData.getData1();
-        String endTime = String.format("%02d:%02d",end/60,end%60);
+        int end = (start+healthyData.getData()+healthyData.getData1());
+        String endTime = String.format("%02d:%02d",end%1440/60,end%1440%60);
         canvas.drawText(startTime, 0, mHeight-dpValue*3, textXPaint);
         float w = textXPaint.measureText(endTime);
         canvas.drawText(endTime, mWidth-w, mHeight-dpValue*3, textXPaint);

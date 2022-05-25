@@ -57,7 +57,7 @@ public class ReportTableView extends View {
     private float viewMargin;
     private boolean isTouchAble = false;
     private int index;
-    private float barWidth = 16f;
+    private float barWidth = 18f;
 
     private Paint textYPaint = new Paint();//Y坐标画笔
     private Paint textXPaint = new Paint();//Y坐标画笔
@@ -911,20 +911,29 @@ public class ReportTableView extends View {
         canvas.drawRoundRect(x-50*dpValue,10*dpValue,x+50*dpValue,mHeight/3-viewMargin,10*dpValue,
                 10*dpValue,squareBackPaint);
         String dataStr = "",timeStr = "";
-        if (sleepWeekList!=null||sleepMonthList!=null)
+        if (sleepWeekList!=null||sleepMonthList!=null){
             dataStr = String.format("%dh%dmin", touchDataList.get(index).getAverageData()/60,touchDataList.get(index).getAverageData()%60);
-        else if (tempDayList!=null||tempWeekList!=null||tempMonthList!=null){
+        } else if (tempDayList!=null||tempWeekList!=null||tempMonthList!=null){
             UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getContext()));
             if (userModel==null)
                 return;
             if (userModel.tempUnit==0)
-                dataStr = String.format("%.1f ℃", touchDataList.get(index).getAverageData()/10f);
+                dataStr = touchDataList.get(index).getAverageData()==0?
+                                "-- ℃":
+                                String.format("%.1f ℃", touchDataList.get(index).getAverageData()/10f);
             else
-                dataStr = String.format("%.1f ℉", MathUtil.newInstance().c2f(touchDataList.get(index).getAverageData()/600f));
+                dataStr = touchDataList.get(index).getAverageData()==0?
+                        "-- ℉":
+                        String.format("%.1f ℉", MathUtil.newInstance().c2f(touchDataList.get(index).getAverageData()/10f));
         }else if (pressureDayList!=null||pressureWeekList!=null||pressureMonthList!=null){
-            dataStr = String.format("%d/%d", touchDataList.get(index).getAverageData(),touchDataList.get(index).getAverageDbpData());
+            dataStr =
+                    touchDataList.get(index).getAverageData()==0?
+                            "--/--":
+                            String.format("%d/%d", touchDataList.get(index).getAverageData(),touchDataList.get(index).getAverageDbpData());
         }else
-            dataStr = String.format("%d", touchDataList.get(index).getAverageData());
+            dataStr = touchDataList.get(index).getAverageData()==0?
+                    "--":
+                    String.format("%d", touchDataList.get(index).getAverageData());
         timeStr = DateUtil.getStringDateFromSecond(touchDataList.get(index).getTime(),isHour?"MM-dd HH:mm":"yyyy/MM/dd EE");
         float touchDataTextWidth = touchDataTextPaint.measureText(dataStr);
         float timeTextWidth = timeTextPaint.measureText(timeStr);
@@ -1022,7 +1031,7 @@ public class ReportTableView extends View {
         this.heartWeekList = heartWeekList;
         this.maxValue = maxValue*1.2f;
         this.touchDataList = heartWeekList;
-        barWidth = 32f;
+        barWidth = 52f;
         postInvalidate();
     }
 
@@ -1030,7 +1039,7 @@ public class ReportTableView extends View {
         this.heartMonthList = heartMonthList;
         this.maxValue = maxValue*1.2f;
         this.touchDataList = heartMonthList;
-        barWidth = 16f;
+        barWidth = 18f;
         postInvalidate();
     }
 
@@ -1046,7 +1055,7 @@ public class ReportTableView extends View {
         this.oxygenWeekList = oxygenWeekList;
         maxValue = 15;
         touchDataList = oxygenWeekList;
-        barWidth = 32f;
+        barWidth = 52f;
         postInvalidate();
     }
 
@@ -1054,7 +1063,7 @@ public class ReportTableView extends View {
         this.oxygenMonthList = oxygenMonthList;
         maxValue = 15;
         touchDataList = oxygenMonthList;
-        barWidth = 16f;
+        barWidth = 18f;
         postInvalidate();
     }
 
@@ -1070,7 +1079,7 @@ public class ReportTableView extends View {
         this.tempWeekList = tempWeekList;
         maxValue = 100;
         touchDataList = tempWeekList;
-        barWidth = 32f;
+        barWidth = 52f;
         postInvalidate();
     }
 
@@ -1078,7 +1087,7 @@ public class ReportTableView extends View {
         this.tempMonthList = tempMonthList;
         maxValue = 100;
         touchDataList = tempMonthList;
-        barWidth = 16f;
+        barWidth = 18f;
         postInvalidate();
     }
 
@@ -1094,7 +1103,7 @@ public class ReportTableView extends View {
         this.pressureWeekList = pressureWeekList;
         maxValue = 180;
         touchDataList = pressureWeekList;
-        barWidth = 32f;
+        barWidth = 52f;
         postInvalidate();
     }
 
@@ -1102,7 +1111,7 @@ public class ReportTableView extends View {
         this.pressureMonthList = pressureMonthList;
         maxValue = 180;
         touchDataList = pressureMonthList;
-        barWidth = 16f;
+        barWidth = 18f;
         postInvalidate();
     }
 }

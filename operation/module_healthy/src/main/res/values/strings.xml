@@ -67,4 +67,5 @@
     <string name="healthy_unit">%dtimes</string>
 
     <string name="healthy_tomorrow">Available in the future</string>
+    <string name="healthy_not_data">There is no data for the selected date</string>
 </resources>

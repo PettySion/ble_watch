@@ -121,10 +121,6 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
 
         refreshLl = getView().findViewById(R.id.refreshData);
         delayHandler = new DelayHandler(getActivity());
-        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity().getApplicationContext()));
-        if (userModel!=null)
-            colorArcProgressBar.setMaxValues(userModel.stepsPlan,userModel.caloriePlan);
-
     }
 
     private void initEvent() {
@@ -167,6 +163,9 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
             sportDataTv.setText(getString(R.string.healthy_no_sport));
             sportData = null;
         }
+        UserModel userModel = LoadDataUtil.newInstance().getUserInfo(MathUtil.newInstance().getUserId(getActivity().getApplicationContext()));
+        if (userModel!=null)
+            colorArcProgressBar.setMaxValues(userModel.stepsPlan,userModel.caloriePlan);
         iHealthyPresenter.initStepData();
         iHealthyPresenter.initLastSport();
         iHealthyPresenter.initHealthyCard();
@@ -268,6 +267,9 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
                 if (data.getType()==2){
                     break;
                 }
+            }
+            if(i == healthyDataList.size()){
+                return;
             }
             HealthyData healthyData = new HealthyData(2);
             healthyData.setDataStr(stepData.dataForHour);

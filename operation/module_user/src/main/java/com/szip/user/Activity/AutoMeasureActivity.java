@@ -135,8 +135,8 @@ public class AutoMeasureActivity extends BaseActivity {
     }
 
     private OnOptionChangedListener heartFrequency = (option1, option2, option3) -> {
-        autoMeasureData.heartFrequency = option1;
-        heartFrequencyTv.setText(String.format("%02dmin",option1));
+        autoMeasureData.heartFrequency = (option1+1)*30;
+        heartFrequencyTv.setText(String.format("%02dmin",(option1+1)*30));
     };
     private OnOptionChangedListener heartStart = (option1, option2, option3) -> {
         autoMeasureData.heartStartTime = option1*60+option2;
@@ -148,8 +148,8 @@ public class AutoMeasureActivity extends BaseActivity {
     };
 
     private OnOptionChangedListener bpFrequency = (option1, option2, option3) -> {
-        autoMeasureData.bpFrequency = option1;
-        bpFrequencyTv.setText(String.format("%02dmin",option1));
+        autoMeasureData.bpFrequency = (option1+1)*30;
+        bpFrequencyTv.setText(String.format("%02dmin",(option1+1)*30));
     };
     private OnOptionChangedListener bpStart = (option1, option2, option3) -> {
         autoMeasureData.bpStartTime = option1*60+option2;
@@ -161,8 +161,8 @@ public class AutoMeasureActivity extends BaseActivity {
     };
 
     private OnOptionChangedListener spoFrequency = (option1, option2, option3) -> {
-        autoMeasureData.spoFrequency = option1;
-        spoFrequencyTv.setText(String.format("%02dmin",option1));
+        autoMeasureData.spoFrequency = (option1+1)*30;
+        spoFrequencyTv.setText(String.format("%02dmin",(option1+1)*30));
     };
     private OnOptionChangedListener spoStart = (option1, option2, option3) -> {
         autoMeasureData.spoStartTime = option1*60+option2;
@@ -174,8 +174,8 @@ public class AutoMeasureActivity extends BaseActivity {
     };
 
     private OnOptionChangedListener tempFrequency = (option1, option2, option3) -> {
-        autoMeasureData.tempFrequency = option1;
-        tempFrequencyTv.setText(String.format("%02dmin",option1));
+        autoMeasureData.tempFrequency = (option1+1)*30;
+        tempFrequencyTv.setText(String.format("%02dmin",(option1+1)*30));
     };
     private OnOptionChangedListener tempStart = (option1, option2, option3) -> {
         autoMeasureData.tempStartTime = option1*60+option2;
@@ -191,7 +191,7 @@ public class AutoMeasureActivity extends BaseActivity {
         if (id == R.id.heartFrequencyLl){
             final List<String> frequencyList = MathUtil.newInstance().getFrequencyList(6);
             String str = heartFrequencyTv.getText().toString();
-            str.substring(0,str.length()-3);
+            str = str.substring(0,str.length()-3);
             int current = Integer.valueOf(str)/30-1;
             initWindow(R.string.user_start_time,frequencyList,null,null,current,0,0,heartFrequency);
             window.showAtLocation(v, Gravity.BOTTOM, 0, 0);
@@ -214,7 +214,7 @@ public class AutoMeasureActivity extends BaseActivity {
         }else if (id == R.id.bpFrequencyLl){
             final List<String> frequencyList = MathUtil.newInstance().getFrequencyList(6);
             String str = bpFrequencyTv.getText().toString();
-            str.substring(0,str.length()-3);
+            str = str.substring(0,str.length()-3);
             int current = Integer.valueOf(str)/30-1;
             initWindow(R.string.user_start_time,frequencyList,null,null,current,0,0,bpFrequency);
             window.showAtLocation(v, Gravity.BOTTOM, 0, 0);
@@ -237,7 +237,7 @@ public class AutoMeasureActivity extends BaseActivity {
         }else if (id == R.id.spoFrequencyLl){
             final List<String> frequencyList = MathUtil.newInstance().getFrequencyList(6);
             String str = heartFrequencyTv.getText().toString();
-            str.substring(0,str.length()-3);
+            str = str.substring(0,str.length()-3);
             int current = Integer.valueOf(str)/30-1;
             initWindow(R.string.user_start_time,frequencyList,null,null,current,0,0,spoFrequency);
             window.showAtLocation(v, Gravity.BOTTOM, 0, 0);
@@ -260,7 +260,7 @@ public class AutoMeasureActivity extends BaseActivity {
         }else if (id == R.id.tempFrequencyLl){
             final List<String> frequencyList = MathUtil.newInstance().getFrequencyList(6);
             String str = tempFrequencyTv.getText().toString();
-            str.substring(0,str.length()-3);
+            str = str.substring(0,str.length()-3);
             int current = Integer.valueOf(str)/30-1;
             initWindow(R.string.user_start_time,frequencyList,null,null,current,0,0,tempFrequency);
             window.showAtLocation(v, Gravity.BOTTOM, 0, 0);
@@ -289,6 +289,7 @@ public class AutoMeasureActivity extends BaseActivity {
         }else if (id == R.id.tempSw){
             autoMeasureData.tempState=tempSw.isChecked()?1:0;
         }else if (id == R.id.saveTv){
+            autoMeasureData.save();
             Intent intent = new Intent(BroadcastConst.SEND_BLE_DATA);
             intent.putExtra("command","setAuto");
             sendBroadcast(intent);

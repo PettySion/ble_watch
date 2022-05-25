@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.necer.utils.CalendarUtil;
 import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.Const.ReportConst;
 import com.szip.blewatch.base.Model.ReportInfoData;
+import com.szip.blewatch.base.Util.DateUtil;
 import com.szip.blewatch.base.Util.LogUtil;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData;
 import com.szip.blewatch.base.db.dbModel.AnimalHeatData_Table;
@@ -18,6 +20,7 @@ import com.szip.blewatch.base.db.dbModel.BloodOxygenData;
 import com.szip.blewatch.base.db.dbModel.BloodOxygenData_Table;
 import com.szip.blewatch.base.db.dbModel.BloodPressureData;
 import com.szip.blewatch.base.db.dbModel.BloodPressureData_Table;
+import com.szip.blewatch.base.db.dbModel.EcgData;
 import com.szip.blewatch.base.db.dbModel.HealthyCardData;
 import com.szip.blewatch.base.db.dbModel.HealthyCardData_Table;
 import com.szip.blewatch.base.db.dbModel.HeartData;
@@ -38,6 +41,8 @@ import com.szip.blewatch.base.db.dbModel.UserModel;
 import com.szip.blewatch.base.db.dbModel.UserModel_Table;
 import com.szip.blewatch.base.db.dbModel.Weather;
 import com.szip.blewatch.base.db.dbModel.Weather_Table;
+
+import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -442,4 +447,103 @@ public class LoadDataUtil {
 
         return data;
     }
+
+    /**
+     * 初始化日历中有数据的天数（画黄点）
+     * */
+    public void initCalendarPoint(String type){
+        List<LocalDate> dataList = new ArrayList<>();
+
+        List<StepData> stepDataList = new ArrayList<>();
+        List<SleepData> sleepDataList = new ArrayList<>();
+        List<HeartData> heartDataList = new ArrayList<>();
+        List<BloodPressureData> bloodPressureDataList = new ArrayList<>();
+        List<BloodOxygenData> bloodOxygenDataList = new ArrayList<>();
+        List<EcgData> ecgDataList = new ArrayList<>();
+        List<SportData> sportDataList = new ArrayList<>();
+        List<AnimalHeatData> animalHeatDataList = new ArrayList<>();
+        switch (type){
+            case "step":
+                stepDataList = SQLite.select()
+                        .from(StepData.class)
+                        .queryList();
+                for (StepData stepData:stepDataList){
+                    if (stepData.steps>0)
+                        dataList.add(new LocalDate(DateUtil.getStringDateFromSecond(stepData.time,"yyyy-MM-dd")));
+                }
+                break;
+            case "sleep":
+                sleepDataList = SQLite.select()
+                        .from(SleepData.class)
+                        .queryList();
+
+                for (SleepData sleepData:sleepDataList){
+                    if ((sleepData.lightTime+sleepData.deepTime)>0)
+                        dataList.add(new LocalDate(DateUtil.getStringDateFromSecond(sleepData.time,"yyyy-MM-dd")));
+                }
+                break;
+            case "heart":
+                heartDataList = SQLite.select()
+                        .from(HeartData.class)
+                        .queryList();
+                for (HeartData heartData:heartDataList){
+                    if (heartData.averageHeart>0)
+                        dataList.add(new LocalDate(DateUtil.getStringDateFromSecond(heartData.time,"yyyy-MM-dd")));
+                }
+                break;
+            case "bp":
+                bloodPressureDataList = SQLite.select()
+                        .from(BloodPressureData.class)
+                        .queryList();
+                for (BloodPressureData bloodPressureData:bloodPressureDataList){
+                    LocalDate localDate = new LocalDate(DateUtil.getStringDateFromSecond(bloodPressureData.time,"yyyy-MM-dd"));
+                    if (!dataList.contains(localDate))
+                        dataList.add(localDate);
+                }
+                break;
+            case "bo":
+                bloodOxygenDataList = SQLite.select()
+                        .from(BloodOxygenData.class)
+                        .queryList();
+                for (BloodOxygenData bloodOxygenData:bloodOxygenDataList){
+                    LocalDate localDate = new LocalDate(DateUtil.getStringDateFromSecond(bloodOxygenData.time,"yyyy-MM-dd"));
+                    if (!dataList.contains(localDate))
+                        dataList.add(localDate);
+                }
+                break;
+            case "ecg":
+                ecgDataList = SQLite.select()
+                        .from(EcgData.class)
+                        .queryList();
+                for (EcgData ecgData:ecgDataList){
+                    LocalDate localDate = new LocalDate(DateUtil.getStringDateFromSecond(ecgData.time,"yyyy-MM-dd"));
+                    if (!dataList.contains(localDate))
+                        dataList.add(localDate);
+                }
+                break;
+            case "sport":
+                sportDataList = SQLite.select()
+                        .from(SportData.class)
+                        .queryList();
+                for (SportData sportData:sportDataList){
+                    LocalDate localDate = new LocalDate(DateUtil.getStringDateFromSecond(sportData.time,"yyyy-MM-dd"));
+                    if (!dataList.contains(localDate))
+                        dataList.add(localDate);
+                }
+                break;
+            case "temp":
+                animalHeatDataList = SQLite.select()
+                        .from(AnimalHeatData.class)
+                        .queryList();
+                for (AnimalHeatData animalHeatData:animalHeatDataList){
+                    LocalDate localDate = new LocalDate(DateUtil.getStringDateFromSecond(animalHeatData.time,"yyyy-MM-dd"));
+                    if (!dataList.contains(localDate))
+                        dataList.add(localDate);
+                }
+                break;
+        }
+
+        CalendarUtil.setPointList(dataList);
+    }
+
 }

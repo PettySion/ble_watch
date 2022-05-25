@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.necer.calendar.BaseCalendar;
 import com.necer.calendar.MonthCalendar;
 import com.necer.enumeration.SelectedModel;
 import com.necer.listener.OnCalendarChangedListener;
+import com.necer.utils.CalendarUtil;
 import com.szip.healthy.R;
 import com.szip.healthy.View.CalendarPicker;
 
@@ -92,15 +94,15 @@ public class CalendarFragment extends AppCompatDialogFragment {
         mContentView.findViewById(R.id.lastMonthIv).setOnClickListener(onClickListener);
         monthCalendar.setFlag(flag);
         monthCalendar.setInitializeDate(date);
-        monthCalendar.setOnCalendarChangedListener(new OnCalendarChangedListener() {
-            @Override
-            public void onCalendarChange(BaseCalendar baseCalendar, int year, int month, LocalDate localDate, boolean isTouch) {
-                dateTv.setText(String.format(Locale.ENGLISH,"%d-%02d",year,month));
-                Log.i("data******","local = "+localDate+" ;isTouch = "+isTouch);
-                if (localDate!=null&&calendarListener!=null&&isTouch){
+        monthCalendar.setOnCalendarChangedListener((baseCalendar, year, month, localDate, isTouch) -> {
+            dateTv.setText(String.format(Locale.ENGLISH,"%d-%02d",year,month));
+            Log.i("data******","local = "+localDate+" ;isTouch = "+isTouch);
+            if (localDate!=null&&calendarListener!=null&&isTouch){
+                if (CalendarUtil.getPointList().contains(localDate))
                     calendarListener.onClickDate(localDate.toString());
-                    dismiss();
-                }
+                else
+                    Toast.makeText(getContext(),getString(R.string.healthy_not_data),Toast.LENGTH_SHORT).show();
+                dismiss();
             }
         });
 
