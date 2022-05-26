@@ -44,6 +44,16 @@
 
             </LinearLayout>
 
+
+            <ImageView
+                android:id="@+id/gpsIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/timeTv"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/icon_sportlist_gps"/>
+
             <TextView
                 android:id="@+id/timeTv"
                 android:layout_width="wrap_content"

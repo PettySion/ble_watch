@@ -166,19 +166,19 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
         int id = v.getId();
         if (id == R.id.runTv) {
             sportType = SportConst.RUN;
-            indoorIv.setImageResource(R.mipmap.outrun_mapbg);
+            indoorIv.setImageResource(R.mipmap.sport_bg_outrun);
             runTv.setTextColor(Color.BLACK);
             walkTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             runIndoorTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
         } else if (id == R.id.walkTv) {
             sportType = SportConst.WALK;
-            indoorIv.setImageResource(R.mipmap.outrun_mapbg);
+            indoorIv.setImageResource(R.mipmap.sport_bg_walk);
             runTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             walkTv.setTextColor(Color.BLACK);
             runIndoorTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
         } else if (id == R.id.runIndoorTv) {
             sportType = SportConst.RUN_INDOOR;
-            indoorIv.setImageResource(R.mipmap.sport_treadmill_bg);
+            indoorIv.setImageResource(R.mipmap.sport_bg_treadmill);
             runTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             walkTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             runIndoorTv.setTextColor(Color.BLACK);

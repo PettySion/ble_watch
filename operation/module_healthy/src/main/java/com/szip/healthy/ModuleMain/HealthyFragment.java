@@ -99,7 +99,6 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
         iHealthyPresenter = new HealthyPresenterImpl(getActivity().getApplicationContext(),this);
         initView();
         initEvent();
-        initWeather();
     }
 
 
@@ -169,6 +168,7 @@ public class HealthyFragment extends BaseFragment implements MyHandle,IHealthyVi
         iHealthyPresenter.initStepData();
         iHealthyPresenter.initLastSport();
         iHealthyPresenter.initHealthyCard();
+        initWeather();
         if(toActivityBroadcast==null)
         toActivityBroadcast = new ToActivityBroadcast();
         IntentFilter intentFilter = new IntentFilter();

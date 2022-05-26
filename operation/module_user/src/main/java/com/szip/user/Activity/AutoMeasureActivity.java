@@ -1,6 +1,7 @@
 package com.szip.user.Activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -8,10 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.szip.blewatch.base.Broadcast.MyHandle;
+import com.szip.blewatch.base.Broadcast.ToActivityBroadcast;
 import com.szip.blewatch.base.Const.BroadcastConst;
 import com.szip.blewatch.base.Const.HealthyConst;
 import com.szip.blewatch.base.Util.MathUtil;
 import com.szip.blewatch.base.View.BaseActivity;
+import com.szip.blewatch.base.View.MyAlerDialog;
 import com.szip.blewatch.base.View.character.OnOptionChangedListener;
 import com.szip.blewatch.base.db.LoadDataUtil;
 import com.szip.blewatch.base.db.dbModel.AutoMeasureData;
@@ -30,6 +34,8 @@ public class AutoMeasureActivity extends BaseActivity {
     private TextView heartEndTv,bpEndTv,spoEndTv,tempEndTv;
     private CharacterPickerWindow window;
     private AutoMeasureData autoMeasureData;
+
+    private ToActivityBroadcast toActivityBroadcast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,22 @@ public class AutoMeasureActivity extends BaseActivity {
         autoMeasureData = LoadDataUtil.newInstance().getAutoMeasureData();
         initView();
         initEvent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(toActivityBroadcast==null)
+            toActivityBroadcast = new ToActivityBroadcast();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BroadcastConst.UPDATE_UI_VIEW);
+        toActivityBroadcast.registerReceive(myHandle,this,intentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        toActivityBroadcast.unregister(this);
     }
 
     private void initView() {
@@ -244,7 +266,7 @@ public class AutoMeasureActivity extends BaseActivity {
         }else if (id == R.id.spoStartLl){
             final List<String> hourList = MathUtil.newInstance().getNumberList(24);
             final List<String> minList = MathUtil.newInstance().getNumberList(60);
-            String str[] = spoFrequencyTv.getText().toString().split(":");
+            String str[] = spoStartTv.getText().toString().split(":");
             int hour = Integer.valueOf(str[0]);
             int min = Integer.valueOf(str[1]);
             initWindow(R.string.user_start_time,hourList,minList,null,hour,min,0,spoStart);
@@ -295,6 +317,24 @@ public class AutoMeasureActivity extends BaseActivity {
             sendBroadcast(intent);
         }else if (id == R.id.backIv){
             finish();
+        }
+    };
+
+
+
+    private MyHandle myHandle = new MyHandle() {
+        @Override
+        public void onReceive(Intent intent) {
+            switch (intent.getAction()){
+                case BroadcastConst.UPDATE_UI_VIEW:{
+                    String command = intent.getStringExtra("command");
+                    if (null!=command&&command.equals("setAuto")){
+                        showToast(getString(R.string.save_success));
+                        finish();
+                    }
+                }
+                break;
+            }
         }
     };
 }

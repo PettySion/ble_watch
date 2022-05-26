@@ -1,6 +1,7 @@
 package com.szip.healthy.Adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,11 @@ public class SportListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             else
                 ((ViewHolder)holder).bottomRl.setVisibility(View.GONE);
 
+            if (TextUtils.isEmpty(sportData.latArray))
+                ((ViewHolder)holder).gpsIv.setVisibility(View.GONE);
+            else
+                ((ViewHolder)holder).gpsIv.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -108,7 +114,7 @@ public class SportListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private static class ViewHolder extends RecyclerView.ViewHolder{
         View view;
-        ImageView typeIv;
+        ImageView typeIv,gpsIv;
         TextView timeTv,typeTv,dataTv;
         RelativeLayout bottomRl;
 
@@ -119,6 +125,7 @@ public class SportListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             typeTv = itemView.findViewById(R.id.typeTv);
             dataTv = itemView.findViewById(R.id.dataTv);
             typeIv = itemView.findViewById(R.id.typeIv);
+            gpsIv = itemView.findViewById(R.id.gpsIv);
             bottomRl = itemView.findViewById(R.id.bottomRl);
         }
     }

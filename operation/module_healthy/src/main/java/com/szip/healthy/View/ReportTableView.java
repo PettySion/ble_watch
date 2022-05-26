@@ -460,8 +460,9 @@ public class ReportTableView extends View {
             float startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
             float startY = mHeight-viewMargin-barWidth/2;
             float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
+            LogUtil.getInstance().logd("data******","总睡眠 = "+data.getAverageData()+"startY = "+startY+"stopY = "+stopY);
             if (stopY>startY)
-                continue;
+                stopY = startY;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -469,8 +470,14 @@ public class ReportTableView extends View {
             startX = viewMargin+barWidth/2 + (interval + barWidth) * (day-1);
             startY = mHeight-viewMargin-barWidth/2;
             stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getMinData()/maxValue+barWidth/2;
-            if (stopY>startY)
+            LogUtil.getInstance().logd("data******","浅睡眠 = "+data.getMinData()+"startY = "+startY+"stopY = "+stopY);
+            if (stopY>startY){
+                stopY = startY;
+                paint.setColor(getContext().getResources().getColor(R.color.healthy_ray));
+                canvas.drawLine(startX,startY,startX,
+                        stopY, paint);
                 continue;
+            }
             paint.setColor(getContext().getResources().getColor(R.color.healthy_ray));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -497,7 +504,7 @@ public class ReportTableView extends View {
             float startY = mHeight-viewMargin-barWidth/2;
             float stopY =mHeight-viewMargin-(mHeight-viewMargin)*2f/3f*data.getAverageData()/maxValue+barWidth/2;
             if (stopY>startY)
-                continue;
+                stopY = startY;
             paint.setColor(getContext().getResources().getColor(R.color.healthy_yellow));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
@@ -510,7 +517,8 @@ public class ReportTableView extends View {
             paint.setColor(getContext().getResources().getColor(R.color.healthy_ray));
             canvas.drawLine(startX,startY,startX,
                     stopY, paint);
-            canvas.drawRect(startX,stopY,startX,stopY, paint);
+            if (data.getMinData()!=data.getAverageData())
+                canvas.drawRect(startX,stopY,startX,stopY, paint);
         }
     }
 

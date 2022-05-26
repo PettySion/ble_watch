@@ -475,6 +475,9 @@ public class BleService extends Service implements MyHandle {
                     break;
                     case "setAuto":{
                         iBluetoothUtil.writeForSetAuto();
+                        Intent setAutoIntent = new Intent(BroadcastConst.UPDATE_UI_VIEW);
+                        setAutoIntent.putExtra("command","setAuto");
+                        sendBroadcast(setAutoIntent);
                     }
                     break;
                 }
