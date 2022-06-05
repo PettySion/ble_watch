@@ -169,6 +169,8 @@ public class GpsActivity extends BaseActivity implements IGpsView, OnMapReadyCal
             speedLl.setVisibility(View.GONE);
             runLl.setVisibility(View.GONE);
             indoorLl.setVisibility(View.VISIBLE);
+            findViewById(R.id.gpsLl).setVisibility(View.GONE);
+            gpsTv.setVisibility(View.GONE);
         }
     }
 

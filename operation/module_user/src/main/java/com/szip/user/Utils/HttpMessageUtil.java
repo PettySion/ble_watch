@@ -44,7 +44,7 @@ public class HttpMessageUtil {
     public void getDeviceConfig(GenericsCallback<DeviceConfigBean> callback){
         GetBuilder getBuilder = OkHttpUtils
                 .get()
-                .addParams("appName","newApp")
+                .addParams("appName","FitRing")
                 .addInterceptor(new TokenInterceptor());
         HttpClientUtils.newInstance().buildRequest(getBuilder,"comm/getAppFunctionConfigs",callback);
     }

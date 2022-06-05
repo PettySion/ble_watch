@@ -1,6 +1,7 @@
 package com.szip.healthy.Activity.sport;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
@@ -9,13 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.raizlabs.android.dbflow.sql.language.OrderBy;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.szip.blewatch.base.Interfere.OnItemClickListener;
 import com.szip.blewatch.base.View.BaseActivity;
 import com.szip.blewatch.base.db.dbModel.SportData;
+import com.szip.blewatch.base.db.dbModel.SportData_Table;
 import com.szip.healthy.Adapter.SportListAdapter;
 import com.szip.healthy.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.szip.blewatch.base.Const.RouterPathConst.PATH_ACTIVITY_SPORT_RESULT;
 
@@ -41,6 +46,14 @@ public class SportListActivity extends BaseActivity implements ISportListView {
     }
 
     private void initView() {
+
+        List<SportData> list = SQLite.select()
+                .from(SportData.class)
+                .orderBy(OrderBy.fromString(SportData_Table.time+OrderBy.DESCENDING))
+                .queryList();
+
+        Log.d("data******","list size = "+list.size());
+
         setTitle(getString(R.string.healthy_sport_list));
         sportList = findViewById(R.id.sportList);
         sportList.setLayoutManager(new LinearLayoutManager(this));

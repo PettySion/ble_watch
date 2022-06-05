@@ -71,7 +71,7 @@ public class PairTipFragment extends DialogFragment {
         Window window = dialog.getWindow();
         if(window != null) {
             window.getDecorView().setPadding(0, 0, 0, 0);
-            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setBackgroundDrawableResource(R.color.white);
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
             window.setWindowAnimations(R.style.DefaultCityPickerAnimation);
         }

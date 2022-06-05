@@ -34,7 +34,7 @@ public class BaseApplication extends Application {
         FlowManager.init(this);
         HttpClientUtils.newInstance().init(this);
         FileUtil.getInstance().initFile(this);
-        LogUtil.getInstance().init(this);
+//        LogUtil.getInstance().init(this);
         NotificationView.getInstance().init(this);
         MusicUtil.getSingle().init(getApplicationContext());
         SaveDataUtil.newInstance().init(this);

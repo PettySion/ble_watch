@@ -1,6 +1,9 @@
 package com.szip.blewatch.base.db;
 
+import android.os.Handler;
+
 import com.szip.blewatch.base.Model.DownloadDataBean;
+import com.szip.blewatch.base.Util.MathUtil;
 import com.zhy.http.okhttp.callback.GenericsCallback;
 import com.zhy.http.okhttp.callback.IGenericsSerializator;
 

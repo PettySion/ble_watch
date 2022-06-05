@@ -72,7 +72,6 @@ public class BaseActivity extends AppCompatActivity {
         intent.setType("image/jpeg");
         intent.putExtra(Intent.EXTRA_STREAM, str);
         startActivityForResult(Intent.createChooser(intent,getString(R.string.app_name)),101);
-
     }
 
 

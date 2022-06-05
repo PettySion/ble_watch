@@ -178,7 +178,7 @@ public class BleService extends Service implements MyHandle {
         if (mac!=null&& BluetoothAdapter.getDefaultAdapter().isEnabled()){
             connectFromMac = false;
             final SearchRequest request = new SearchRequest.Builder()
-                    .searchBluetoothLeDevice(5000, 1).build();
+                    .searchBluetoothLeDevice(10000, 1).build();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

@@ -170,18 +170,21 @@ public class SportFragment extends BaseFragment implements View.OnClickListener,
             runTv.setTextColor(Color.BLACK);
             walkTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             runIndoorTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
+            getView().findViewById(R.id.gpsLl).setVisibility(View.VISIBLE);
         } else if (id == R.id.walkTv) {
             sportType = SportConst.WALK;
             indoorIv.setImageResource(R.mipmap.sport_bg_walk);
             runTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             walkTv.setTextColor(Color.BLACK);
             runIndoorTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
+            getView().findViewById(R.id.gpsLl).setVisibility(View.VISIBLE);
         } else if (id == R.id.runIndoorTv) {
             sportType = SportConst.RUN_INDOOR;
             indoorIv.setImageResource(R.mipmap.sport_bg_treadmill);
             runTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             walkTv.setTextColor(getView().getResources().getColor(R.color.sport_gray_text));
             runIndoorTv.setTextColor(Color.BLACK);
+            getView().findViewById(R.id.gpsLl).setVisibility(View.GONE);
         } else if (id == R.id.startIv) {
             if (!MathUtil.newInstance().needLogin(getActivity())){
                 Intent intent = new Intent(getActivity(), GpsActivity.class);

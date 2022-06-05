@@ -1,6 +1,7 @@
 package com.szip.sport.Adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,10 @@ public class LastSportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         sportHolder.timeTv.setText(String.format("%02d:%02d:%02d",sportData.sportTime/3600,
                 sportData.sportTime%3600/60,sportData.sportTime%3600%60));
         sportHolder.calorieTv.setText(String.format(Locale.ENGLISH,"%.1fkcal",((sportData.calorie+55)/100)/10f));
-
+        if (TextUtils.isEmpty(sportData.latArray))
+            sportHolder.gpsIv.setVisibility(View.GONE);
+        else
+            sportHolder.gpsIv.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -80,12 +84,13 @@ public class LastSportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class SportHolder extends RecyclerView.ViewHolder {
 
         private View fruitView;  //表示我们自定义的控件的视图
-        private ImageView sportIv;
+        private ImageView sportIv,gpsIv;
         private TextView sportTv,timeTv,calorieTv;
         public SportHolder(View itemView) {
             super(itemView);
             fruitView = itemView;
             sportIv = itemView.findViewById(R.id.sportIv);
+            gpsIv = itemView.findViewById(R.id.gpsIv);
             sportTv = itemView.findViewById(R.id.sportTv);
             timeTv = itemView.findViewById(R.id.timeTv);
             calorieTv = itemView.findViewById(R.id.calorieTv);

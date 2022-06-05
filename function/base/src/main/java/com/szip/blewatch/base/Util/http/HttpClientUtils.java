@@ -65,6 +65,7 @@ public class HttpClientUtils {
                 .addHeader("Time-Diff",time)
                 .addHeader("Accept-Language",language)
                 .addHeader("token",token)
+                .addHeader("project","FitRing")
                 .build()
                 .execute(callback);
     }
@@ -73,6 +74,7 @@ public class HttpClientUtils {
                 .addHeader("Time-Diff",time)
                 .addHeader("Accept-Language",language)
                 .addHeader("token",token)
+                .addHeader("project","FitRing")
                 .build()
                 .execute(callback);
     }
@@ -82,6 +84,7 @@ public class HttpClientUtils {
                 .addHeader("Time-Diff",time)
                 .addHeader("Accept-Language",language)
                 .addHeader("token",token)
+                .addHeader("project","FitRing")
                 .build()
                 .execute(callback);
     }
@@ -91,6 +94,7 @@ public class HttpClientUtils {
                 .addHeader("Time-Diff",time)
                 .addHeader("Accept-Language",language)
                 .addHeader("token",token)
+                .addHeader("project","FitRing")
                 .build()
                 .execute(callback);
     }

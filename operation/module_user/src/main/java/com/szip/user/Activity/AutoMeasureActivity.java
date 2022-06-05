@@ -258,7 +258,7 @@ public class AutoMeasureActivity extends BaseActivity {
             window.showAtLocation(v, Gravity.BOTTOM, 0, 0);
         }else if (id == R.id.spoFrequencyLl){
             final List<String> frequencyList = MathUtil.newInstance().getFrequencyList(6);
-            String str = heartFrequencyTv.getText().toString();
+            String str = spoFrequencyTv.getText().toString();
             str = str.substring(0,str.length()-3);
             int current = Integer.valueOf(str)/30-1;
             initWindow(R.string.user_start_time,frequencyList,null,null,current,0,0,spoFrequency);

@@ -208,10 +208,10 @@ public class BluetoothUtilImpl implements IBluetoothUtil {
                     public void run() {
                         writeForSyncTime();
                         writeForSyncTimeStyle();
+                        writeForSetUnit();
                         writeForSetLanguage();
                         writeForSetWeather();
                         writeForUpdateUserInfo();
-                        writeForSetUnit();
                         writeForSetAuto();
 //                        initPhoneStateListener(true);
                         MusicUtil.getSingle().registerNotify();

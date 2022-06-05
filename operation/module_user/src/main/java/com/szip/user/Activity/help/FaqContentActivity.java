@@ -58,7 +58,7 @@ public class FaqContentActivity extends BaseActivity {
 
         @Override
         public void onResponse(FaqBean response, int id) {
-            if (response.getCode() == 200){
+            if (response.getCode() == 200&&response.getData()!=null){
                 setTitle(response.getData().getTitle());
                 contentWeb.loadData(response.getData().getContent(),"text/html","UTF-8");
             }

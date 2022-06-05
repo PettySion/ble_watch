@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -101,11 +102,10 @@ public class PairFragment extends DialogFragment implements MyHandle {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setCancelable(false);
         Window window = dialog.getWindow();
         if(window != null) {
             window.getDecorView().setPadding(0, 0, 0, 0);
-            window.setBackgroundDrawableResource(R.color.bgColor);
+            window.setBackgroundDrawableResource(R.color.white);
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         }
         return dialog;

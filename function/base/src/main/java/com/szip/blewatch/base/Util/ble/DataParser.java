@@ -1250,17 +1250,17 @@ public class DataParser {
                     }
                 }
             }
-//            if (data.length>30&&data[30]==1){
-//                datas.add(0x27);
-//            }
-//
-//            if (data.length>31&&data[31]==1){
-//                datas.add(0x25);
-//            }
-//
-//            if (data.length>32&&data[32]==1){
-//                datas.add(0x26);
-//            }
+            if (data.length>30&&data[30]==1){
+                datas.add(0x27);
+            }
+
+            if (data.length>31&&data[31]==1){
+                datas.add(0x25);
+            }
+
+            if (data.length>32&&data[32]==1){
+                datas.add(0x26);
+            }
             datas.add(0x19);
             if (mIDataResponse!=null)
                 mIDataResponse.onGetDataIndex(deviceNum+"",datas);

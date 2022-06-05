@@ -90,7 +90,7 @@ public class ReportTableView extends View {
         dpValue = MathUtil.newInstance().dip2Px(1,getContext());
         viewMargin = 18*dpValue;
         textYPaint.setColor(getContext().getResources().getColor(R.color.healthy_gray_text));
-        textYPaint.setTextSize(dpValue*7);
+        textYPaint.setTextSize(dpValue*6);
 
         textXPaint.setColor(getContext().getResources().getColor(R.color.healthy_gray_text));
         textXPaint.setTextSize(dpValue*7);

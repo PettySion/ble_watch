@@ -32,9 +32,9 @@ public class PrivacyActivity extends BaseActivity {
         });
         webView = findViewById(com.szip.user.R.id.webview);
         if(getResources().getConfiguration().locale.getLanguage().equals("zh"))
-            webView.loadUrl("https://cloud.znsdkj.com:8443/file/contract/iSmarport/statement-zh.html");
+            webView.loadUrl("https://cloud.znsdkj.com:8443/file/contract/FitRing/statement-zh.html");
         else
-            webView.loadUrl("https://cloud.znsdkj.com:8443/file/contract/iSmarport/statement-en.html");
+            webView.loadUrl("https://cloud.znsdkj.com:8443/file/contract/FitRing/statement-en.html");
         webView.getSettings().setJavaScriptEnabled(true);
     }
 }

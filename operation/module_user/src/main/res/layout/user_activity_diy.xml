@@ -44,29 +44,39 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"/>
 
-            <com.szip.blewatch.base.View.CircularImageView
-                android:id="@+id/backgroundIv_r06"
-                android:layout_width="107dp"
-                android:layout_height="127dp"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                app:is_allRadius="true"
-                app:radius="15dp"/>
 
-            <com.szip.blewatch.base.View.CircularImageView
-                android:id="@+id/backgroundIv_c"
-                android:layout_width="132dp"
-                android:layout_height="132dp"
+            <RelativeLayout
+                android:id="@+id/dialRl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                app:is_circular="true"/>
+                android:layout_centerHorizontal="true">
+                <com.szip.blewatch.base.View.CircularImageView
+                    android:id="@+id/backgroundIv_r06"
+                    android:layout_width="107dp"
+                    android:layout_height="127dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    app:is_allRadius="true"
+                    app:radius="15dp"/>
 
-            <ImageView
-                android:id="@+id/clockIv"
-                android:layout_width="132dp"
-                android:layout_height="132dp"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+                <com.szip.blewatch.base.View.CircularImageView
+                    android:id="@+id/backgroundIv_c"
+                    android:layout_width="132dp"
+                    android:layout_height="132dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    app:is_circular="true"/>
+
+                <ImageView
+                    android:id="@+id/clockIv"
+                    android:layout_width="132dp"
+                    android:layout_height="132dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+
 
         </RelativeLayout>
 
