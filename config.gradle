@@ -28,7 +28,6 @@ ext {
             "dbflow": 'com.github.Raizlabs.DBFlow:dbflow:4.2.4',
             //高德地图SDK
             "3dmap" :'com.amap.api:3dmap:latest.integration',
-            "amap" :'com.amap.api:location:latest.integration',
             //google地图SDK
             "gms" :'com.google.android.gms:play-services-maps:12.0.1',
             "google-map" :'com.google.maps.android:android-maps-utils:0.5+',
